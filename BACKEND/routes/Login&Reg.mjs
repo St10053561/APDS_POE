@@ -96,24 +96,34 @@ router.post("/login", bruteforce.prevent, async (req, res) => {
 // Forgot Password
 router.post("/forgot-password", async (req, res) => {
     try {
-        const { email } = req.body;
+        const { username, newPassword, confirmPassword } = req.body;
 
-        // Check if email is provided
-        if (!email) {
-            return res.status(400).json({ message: "Email is required" });
+        // Check if all required fields are provided
+        if (!username || !newPassword || !confirmPassword) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        // Check if newPassword and confirmPassword match
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
         }
 
         // Find the user in the CustomerReg&Login collection
         const collection = await db.collection("CustomerReg&Login");
-        const user = await collection.findOne({ email });
+        const user = await collection.findOne({ username });
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Here you would typically generate a password reset token and send it via email
-        // For simplicity, we'll just return a success message
-        res.status(200).json({ message: "Password reset link has been sent to your email" });
+        // Hash the new password asynchronously
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+        // Update the user's password in the database
+        await collection.updateOne({ username }, { $set: { password: hashedPassword } });
+
+        res.status(200).json({ message: "Password has been reset successfully" });
     } catch (error) {
         console.log("Forgot Password Error:", error);
         res.status(500).json({ message: "Forgot Password Failed" });
