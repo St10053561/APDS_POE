@@ -91,6 +91,9 @@ export default function Login() {
                     />
                 </div>
             </form>
+            <div className="form-group">
+                <a href="/forgot-password">Forgot Password?</a>
+            </div>
         </div>
     );
 }
