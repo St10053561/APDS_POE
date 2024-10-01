@@ -70,7 +70,6 @@ export default function Navbar() {
                     Logout
                   </button>
                 </li>
-                <span className="navbar-text">Welcome, {auth.username}!</span>
               </>
             )}
           </ul>
