@@ -9,6 +9,18 @@ jobs:
       - run:
           name: Print Hello World
           command: echo "Hello, World!"
+      - run:
+          name: Install SonarQube Scanner
+          command: npm install -g sonarqube-scanner
+      - run:
+          name: Run SonarQube Analysis
+          command: |
+            sonar-scanner \
+              -Dsonar.projectKey=St10053561_APDS_POE \
+              -Dsonar.organization=st10053561 \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=$SONAR_TOKEN
 
 workflows:
   version: 2
