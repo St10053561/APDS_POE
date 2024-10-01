@@ -1,36 +1,39 @@
-import React from 'react';
-
+import React, { useContext } from 'react';
+import { AuthContext } from '../AuthContext.js';
+import { NavLink } from 'react-router-dom';
 const Home = () => {
-    const username = "John Doe"; // Placeholder for customer username
+    const { auth } = useContext(AuthContext);
+
+    if (!auth.token) {
+        return (
+            <div className="container">
+                <h1>Welcome to the Payment Portal</h1>
+                <p>Please log in to access your account and make payments.</p>
+            </div>
+        );
+    }
+
+    const banks = ["ABSA", "NEDBANK", "FNB", "CAPITEC", "STANDARD BANK"];
+    const randomBank = banks[Math.floor(Math.random() * banks.length)];
+
     const bankingDetails = {
         accountNumber: "123456789",
-        bankName: "ABC Bank",
-        balance: "$10,000"
+        bankName: randomBank,
+        balance: "R10,000"
     };
-    const paymentReceipts = [
-        { id: 1, date: "2023-01-01", amount: "$100", type: "Local" },
-        { id: 2, date: "2023-01-15", amount: "$200", type: "International" }
-    ];
 
     return (
         <div className="container">
             <h1>Welcome to the Payment Portal</h1>
-            <p>Hello, {username}</p>
+            <p>Hello, {auth.username}</p>
             <div className="dashboard">
-                <button>Make Local Payment</button>
-                <button>Make International Payment</button>
+                <NavLink to="/paymentCreate">
+                    <button>Make International Payment</button>
+                </NavLink>
                 <h2>Banking Details</h2>
                 <p>Account Number: {bankingDetails.accountNumber}</p>
                 <p>Bank Name: {bankingDetails.bankName}</p>
                 <p>Balance: {bankingDetails.balance}</p>
-                <h2>Payment Receipts</h2>
-                <ul>
-                    {paymentReceipts.map(receipt => (
-                        <li key={receipt.id}>
-                            {receipt.date} - {receipt.amount} ({receipt.type})
-                        </li>
-                    ))}
-                </ul>
             </div>
         </div>
     );
