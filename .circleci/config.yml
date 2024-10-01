@@ -1,29 +1,32 @@
 version: 2.1
 
-jobs:
-  build:
+ sonarqube:
+    working_directory: ~/build
     docker:
-      - image: circleci/node:18
+      - image: sonarsource/sonar-scanner-cli
+    resource_class: small
     steps:
+      #- run: apk update
+      #- run:  apk upgrade
+      #- run:  apk --no-cache add --update openssh git curl
       - checkout
-      - run:
-          name: Print Hello World
-          command: echo "Hello, World!"
-      - run:
-          name: Install SonarQube Scanner
-          command: sudo npm install -g sonarqube-scanner
-      - run:
-          name: Run SonarQube Analysis
-          command: |
+      - run: find .
+      - attach_workspace:
+          at: ~/workspace
+      - run: |
+            SONAR_BRANCH="${CIRCLE_BRANCH:-Master_dev}"
+            echo "Sonar branch value is: " $SONAR_BRANCH
+            echo "Sonar org value is : "$SONAR_ORG
             sonar-scanner \
               -Dsonar.projectKey=St10053561_APDS_POE \
               -Dsonar.organization=st10053561 \
-              -Dsonar.sources=. \
-              -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.login=$SONAR_TOKEN
+              -Dsonar.exclusions="**/android/**,**/ios/**" \
+              -Dsonar.token="$SONAR_TOKEN" \
+              -Dsonar.branch.name="$SONAR_BRANCH" \
+              -Dsonar.sources="."
 
 workflows:
-  version: 2
-  build_and_test:
+  say-hello-workflow:
     jobs:
-      - build
+      - sonarqube:
+         context: SonarCloud
