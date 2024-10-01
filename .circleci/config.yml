@@ -24,9 +24,7 @@ jobs:
       - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
-      #- run: apk update
-      #- run:  apk upgrade
-      #- run:  apk --no-cache add --update openssh git curl
+      - run: sudo apt-get update && sudo apt-get install -y findutils
       - checkout
       - run: find .
       - attach_workspace:
@@ -50,4 +48,4 @@ workflows:
   say-hello-workflow:
     jobs:
       - sonarqube:
-         context: SonarCloud
+          context: SonarCloud
