@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Install findutils
-          command: apt-get update && apt-get install -y findutils
+          command: apk update && apk add findutils
       - run: find .
       - attach_workspace:
           at: ~/workspace
