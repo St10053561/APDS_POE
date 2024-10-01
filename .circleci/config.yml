@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:18
     steps:
       - checkout
       - run:
@@ -11,7 +11,7 @@ jobs:
           command: echo "Hello, World!"
       - run:
           name: Install SonarQube Scanner
-          command: npm install -g sonarqube-scanner
+          command: sudo npm install -g sonarqube-scanner
       - run:
           name: Run SonarQube Analysis
           command: |
