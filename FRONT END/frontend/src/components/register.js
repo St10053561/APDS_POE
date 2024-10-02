@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Register.css'; // styling for register
 
 // Register component
 export default function Register() {
@@ -70,105 +71,107 @@ export default function Register() {
 
     // JSX to render the form
     return (
-        <div className='container'>
-            <h3>Register</h3>
-            <form onSubmit={onSubmit}>
-                <div className="form-group">
-                    <label htmlFor="firstName">First Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id='firstName'
-                        value={form.firstName}
-                        onChange={(e) => updateForm({ firstName: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="lastName">Last Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id='lastName'
-                        value={form.lastName}
-                        onChange={(e) => updateForm({ lastName: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        id='email'
-                        value={form.email}
-                        onChange={(e) => updateForm({ email: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id='username'
-                        value={form.username}
-                        onChange={(e) => updateForm({ username: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id='password'
-                        value={form.password}
-                        onChange={(e) => updateForm({ password: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id='confirmPassword'
-                        value={form.confirmPassword}
-                        onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="accountNumber">Account Number</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id='accountNumber'
-                        value={form.accountNumber}
-                        onChange={(e) => updateForm({ accountNumber: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="idNumber">ID Number</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id='idNumber'
-                        value={form.idNumber}
-                        onChange={(e) => updateForm({ idNumber: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <input
-                        type='submit'
-                        value='Register'
-                        className='btn btn-primary'
-                    />
-                </div>
-            </form>
+        <div className='register-container'>
+            <div className='register-card'>
+                <h3>Register</h3>
+                <form onSubmit={onSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="firstName">First Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id='firstName'
+                            value={form.firstName}
+                            onChange={(e) => updateForm({ firstName: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="lastName">Last Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id='lastName'
+                            value={form.lastName}
+                            onChange={(e) => updateForm({ lastName: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            id='email'
+                            value={form.email}
+                            onChange={(e) => updateForm({ email: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id='username'
+                            value={form.username}
+                            onChange={(e) => updateForm({ username: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id='password'
+                            value={form.password}
+                            onChange={(e) => updateForm({ password: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id='confirmPassword'
+                            value={form.confirmPassword}
+                            onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="accountNumber">Account Number</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id='accountNumber'
+                            value={form.accountNumber}
+                            onChange={(e) => updateForm({ accountNumber: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="idNumber">ID Number</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id='idNumber'
+                            value={form.idNumber}
+                            onChange={(e) => updateForm({ idNumber: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <input
+                            type='submit'
+                            value='Register'
+                            className='btn btn-primary'
+                        />
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
