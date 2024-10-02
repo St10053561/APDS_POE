@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
+import './Login.css'; // login styling
 
 export default function Login() {
     const [form, setForm] = useState({
@@ -21,8 +22,7 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            // Send a POST request to the server using HTTPS
-            const response = await fetch('https://localhost:3001/user/login', { // Ensure the URL is correct
+            const response = await fetch('https://localhost:3001/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,14 +30,11 @@ export default function Login() {
                 body: JSON.stringify(form)
             });
 
-            // Check if the response is ok (status in the range 200-299)
             if (!response.ok) {
-                // Try to parse the error response as JSON
                 let errorData;
                 try {
                     errorData = await response.json();
                 } catch (jsonError) {
-                    // If parsing fails, the response is not JSON
                     throw new Error(`HTTP error! status: ${response.status}, message: ${response.statusText}`);
                 }
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
@@ -46,10 +43,7 @@ export default function Login() {
             const data = await response.json();
             console.log('Login successful:', data);
 
-            // Update the context with the token and username
             setAuth({ token: data.token, username: data.username });
-
-            // Navigate to the home page or another page
             navigate('/');
         } catch (error) {
             console.error('Error during login:', error);
@@ -58,8 +52,9 @@ export default function Login() {
     }
 
     return (
-        <div className="container">
-            <h3>Login</h3>
+        <div className="login-container">
+        <div className="login-card">
+            <h3>Welcome Back!</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor='usernameOrAccountNumber'>Username or Account Number</label>
@@ -69,6 +64,7 @@ export default function Login() {
                         id="usernameOrAccountNumber"
                         value={form.usernameOrAccountNumber}
                         onChange={(e) => updateForm({ usernameOrAccountNumber: e.target.value })}
+                        placeholder="Username/Account Number" 
                         required
                     />
                 </div>
@@ -80,6 +76,7 @@ export default function Login() {
                         id='password'
                         value={form.password}
                         onChange={(e) => updateForm({ password: e.target.value })}
+                        placeholder="Password" 
                         required
                     />
                 </div>
@@ -95,5 +92,7 @@ export default function Login() {
                 <a href="/forgot-password">Forgot Password?</a>
             </div>
         </div>
+    </div>
+    
     );
 }
