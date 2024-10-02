@@ -1,0 +1,87 @@
+/* styling for login page */
+body {
+    font-size: 1.1rem;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; 
+}
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    padding: 40px; 
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid #333; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+}
+
+
+h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; 
+}
+
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left; 
+}
+
+
+input.form-control {
+    width: 100%; 
+    padding: 10px; 
+    font-size: 1.1rem;
+    border: none; 
+    border-bottom: 2px solid #ccc; 
+    outline: none; 
+    transition: border-bottom-color 0.3s ease;
+}
+
+input.form-control:focus {
+    border-bottom-color: #007bff; 
+}
+
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    font-size: 1.1rem;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 30px; 
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1rem;
+}
+
+a:hover {
+    color: #0056b3;
+}
