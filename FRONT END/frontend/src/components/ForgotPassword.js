@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './ForgotPassword.css';
+
 
 export default function ForgotPassword() {
     const [form, setForm] = useState({
@@ -7,6 +9,7 @@ export default function ForgotPassword() {
         newPassword: '',
         confirmPassword: ''
     });
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     function updateForm(value) {
@@ -19,13 +22,12 @@ export default function ForgotPassword() {
         e.preventDefault();
 
         if (form.newPassword !== form.confirmPassword) {
-            window.alert('Passwords do not match');
+            setError('Passwords do not match');
             return;
         }
 
         try {
-            // Send a POST request to the server using HTTPS
-            const response = await fetch('https://localhost:3001/user/forgot-password', { // Ensure the URL is correct
+            const response = await fetch('https://localhost:3001/user/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -33,7 +35,6 @@ export default function ForgotPassword() {
                 body: JSON.stringify(form)
             });
 
-            // Check if the response is ok (status in the range 200-299)
             if (!response.ok) {
                 let errorData;
                 try {
@@ -44,63 +45,68 @@ export default function ForgotPassword() {
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
             }
 
-            const data = await response.json();
-            console.log('Password reset successful:', data);
-
-            // Navigate to the login page or show a success message
             window.alert('Password has been reset successfully');
             navigate('/login');
         } catch (error) {
             console.error('Error during password reset:', error);
-            window.alert(`An error occurred: ${error.message}`);
+            setError(`An error occurred: ${error.message}`);
         }
     }
 
     return (
-        <div className="container">
-            <h3>Forgot Password</h3>
-            <form onSubmit={onSubmit}>
-                <div className="form-group">
-                    <label htmlFor='username'>Username</label>
-                    <input
-                        type="text"
-                        className='form-control'
-                        id="username"
-                        value={form.username}
-                        onChange={(e) => updateForm({ username: e.target.value })}
-                        required
-                    />
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card">
+                        <div className="card-body">
+                            <h3 className="card-title text-center mb-4">Forgot Password</h3>
+                            <form onSubmit={onSubmit}>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="username">Username</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="username"
+                                        value={form.username}
+                                        onChange={(e) => updateForm({ username: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="newPassword">New Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="newPassword"
+                                        value={form.newPassword}
+                                        onChange={(e) => updateForm({ newPassword: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="confirmPassword">Confirm Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="confirmPassword"
+                                        value={form.confirmPassword}
+                                        onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+                                        required
+                                    />
+                                    {error && <small className="text-danger">{error}</small>}
+                                </div>
+                                <div className="form-group text-center">
+                                    <input
+                                        type="submit"
+                                        value="Submit"
+                                        className="btn btn-primary"
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor='newPassword'>New Password</label>
-                    <input
-                        type="password"
-                        className='form-control'
-                        id="newPassword"
-                        value={form.newPassword}
-                        onChange={(e) => updateForm({ newPassword: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor='confirmPassword'>Confirm Password</label>
-                    <input
-                        type="password"
-                        className='form-control'
-                        id="confirmPassword"
-                        value={form.confirmPassword}
-                        onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <input
-                        type='submit'
-                        value='Submit'
-                        className='btn btn-primary'
-                    />
-                </div>
-            </form>
+            </div>
         </div>
     );
 }
