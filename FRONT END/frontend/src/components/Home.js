@@ -31,6 +31,7 @@ const Home = () => {
                     <button>Make International Payment</button>
                 </NavLink>
                 <h2>Banking Details</h2>
+                <p>Account Number: {bankingDetails.accountNumber}</p>
                 <p>Bank Name: {bankingDetails.bankName}</p>
                 <p>Balance: {bankingDetails.balance}</p>
             </div>
