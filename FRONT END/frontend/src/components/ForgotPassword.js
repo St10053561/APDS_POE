@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
 
+
 export default function ForgotPassword() {
     const [form, setForm] = useState({
         username: '',
@@ -109,4 +110,3 @@ export default function ForgotPassword() {
         </div>
     );
 }
-
