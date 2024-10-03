@@ -13,6 +13,10 @@
   }
 }
 
+body {
+  background-color: rgb(17, 11, 90);
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -21,8 +25,10 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(30, 5, 69);
 }
+
+
 
 .App-link {
   color: #61dafb;
@@ -36,3 +42,5 @@
     transform: rotate(360deg);
   }
 }
+
+
