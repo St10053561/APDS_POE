@@ -7,7 +7,7 @@ const Home = () => {
     if (!auth.token) {
         return (
             <div className="container">
-                <h1>Welcome to TransactIO</h1>
+                <h1>Welcome to the Payment Portal</h1>
                 <p>Please log in to access your account and make payments.</p>
             </div>
         );
@@ -24,7 +24,7 @@ const Home = () => {
 
     return (
         <div className="container">
-            <h1>Welcome to TransactIO</h1>
+            <h1>Welcome to the Payment Portal</h1>
             <p>Hello, {auth.username}</p>
             <div className="dashboard">
                 <NavLink to="/paymentCreate">
@@ -39,4 +39,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Home;
