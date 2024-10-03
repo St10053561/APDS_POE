@@ -9,16 +9,21 @@ router.use(cors()); // Use CORS middleware
 // Creates a new payment record in the "payments" collection.
 router.post("/", checkAuth, async (req, res) => {
     try {
+        const { recipientName, recipientBank, recipientAccountNo, amount, swiftCode, username, date, currency } = req.body;
+
+        // Create a new payment object
         const newPayment = {
-            recipientName: req.body.recipientName,
-            recipientBank: req.body.recipientBank,
-            recipientAccountNo: req.body.recipientAccountNo,
-            amount: req.body.amount,
-            swiftCode: req.body.swiftCode,
-            username: req.body.username, // Store the username from the request body
-            date: req.body.date // Store the current date from the request body
+            recipientName,
+            recipientBank,
+            recipientAccountNo,
+            amount,
+            swiftCode,
+            username, // Store the username from the request body
+            date, // Store the current date from the request body
+            currency // Store the selected currency from the request body
         };
 
+        // Insert the new payment into the "payments" collection
         let collection = db.collection("payments");
         let result = await collection.insertOne(newPayment);
         res.status(201).send(result);
