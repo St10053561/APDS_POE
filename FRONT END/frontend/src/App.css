@@ -28,7 +28,9 @@ body {
   color: rgb(30, 5, 69);
 }
 
-
+nav {
+  background-color: #06294b; /* Navy blue */
+}
 
 .App-link {
   color: #61dafb;
@@ -42,5 +44,3 @@ body {
     transform: rotate(360deg);
   }
 }
-
-
