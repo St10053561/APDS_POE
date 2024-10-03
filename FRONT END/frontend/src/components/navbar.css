@@ -6,7 +6,7 @@
   display: flex;
   justify-content: flex-start; /* Align items to the left */
   align-items: center;
-  background-color: #5db5d3;
+  background-color: #46e0f8;
   padding: 15px 30px;
   height: 100px; /* You can adjust this as needed */
   z-index: 1000; /* Ensure it's above other elements */
