@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-//import logo from '../logo.svg'; // Adjust the path as necessary
-import '../navbar.css'; // Custom CSS file for styling
+import logo from './transactio.png'; // Adjust the path as necessary
+import './navbar.css'; // Custom CSS file for styling
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
 
 // Navbar component
@@ -19,7 +19,7 @@ export default function Navbar() {
       <div className="container">
         {/* Fixed larger logo on the left */}
         <NavLink className="navbar-brand" to="/">
-          <img className="logo-3d" src= "images/Logo.jpg" alt="Logo" />
+          <img className="logo-3d" src={logo} alt="Logo" />
         </NavLink>
 
         {/* Toggler for mobile views */}
@@ -75,6 +75,6 @@ export default function Navbar() {
           </ul>
         </div>
       </div>
-    </nav>
-  );
+    </nav>
+  );
 }
