@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
 import axios from 'axios';
-import './PaymentPortal.css'; // payment portal styling
+import './PaymentPortal.css' // payment portal styling
 
 const currencySymbols = {
     ZAR: 'R',
@@ -25,7 +25,6 @@ const PaymentPortal = () => {
         currency: 'ZAR' // Default currency to South African Rand
     });
     const [successMessage, setSuccessMessage] = useState(''); // State for success message
-    const [errorMessage, setErrorMessage] = useState(''); // State for form-wide error message
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,7 +47,6 @@ const PaymentPortal = () => {
             });
             // Update the success message state
             setSuccessMessage('Payment has been made successfully!');
-            setErrorMessage(''); // Clear any previous error messages
             // Clear the form data
             setFormData({
                 recipientName: '',
@@ -62,11 +60,7 @@ const PaymentPortal = () => {
             });
         } catch (error) {
             console.error('Error making payment:', error); // Log error
-            if (error.response && error.response.data && error.response.data.message) {
-                setErrorMessage(error.response.data.message); // Set a global error message
-            } else {
-                setErrorMessage('An error occurred while making the payment'); // Generic error message
-            }
+            // Handle error (e.g., show an error message)
         }
     };
 
@@ -160,8 +154,6 @@ const PaymentPortal = () => {
                 </form>
                 {/* Display the success message if it exists */}
                 {successMessage && <div className="alert alert-success">{successMessage}</div>}
-                {/* Display the error message if it exists */}
-                {errorMessage && <div className="alert alert-error">{errorMessage}</div>}
             </div>
         </div>
     );
