@@ -1,22 +1,27 @@
-/* Navbar.css */
 .navbar {
+  position: fixed; /* Keep the navbar fixed at the top */
+  top: 0; /* Position it at the top */
+  left: 0; /* Position it at the left */
+  width: 100%; /* Full width */
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* Align items to the left */
   align-items: center;
-  background-color: #46e0f8; /* Deep blue background */
+  background-color: #46e0f8;
   padding: 15px 30px;
-  height: 80px;
+  height: 100px; /* You can adjust this as needed */
+  z-index: 1000; /* Ensure it's above other elements */
 }
 
-.logo img {
-  height: 50px;
+.logo-3d {
+  height: 50px; /* Adjust this size as needed */
+  width: auto;
 }
-
 
 .nav-links {
   list-style: none;
   display: flex;
   align-items: center;
+  margin-left: auto; /* Push nav links to the right */
 }
 
 .nav-links li {
@@ -32,7 +37,7 @@
 }
 
 .nav-links a:hover {
-  color: #180546; 
+  color: #180546;
 }
 
 nav ul {
@@ -47,13 +52,8 @@ nav ul li {
   margin: 0 15px; /* Adds spacing between items */
 }
 
-
-nav {
-  background-color: #06294b; /* Navy blue */
-}
-
 .nav-button .quote-button {
-  background-color: #0e0552; 
+  background-color: #0e0552;
   border: none;
   padding: 10px 20px;
   color: black;
@@ -63,9 +63,9 @@ nav {
 }
 
 .nav-button .quote-button:hover {
-  background-color: #1d0546; 
+  background-color: #1d0546;
 }
 
 .active-link {
-  color: #09064d; 
+  color: #09064d;
 }
