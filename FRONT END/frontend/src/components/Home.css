@@ -1,0 +1,22 @@
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0b0b61; /* Navy blue background */
+}
+
+/* Styling the welcome message */
+.welcome-message {
+    text-align: center;
+    color: #ffffff; /* White color */
+    font-size: 2rem; /* Larger font size */
+    font-weight: bold;
+}
+
+/* Styling the subtext */
+.subtext {
+    font-size: 1rem;
+    color: #ffffff; /* White color for subtext */
+    margin-top: 10px;
+}
