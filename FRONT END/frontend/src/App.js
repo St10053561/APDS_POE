@@ -16,6 +16,9 @@ const App = () => {
             <Router>
                 <div className="App">
                     <Navbar />
+                    <body>
+                <img src="images/Logo.jpg" class= "img-fluid" alt= ''/>
+            </body>
                     <Routes>
                         <Route exact path="/" element={<Home />} /> {/* Add the route for Home */}
                         <Route exact path="/register" element={<Register />} />
