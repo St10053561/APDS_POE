@@ -2,14 +2,16 @@
 .register-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to the start to prevent centering */
-    min-height: 100vh; 
-    background-color: #f8f9fa; 
-    padding-top: 100px; /* Add padding to push it down */
+    align-items: flex-start; 
+    min-height: 100vh;
+   
+    padding: 100px 20px; /* Add vertical padding to create space around the form */
+    margin-top: 60px; /* Add spacing from the top (if navbar is at the top) */
+    margin-bottom: 40px; /* Add space at the bottom */
 }
 
 .register-card {
-    background-color: #ffffff; 
+    background-color: #eae8e0; 
     border-radius: 12px; /* Make corners more rounded */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Softer shadow */
     padding: 25px; /* Slightly increase padding */
