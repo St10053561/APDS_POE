@@ -25,12 +25,13 @@ jobs:
       - run:
           name: Ensure Jest Binary Has Execute Permissions
           command: |
+            cd BACKEND
             if [ -f node_modules/.bin/jest ]; then chmod +x node_modules/.bin/jest; fi
       - run:
           name: Run Backend Tests
           command: |
             cd BACKEND
-            npm test
+            ./node_modules/.bin/jest --config jest.backend.config.js
 
 workflows:
   version: 2
