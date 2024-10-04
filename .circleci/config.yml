@@ -21,7 +21,7 @@ jobs:
           name: Run Backend Tests
           command: |
             cd BACKEND
-            npm run test:backend
+            npm test
 
 workflows:
   version: 2

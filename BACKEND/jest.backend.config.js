@@ -1,7 +1,8 @@
 module.exports = {
     testEnvironment: 'node',
-    testMatch: ['**/test/**/*.test.js'],
+    testMatch: ['**/tests/**/*Regtest.js'],
     transform: {
-      '^.+\\.jsx?$': 'babel-jest'
-    }
-  };
+        '^.+\\.jsx?$': 'babel-jest'
+    },
+    transformIgnorePatterns: ['/node_modules/']
+};
