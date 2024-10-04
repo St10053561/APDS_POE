@@ -18,6 +18,10 @@ jobs:
             cd BACKEND
             npm install
       - run:
+          name: Ensure Jest Binary Has Execute Permissions
+          command: |
+            chmod +x node_modules/.bin/jest || true
+      - run:
           name: Run Backend Tests
           command: |
             cd BACKEND
