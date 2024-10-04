@@ -31,12 +31,12 @@ jobs:
       - run:
           name: Install Frontend Dependencies
           command: |
-            cd FRONTEND
+            cd "FRONT END/frontend"
             npm install
       - run:
           name: Run Frontend Tests
           command: |
-            cd FRONTEND
+            cd "FRONT END/frontend"
             npm test
 
   build-frontend:
@@ -47,12 +47,12 @@ jobs:
       - run:
           name: Install Frontend Dependencies
           command: |
-            cd FRONTEND
+            cd "FRONT END/frontend"
             npm install
       - run:
           name: Build Frontend
           command: |
-            cd FRONTEND
+            cd "FRONT END/frontend"
             npm run build
 
 workflows:
