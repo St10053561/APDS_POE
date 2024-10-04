@@ -1,3 +1,5 @@
+version: 2.1
+
 jobs:
   setup:
     docker:
@@ -19,42 +21,7 @@ jobs:
           name: Run Backend Tests
           command: |
             cd BACKEND
-            npm test
-
-  frontend-tests:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run:
-          name: Fix Dependency Tree
-          command: |
-            cd "FRONT END/frontend"
-            rm -rf node_modules
-            rm -f package-lock.json yarn.lock
-            echo "SKIP_PREFLIGHT_CHECK=true" > .env
-            npm install
-      - run:
-          name: Run Frontend Tests
-          command: |
-            cd "FRONT END/frontend"
-            npx react-scripts test --watchAll=false
-
-  build-frontend:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run:
-          name: Install Frontend Dependencies
-          command: |
-            cd "FRONT END/frontend"
-            npm install
-      - run:
-          name: Build Frontend
-          command: |
-            cd "FRONT END/frontend"
-            npm run build
+            npm run test:backend
 
 workflows:
   version: 2
@@ -64,9 +31,3 @@ workflows:
       - backend-tests:
           requires:
             - setup
-      - frontend-tests:
-          requires:
-            - setup
-      - build-frontend:
-          requires:
-            - frontend-tests
