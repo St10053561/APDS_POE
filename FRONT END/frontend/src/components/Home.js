@@ -8,9 +8,10 @@ const Home = () => {
 
     if (!auth.token) {
         return (
-            <div className="container">
+            <div className="dashboard-container">
                 <h1>Welcome to the Payment Portal</h1>
                 <p>Please log in to access your account and make payments.</p>
+                
             </div>
         );
     }
@@ -25,17 +26,18 @@ const Home = () => {
     };
 
     return (
-        <div className="container">
+        <div className="dashboard-container">
             <h1>Welcome to the Payment Portal</h1>
             <p>Hello, {auth.username}</p>
             <div className="dashboard">
+                
+                <h2>Banking Details</h2>
+                <p1>Account Number: {bankingDetails.accountNumber}</p1>
+                <p1>Bank Name: {bankingDetails.bankName}</p1>
+                <p1>Balance: {bankingDetails.balance}</p1>
                 <NavLink to="/paymentCreate">
                     <button>Make International Payment</button>
                 </NavLink>
-                <h2>Banking Details</h2>
-                <p>Account Number: {bankingDetails.accountNumber}</p>
-                <p>Bank Name: {bankingDetails.bankName}</p>
-                <p>Balance: {bankingDetails.balance}</p>
             </div>
         </div>
     );
