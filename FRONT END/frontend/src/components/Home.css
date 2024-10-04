@@ -1,0 +1,45 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    height: 100vh; /* Full viewport height to center vertically */
+    text-align: center; /* Center text */
+}
+
+h1 {
+    font-size: 48px; /* This will make the text big */
+    color: white;    /* This will change the text color to white */
+    margin-top: 20px; /* You can adjust this to position it at the top */
+    margin-bottom: 10px; /* Add some space below the h1 */
+}
+
+p {
+    color: white; /* Ensure the paragraph text is visible */
+    margin-top: 0; /* Remove top margin to reduce space */
+    margin-bottom: 20px; /* Add bottom margin if needed */
+}
+
+.dashboard {
+    background-color: #eae8e0; /* Set background color */
+    padding: 20px;            /* Add padding for better spacing */
+    border-radius: 8px;      /* Optional: round the corners */
+    display: flex;            /* Use flexbox for alignment */
+    flex-direction: column;   /* Stack items vertically */
+    justify-content: space-between; /* Space items out evenly */
+    height: 400px;  
+    width: 400px;   
+}       
+
+.dashboard button {
+    background-color: #007bff;
+    border: none;
+    font-size: 1.1rem;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 30px; 
+}
+
+.dashboard button:hover {
+    background-color: #0056b3;
+}
