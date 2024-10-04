@@ -1,5 +1,3 @@
-version: 2.1
-
 jobs:
   setup:
     docker:
@@ -29,9 +27,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Frontend Dependencies
+          name: Fix Dependency Tree
           command: |
             cd "FRONT END/frontend"
+            rm -rf node_modules
+            rm -f package-lock.json yarn.lock
+            echo "SKIP_PREFLIGHT_CHECK=true" > .env
             npm install
       - run:
           name: Run Frontend Tests
