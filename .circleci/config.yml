@@ -1,16 +1,37 @@
 version: 2.1
 
 jobs:
-  say-hello:
+  setup:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+
+  backend-tests:
     docker:
       - image: circleci/node:latest
     steps:
       - checkout
       - run:
-          name: Print Hello World
-          command: echo "Hello, World!"
+          name: Install Backend Dependencies
+          command: |
+            cd BACKEND
+            npm install
+      - run:
+          name: Ensure Jest Binary Has Execute Permissions
+          command: |
+            chmod +x node_modules/.bin/jest || true
+      - run:
+          name: Run Backend Tests
+          command: |
+            cd BACKEND
+            npm test
 
 workflows:
-  say-hello-workflow:
+  version: 2
+  test-and-build:
     jobs:
-      - say-hello
+      - setup
+      - backend-tests:
+          requires:
+            - setup
