@@ -11,6 +11,17 @@ jobs:
           command: |
             cd BACKEND
             npm install
+
+  backend-tests:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Backend Dependencies
+          command: |
+            cd BACKEND
+            npm install
       - run:
           name: Ensure Jest Binary Has Execute Permissions
           command: |
