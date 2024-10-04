@@ -6,12 +6,6 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-
-  backend-tests:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
       - run:
           name: Install Backend Dependencies
           command: |
@@ -20,7 +14,7 @@ jobs:
       - run:
           name: Ensure Jest Binary Has Execute Permissions
           command: |
-            chmod +x node_modules/.bin/jest
+            if [ -f node_modules/.bin/jest ]; then chmod +x node_modules/.bin/jest; fi
       - run:
           name: Run Backend Tests
           command: |
