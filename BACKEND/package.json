@@ -4,14 +4,16 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/**/*.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "mocha": "^10.7.3",
+    "chai": "^4.3.7"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

@@ -37,7 +37,7 @@ jobs:
           name: Run Frontend Tests
           command: |
             cd "FRONT END/frontend"
-            npm test
+            npx react-scripts test --watchAll=false
 
   build-frontend:
     docker:
