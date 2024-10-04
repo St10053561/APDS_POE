@@ -26,6 +26,7 @@
 }
 
 .form-group {
+    margin-right: 20px;
     margin-bottom: 20px; /* Add more space between form groups */
 }
 
@@ -47,7 +48,7 @@
     background-color: #007bff;
     color: white; 
     border: none; 
-    padding: 12px 15px; 
+    padding: 12px px; 
     border-radius: 8px; /* More rounded corners */
     cursor: pointer; 
     width: 100%; 
