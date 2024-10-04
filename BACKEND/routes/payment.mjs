@@ -16,7 +16,8 @@ router.post("/", checkAuth, async (req, res) => {
             amount: req.body.amount,
             swiftCode: req.body.swiftCode,
             username: req.body.username, // Store the username from the request body
-            date: req.body.date // Store the current date from the request body
+            date: req.body.date, // Store the current date from the request body
+            currency: req.body.currency // Store the selected currency from the request body
         };
 
         let collection = db.collection("payments");
