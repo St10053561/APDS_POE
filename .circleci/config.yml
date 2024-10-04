@@ -1,16 +1,74 @@
 version: 2.1
 
 jobs:
-  say-hello:
+  setup:
     docker:
       - image: circleci/node:latest
     steps:
       - checkout
       - run:
-          name: Print Hello World
-          command: echo "Hello, World!"
+          name: Install Global Dependencies
+          command: npm install -g yarn
+
+  backend-tests:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Backend Dependencies
+          command: |
+            cd BACKEND
+            yarn install
+      - run:
+          name: Run Backend Tests
+          command: |
+            cd BACKEND
+            yarn test
+
+  frontend-tests:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Frontend Dependencies
+          command: |
+            cd FRONTEND
+            yarn install
+      - run:
+          name: Run Frontend Tests
+          command: |
+            cd FRONTEND
+            yarn test
+
+  build-frontend:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Frontend Dependencies
+          command: |
+            cd FRONTEND
+            yarn install
+      - run:
+          name: Build Frontend
+          command: |
+            cd FRONTEND
+            yarn build
 
 workflows:
-  say-hello-workflow:
+  version: 2
+  test-and-build:
     jobs:
-      - say-hello
+      - setup
+      - backend-tests:
+          requires:
+            - setup
+      - frontend-tests:
+          requires:
+            - setup
+      - build-frontend:
+          requires:
+            - frontend-tests
