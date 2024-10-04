@@ -6,9 +6,6 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      - run:
-          name: Install Global Dependencies
-          command: npm install -g yarn
 
   backend-tests:
     docker:
@@ -19,12 +16,12 @@ jobs:
           name: Install Backend Dependencies
           command: |
             cd BACKEND
-            yarn install
+            npm install
       - run:
           name: Run Backend Tests
           command: |
             cd BACKEND
-            yarn test
+            npm test
 
   frontend-tests:
     docker:
@@ -35,12 +32,12 @@ jobs:
           name: Install Frontend Dependencies
           command: |
             cd FRONTEND
-            yarn install
+            npm install
       - run:
           name: Run Frontend Tests
           command: |
             cd FRONTEND
-            yarn test
+            npm test
 
   build-frontend:
     docker:
@@ -51,12 +48,12 @@ jobs:
           name: Install Frontend Dependencies
           command: |
             cd FRONTEND
-            yarn install
+            npm install
       - run:
           name: Build Frontend
           command: |
             cd FRONTEND
-            yarn build
+            npm run build
 
 workflows:
   version: 2
