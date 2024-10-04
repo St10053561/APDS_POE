@@ -1,0 +1,121 @@
+/* General styling for body */
+body {
+    font-size: 1.1rem;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; 
+}
+
+/* Container for the payment form */
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+   
+}
+
+/* Styling for the payment card */
+.payment-card {
+    background-color: #eae8e0; /* Matching background color to login card */
+    border: 2px solid #333; 
+    padding: 40px; /* Increased padding to match login card */
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px; /* Consistent width */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Matching box shadow */
+    text-align: center; /* Centered text */
+    margin-top: 100px;
+}
+
+/* Payment card title */
+.payment-card h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem; /* Increased font size for heading consistency */
+    font-weight: bold;
+}
+
+/* Form group styling for the payment form */
+.payment-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Consistent margin */
+}
+
+/* Styling for labels */
+.payment-form label {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 1rem; /* Increased font size to match the login form */
+}
+
+/* Input fields styling */
+.payment-form input {
+    width: 100%;
+    padding: 10px; /* Consistent padding */
+    font-size: 1.1rem; /* Increased font size */
+    border: none; /* Remove default borders */
+    border-bottom: 2px solid #ccc; /* Match the input style from login page */
+    outline: none; 
+    transition: border-bottom-color 0.3s ease;
+}
+
+/* Focus state for input fields */
+.payment-form input:focus {
+    border-bottom-color: #007bff; /* Consistent with login form */
+}
+
+/* Placeholder styling */
+.payment-form input::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+/* Primary button styling */
+.payment-form button {
+    background-color: #007bff;
+    border: none;
+    font-size: 1.1rem; /* Increased font size */
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Hover state for primary button */
+.payment-form button:hover {
+    background-color: #0056b3; /* Matching hover effect */
+}
+
+/* Secondary button styling */
+.payment-form button[type="button"] {
+    background-color: #6c757d;
+}
+
+/* Hover state for secondary button */
+.payment-form button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+/* Success alert styling */
+.alert-success {
+    margin-top: 20px;
+    color: #155724;
+    background-color: #d4edda;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Link styling */
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1rem;
+}
+
+a:hover {
+    color: #0056b3;
+}
