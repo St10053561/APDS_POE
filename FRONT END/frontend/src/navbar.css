@@ -6,11 +6,7 @@
   display: flex;
   justify-content: flex-start; /* Align items to the left */
   align-items: center;
-<<<<<<< HEAD
-  background-color: #46e0f8;
-=======
   background-color: #5db5d3;
->>>>>>> 356790b8259eb651edd93b69213785736699925a
   padding: 15px 30px;
   height: 100px; /* You can adjust this as needed */
   z-index: 1000; /* Ensure it's above other elements */
@@ -72,8 +68,4 @@ nav ul li {
 
 .active-link {
   color: #09064d;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 356790b8259eb651edd93b69213785736699925a
