@@ -1,0 +1,71 @@
+.navbar {
+  position: fixed; /* Keep the navbar fixed at the top */
+  top: 0; /* Position it at the top */
+  left: 0; /* Position it at the left */
+  width: 100%; /* Full width */
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center;
+  background-color: #5db5d3;
+  padding: 15px 30px;
+  height: 100px; /* You can adjust this as needed */
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.logo-3d {
+  height: 50px; /* Adjust this size as needed */
+  width: auto;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Push nav links to the right */
+}
+
+.nav-links li {
+  margin-left: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: rgb(252, 252, 255);
+  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #180546;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center; /* Centers the items horizontally */
+  align-items: center;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 15px; /* Adds spacing between items */
+}
+
+.nav-button .quote-button {
+  background-color: #0e0552;
+  border: none;
+  padding: 10px 20px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button .quote-button:hover {
+  background-color: #1d0546;
+}
+
+.active-link {
+  color: #09064d;
+}
