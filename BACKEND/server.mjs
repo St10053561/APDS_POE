@@ -5,9 +5,24 @@ import https from "https";
 import loginRegRoutes from "./routes/Login&Reg.mjs"; // Updated the path to the new file name
 import paymentRouter from "./routes/payment.mjs"; // Updated the path to the new file name
 import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 const PORT = 3001;
 const app = express();
+
+// Applying Helmet to secure HTTP headers
+app.use(helmet());
+
+// Implementing HSTS to enforce HTTPS
+app.use(helmet.hsts({
+    //Max age set to 1 year
+    maxAge: 31536000,
+    //Aplying to all subdomains
+    includeSubDomains: true,
+    //Allowing for the web app to be preloaded in browser
+    preload: true
+}));
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +34,14 @@ const options = {
 
 app.use(cors());
 app.use(express.json());
+
+// Implementing rate limiting for the API
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // Limit each IP to 100 requests per windowMs
+});
+// Implementing rate limiting for the login and register routes
+app.use("/user", limiter);
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
