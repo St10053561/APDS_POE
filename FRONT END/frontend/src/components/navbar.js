@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logo from './transactio.png'; 
-import './navbar.css'; // Custom CSS file for styling
+import '../navbar.css'; // Custom CSS file for styling
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
 
 // Navbar component
@@ -64,6 +64,6 @@ export default function Navbar() {
           </ul>
         </div>
       </div>
-    </nav>
-  );
+ </nav>
+);
 }
