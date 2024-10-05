@@ -1,32 +1,68 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import checkAuth from "../check-auth.mjs";
-import cors from 'cors'; // Import CORS
+import cors from "cors";
 
 const router = express.Router();
-router.use(cors()); // Use CORS middleware
+router.use(cors());
 
-// Creates a new payment record in the "payments" collection.
 router.post("/", checkAuth, async (req, res) => {
-    try {
-        const newPayment = {
-            recipientName: req.body.recipientName,
-            recipientBank: req.body.recipientBank,
-            recipientAccountNo: req.body.recipientAccountNo,
-            amount: req.body.amount,
-            swiftCode: req.body.swiftCode,
-            username: req.body.username, // Store the username from the request body
-            date: req.body.date, // Store the current date from the request body
-            currency: req.body.currency // Store the selected currency from the request body
-        };
+  try {
+    const {
+      recipientName,
+      recipientBank,
+      recipientAccountNo,
+      amount,
+      swiftCode,
+      username,
+      date,
+      currency,
+    } = req.body;
 
-        let collection = db.collection("payments");
-        let result = await collection.insertOne(newPayment);
-        res.status(201).send(result);
-    } catch (error) {
-        console.error('Error storing payment:', error); // Log error
-        res.status(500).send({ error: 'Failed to store payment' });
+    // Define regex patterns
+    const accountNoPattern = /^\d{9,10}$/;
+    const swiftCodePattern = /^[A-Z]{4,5}\d{1,2}$/;
+
+    // Validate account number
+    if (!accountNoPattern.test(recipientAccountNo)) {
+      return res.status(400).send({
+        error: "Invalid account number. It should have 9 to 10 digits.",
+      });
     }
+
+    // Validate swift code
+    if (!swiftCodePattern.test(swiftCode)) {
+      return res.status(400).send({
+        error:
+          "Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers.",
+      });
+    }
+
+    // Optionally validate currency (e.g., must be a 3-letter code)
+    if (!/^[A-Z]{3}$/.test(currency)) {
+      return res.status(400).send({
+        error: "Invalid currency code. It should be a 3-letter uppercase code.",
+      });
+    }
+
+    const newPayment = {
+      recipientName,
+      recipientBank,
+      recipientAccountNo,
+      amount,
+      swiftCode,
+      username,
+      date,
+      currency,
+    };
+
+    let collection = db.collection("payments");
+    let result = await collection.insertOne(newPayment);
+    res.status(201).send(result);
+  } catch (error) {
+    console.error("Error storing payment:", error);
+    res.status(500).send({ error: "Failed to store payment" });
+  }
 });
 
 export default router;
