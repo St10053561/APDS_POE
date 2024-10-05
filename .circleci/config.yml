@@ -1,3 +1,5 @@
+version: 2.1
+
 jobs:
   setup:
     docker:
@@ -15,6 +17,11 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
+      - run:
+          name: Clean node_modules
+          command: |
+            cd BACKEND
+            rm -rf node_modules
       - run:
           name: Install Backend Dependencies
           command: |
