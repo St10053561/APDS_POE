@@ -13,25 +13,30 @@
 }
 
 .logo-3d {
-  height: 50px; /* Adjust this size as needed */
-  width: auto;
+  height: 128px; /* Adjust this size as needed */
+  width: 210px; /* Adjust the width */
+ position: absolute;  /* This allows positioning the element precisely */
+  top: 2px;  /* Aligns the image to the top */
+  left: 0;/* Aligns the image to the left */
+  padding: 0px;  /* No padding */
 }
 
 .nav-links {
   list-style: none; /* Remove bullets */
   display: flex; /* Use flexbox for horizontal alignment */
-  margin-left: auto; /* Push nav links to the right */
+  margin-left: 100px; /* Push nav links to the right */
   align-items: center; /* Center items vertically */
-  padding: 0; /* Remove default padding */
+  padding: 20px; /* Remove default padding */
 }
 
 .nav-links li {
-  margin-left: 25px; /* Space between nav items */
+  margin-right: 10px; /* Space between nav items */
 }
 
 .nav-links a {
   text-decoration: none; /* Remove underline */
   color: rgb(252, 252, 255); /* Text color */
+  padding: 40px;
   font-size: 18px; /* Font size */
   font-weight: 600; /* Bold text */
   transition: color 0.3s ease; /* Smooth color change */
@@ -56,5 +61,5 @@
 }
 
 .active-link {
-  color: #09064d; /* Active link color */
+  color: #09064d; /* Active link color */
 }
