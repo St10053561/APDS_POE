@@ -15,55 +15,46 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-3d bg-gradient">
-      <div className="container">
-        {/* Fixed larger logo on the left */}
-        <NavLink className="navbar-brand" to="/">
-          <img className="logo-3d" src={logo} alt="Logo" />
-        </NavLink>
+    <nav className="navbar">
+      <NavLink className="navbar-brand" to="/">
+        <img className="logo-3d" src={logo} alt="Logo" />
+      </NavLink>
 
-       
-
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav ml-auto">
+      <ul className="nav-links">
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/">
+            Home
+          </NavLink>
+        </li>
+        {auth.username && ( // Conditionally render the Create Payment link
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/paymentCreate">
+              Create Payment
+            </NavLink>
+          </li>
+        )}
+        {!auth.username && (
+          <>
             <li className="nav-item">
-              <NavLink className="nav-link nav-link-3d" to="/">
-                Home
+              <NavLink className="nav-link" to="/register">
+                Register
               </NavLink>
             </li>
-            {auth.username && ( // Conditionally render the Create Payment link
-              <li className="nav-item">
-                <NavLink className="nav-link nav-link-3d" to="/paymentCreate">
-                  Create Payment
-                </NavLink>
-              </li>
-            )}
-            {!auth.username && (
-              <>
-                <li className="nav-item">
-                  <NavLink className="nav-link nav-link-3d" to="/register">
-                    Register
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink className="nav-link nav-link-3d" to="/login">
-                    Login
-                  </NavLink>
-                </li>
-              </>
-            )}
-            {auth.username && (
-              <>
-                <li className='nav-item'>
-                  <button className='nav-link nav-link-3d btn btn-link' onClick={handleLogout}>
-                    Logout
-                  </button>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      </div>
- </nav>
-);
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/login">
+                Login
+              </NavLink>
+            </li>
+          </>
+        )}
+        {auth.username && (
+          <li className='nav-item'>
+            <NavLink className='nav-item' onClick={handleLogout}>
+              Logout
+            </NavLink>
+          </li>
+        )}
+      </ul>
+    </nav>
+  );
 }
