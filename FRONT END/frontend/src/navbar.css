@@ -4,68 +4,62 @@
   left: 0; /* Position it at the left */
   width: 100%; /* Full width */
   display: flex;
-  justify-content: flex-start; /* Align items to the left */
+  justify-content: space-between; /* Distributes space between logo and nav links */
   align-items: center;
-  background-color: #5db5d3;
+  background-color: #415256;
   padding: 15px 30px;
-  height: 100px; /* You can adjust this as needed */
+  height: 100px; /* Adjust this as needed */
   z-index: 1000; /* Ensure it's above other elements */
 }
 
 .logo-3d {
-  height: 50px; /* Adjust this size as needed */
-  width: auto;
+  height: 128px; /* Adjust this size as needed */
+  width: 210px; /* Adjust the width */
+ position: absolute;  /* This allows positioning the element precisely */
+  top: 2px;  /* Aligns the image to the top */
+  left: 0;/* Aligns the image to the left */
+  padding: 0px;  /* No padding */
 }
 
 .nav-links {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  margin-left: auto; /* Push nav links to the right */
+  list-style: none; /* Remove bullets */
+  display: flex; /* Use flexbox for horizontal alignment */
+  margin-left: 100px; /* Push nav links to the right */
+  align-items: center; /* Center items vertically */
+  padding: 20px; /* Remove default padding */
 }
 
 .nav-links li {
-  margin-left: 25px;
+  margin-right: 10px; /* Space between nav items */
 }
 
 .nav-links a {
-  text-decoration: none;
-  color: rgb(252, 252, 255);
-  font-size: 18px;
-  font-weight: 600;
-  transition: color 0.3s ease;
+  text-decoration: none; /* Remove underline */
+  color: rgb(252, 252, 255); /* Text color */
+  padding: 40px;
+  font-size: 18px; /* Font size */
+  font-weight: 600; /* Bold text */
+  transition: color 0.3s ease; /* Smooth color change */
 }
 
 .nav-links a:hover {
-  color: #180546;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center; /* Centers the items horizontally */
-  align-items: center;
-  padding: 0;
-}
-
-nav ul li {
-  margin: 0 15px; /* Adds spacing between items */
+  color: #180546; /* Color change on hover */
 }
 
 .nav-button .quote-button {
-  background-color: #0e0552;
-  border: none;
-  padding: 10px 20px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: #0e0552; /* Button background color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Button padding */
+  color: black; /* Text color */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth background color change */
 }
 
 .nav-button .quote-button:hover {
-  background-color: #1d0546;
+  background-color: #1d0546; /* Change background on hover */
 }
 
 .active-link {
-  color: #09064d;
+  color: #09064d; /* Active link color */
 }
