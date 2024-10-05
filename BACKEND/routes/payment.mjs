@@ -45,6 +45,13 @@ router.post("/", checkAuth, async (req, res) => {
       });
     }
 
+    // Validate amount (must be a positive number)
+    if (amount <= 0) {
+      return res.status(400).send({
+        error: "Invalid amount. It must be a positive number.",
+      });
+    }
+
     const newPayment = {
       recipientName,
       recipientBank,
