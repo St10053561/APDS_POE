@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db/conn.mjs";
+import { db } from "../db/conn.mjs"; // Use named import for db
 import checkAuth from "../check-auth.mjs";
 import cors from "cors";
 
