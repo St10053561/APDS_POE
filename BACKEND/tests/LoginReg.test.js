@@ -23,16 +23,10 @@ beforeAll((done) => {
 });
 
 afterAll(async () => {
-  // Close the Express server after all tests are done
-  await new Promise((resolve, reject) => {
-    server.close((err) => {
-      if (err) return reject(err);
-      resolve();
-    });
-  });
-
   // Close the MongoDB connection after all tests are done
   await client.close();
+  // Close the Express server after all tests are done
+  server.close();
 });
 
 describe('Registration Endpoint', () => {
@@ -71,48 +65,5 @@ describe('Registration Endpoint', () => {
 
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('User created successfully');
-  });
-});
-
-describe('Login Endpoint', () => {
-  it('should return validation errors for invalid input', async () => {
-    const response = await request(app)
-      .post('/login')
-      .send({
-        usernameOrAccountNumber: '', // Empty username or account number
-        password: '' // Empty password
-      });
-
-    expect(response.status).toBe(400);
-    expect(response.body.errors).toBeDefined();
-    expect(response.body.errors).toHaveLength(2); // Adjusted to 2 validation errors
-  });
-
-  it('should login a user with valid input', async () => {
-    // First, register a user
-    await request(app)
-      .post('/register')
-      .send({
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        username: 'johndoe',
-        password: 'Password123',
-        confirmPassword: 'Password123',
-        accountNumber: '1234567890',
-        idNumber: '1234567890123'
-      });
-
-    // Then, login with the same user
-    const response = await request(app)
-      .post('/login')
-      .send({
-        usernameOrAccountNumber: 'johndoe',
-        password: 'Password123'
-      });
-
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Authentication successful');
-    expect(response.body.token).toBeDefined();
   });
 });

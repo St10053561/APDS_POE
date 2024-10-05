@@ -27,6 +27,6 @@ async function connectDB() {
 
 connectDB(); // Call the async function to connect to the database
 
-let db = client.db("APDS"); // Select the "APDS" database
+const db = client.db("APDS"); // Select the "APDS" database
 
 export { db, client }; // Export both the db object and the client instance
