@@ -8,17 +8,46 @@
 }
 
 h1 {
-    font-size: 48px; /* This will make the text big */
-    color: white;    /* This will change the text color to white */
-    margin-top: 20px; /* You can adjust this to position it at the top */
-    margin-bottom: 10px; /* Add some space below the h1 */
+    font-size: 80px;  /* Make the text big */
+    color: white;     /* Change the text color to white */
+    margin-top: 20px; /* Adjust the top margin */
+    margin-bottom: 10px; /* Space below the h1 */
+    
+    /* Animation */
+    opacity: 0;  /* Start invisible */
+    transform: translateY(20px);  /* Start from slightly lower position */
+    animation: fadeInUp 2s ease-out forwards;  /* Run the animation */
 }
 
 p {
-    color: white; /* Ensure the paragraph text is visible */
-    margin-top: 0; /* Remove top margin to reduce space */
-    margin-bottom: 20px; /* Add bottom margin if needed */
+    font-size: 25px; /* Make the paragraph text larger */
+    color: white; /* Set paragraph text color to white */
+    margin-top: 0; /* Remove top margin */
+    margin-bottom: 20px; /* Add bottom margin */
+ 
+    /* Animation */
+    opacity: 0;  /* Start invisible */
+    transform: translateY(10px);  /* Start from a slightly lower position */
+    animation: fadeInUp 2s ease-out forwards;  /* Delay the animation for a smoother effect */
 }
+
+/* Keyframes for the animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);  /* Starting point */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);  /* End at the original position */
+    }
+}
+
+/* Specific styling for the last word "TransactIO" */
+.highlight {
+    color: rgb(100, 100, 100);  /* Set the color of "TransactIO" to black */
+}
+
 
 .dashboard {
     background-color: #eae8e0; /* Set background color */
