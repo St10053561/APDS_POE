@@ -48,7 +48,6 @@ p {
     color: rgb(100, 100, 100);  /* Set the color of "TransactIO" to black */
 }
 
-
 .dashboard {
     background-color: #eae8e0; /* Set background color */
     padding: 20px;            /* Add padding for better spacing */
@@ -72,3 +71,4 @@ p {
 .dashboard button:hover {
     background-color: #0056b3;
 }
+
