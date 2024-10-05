@@ -32,12 +32,7 @@ afterAll(async () => {
   });
 
   // Close the MongoDB connection after all tests are done
-  try {
-    await client.close();
-    console.log('MongoDB connection closed');
-  } catch (error) {
-    console.error('Error closing MongoDB connection', error);
-  }
+  await client.close();
 });
 
 describe('Registration Endpoint', () => {
