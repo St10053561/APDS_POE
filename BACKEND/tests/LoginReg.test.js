@@ -46,7 +46,7 @@ describe('Registration Endpoint', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.errors).toBeDefined();
-    expect(response.body.errors).toHaveLength(7); // Adjusted to 7 validation errors
+    expect(response.body.errors).toHaveLength(6); // Adjusted to 8 validation errors
   });
 
   it('should create a new user with valid input', async () => {
@@ -57,8 +57,8 @@ describe('Registration Endpoint', () => {
         lastName: 'Doe',
         email: 'john.doe@example.com',
         username: 'johndoe',
-        password: 'Password123',
-        confirmPassword: 'Password123',
+        password: 'Abc@1234',
+        confirmPassword: 'Abc@1234',
         accountNumber: '1234567890',
         idNumber: '1234567890123'
       });

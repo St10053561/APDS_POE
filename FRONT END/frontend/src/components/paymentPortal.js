@@ -9,7 +9,7 @@ const currencySymbols = {
   GBP: "£",
   INR: "₹",
   JPY: "¥",
-  // Add more currencies as needed
+  
 };
 
 const PaymentPortal = () => {
@@ -25,20 +25,23 @@ const PaymentPortal = () => {
     currency: "ZAR",
   });
   const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState(""); // State for general error message
+  const [fieldErrors, setFieldErrors] = useState({}); // State for field-specific errors
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFieldErrors({ ...fieldErrors, [e.target.name]: "" }); // Clear field error on change
   };
 
   const handleCurrencyChange = (e) => {
     setFormData({ ...formData, currency: e.target.value });
+    setFieldErrors({ ...fieldErrors, currency: "" }); // Clear field error on change
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.amount <= 0) {
-      setErrorMessage("Amount must be a positive number.");
+      setFieldErrors({ ...fieldErrors, amount: "Amount must be a positive number." });
       return;
     }
     try {
@@ -56,6 +59,7 @@ const PaymentPortal = () => {
       );
       setSuccessMessage("Payment has been made successfully!");
       setErrorMessage(""); // Clear any previous error message
+      setFieldErrors({}); // Clear field errors
       setFormData({
         recipientName: "",
         recipientBank: "",
@@ -70,6 +74,9 @@ const PaymentPortal = () => {
       console.error("Error making payment:", error);
       setSuccessMessage("");
       setErrorMessage(error.response?.data?.error || "Failed to make payment");
+      if (error.response?.data?.fieldErrors) {
+        setFieldErrors(error.response.data.fieldErrors);
+      }
     }
   };
 
@@ -88,6 +95,7 @@ const PaymentPortal = () => {
               placeholder="Recipient's Name"
               required
             />
+            {fieldErrors.recipientName && <div className="error-message">{fieldErrors.recipientName}</div>}
           </div>
           <div className="form-group">
             <label>Recipient's Bank:</label>
@@ -99,6 +107,7 @@ const PaymentPortal = () => {
               placeholder="Recipient's Bank"
               required
             />
+            {fieldErrors.recipientBank && <div className="error-message">{fieldErrors.recipientBank}</div>}
           </div>
           <div className="form-group">
             <label>Recipient's Account No:</label>
@@ -110,6 +119,7 @@ const PaymentPortal = () => {
               placeholder="Recipient's Account No"
               required
             />
+            {fieldErrors.recipientAccountNo && <div className="error-message">{fieldErrors.recipientAccountNo}</div>}
           </div>
           <div className="form-group">
             <label>Currency:</label>
@@ -126,6 +136,7 @@ const PaymentPortal = () => {
               <option value="JPY">JPY - Yen</option>
               {/* Add more currencies as needed */}
             </select>
+            {fieldErrors.currency && <div className="error-message">{fieldErrors.currency}</div>}
           </div>
           <div className="form-group">
             <label>Amount to Transfer:</label>
@@ -139,6 +150,7 @@ const PaymentPortal = () => {
               min="0.01" // Ensure the amount is positive
               step="0.01" // Allow decimal values
             />
+            {fieldErrors.amount && <div className="error-message">{fieldErrors.amount}</div>}
           </div>
           <div className="form-group">
             <label>SWIFT Code:</label>
@@ -150,6 +162,7 @@ const PaymentPortal = () => {
               placeholder="SWIFT Code"
               required
             />
+            {fieldErrors.swiftCode && <div className="error-message">{fieldErrors.swiftCode}</div>}
           </div>
           <input type="hidden" name="username" value={formData.username} />
           <input type="hidden" name="date" value={formData.date} />

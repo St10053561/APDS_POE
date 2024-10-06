@@ -4,6 +4,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import ExpressBrute from "express-brute";
 import { body, validationResult } from "express-validator";
+import dotenv from "dotenv";
+
+dotenv.config(); // Load environment variables from .env file
 
 const router = express.Router();
 const store = new ExpressBrute.MemoryStore(); // Don't use this in production
@@ -15,6 +18,8 @@ const usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
 const accountNumberPattern = /^\d{9,10}$/; // Updated to allow 9 or 10 digits
 const idNumberPattern = /^\d{13}$/; // Updated to allow exactly 13 digits
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Password pattern
+
+const secretKey = process.env.SECRET_KEY; // Read secret key from environment variable
 
 // Customer Registration
 router.post('/register', async (req, res) => {
@@ -124,7 +129,7 @@ router.post("/login", bruteforce.prevent, async (req, res) => {
     }
     else {
       // Authentication successful
-      const token = jwt.sign({ username: user.username, accountNumber: user.accountNumber }, "this_secret_should_be_Longer_than_it_is", { expiresIn: "1h" });
+      const token = jwt.sign({ username: user.username, accountNumber: user.accountNumber }, secretKey, { expiresIn: "20m" });
       res.status(200).json({ message: "Authentication successful", token, username: user.username, accountNumber: user.accountNumber });
     }
   } catch (error) {
@@ -132,8 +137,6 @@ router.post("/login", bruteforce.prevent, async (req, res) => {
     res.status(500).json({ message: "Login Failed" });
   }
 });
-
-
 
 // Forgot Password
 router.post("/forgot-password", async (req, res) => {
