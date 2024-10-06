@@ -1,9 +1,12 @@
 module.exports = {
-  testEnvironment: 'node',
-  testMatch: ['../tests/LoginRegtest.mjs'], // Updated pattern to match the new test file name
+  // Use babel-jest to transform JavaScript files using Babel
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.mjs$': 'babel-jest' // Add this line to handle .mjs files
+    "^.+\\.mjs$": "babel-jest",  // This handles .mjs files
+    "^.+\\.js$": "babel-jest"    // This handles .js files
   },
-  transformIgnorePatterns: ['/node_modules/']
+  moduleFileExtensions: ["js", "mjs"],
+  transformIgnorePatterns: [
+    "/node_modules/" // Ignore node_modules
+  ],
+  testEnvironment: "node",  // Since you're testing a Node.js backend
 };

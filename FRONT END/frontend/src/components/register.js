@@ -16,14 +16,16 @@ export default function Register() {
         idNumber: ''
     });
 
+    // State to manage error messages
+    const [errors, setErrors] = useState({});
+
     // Hook to navigate programmatically
     const navigate = useNavigate();
 
     // Function to update form state
     function updateForm(value) {
-        return setForm((prev) => {
-            return { ...prev, ...value };
-        });
+        setErrors({}); // Clear errors when updating form
+        setForm(prev => ({ ...prev, ...value }));
     }
 
     // Function to handle form submission
@@ -33,40 +35,41 @@ export default function Register() {
         // Create a new user object
         const newUser = { ...form };
 
-        // Send a POST request to the server
-        await fetch('https://localhost:3001/user/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Registration successful:', data);
-                // Reset the form state
-                setForm({
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    username: '',
-                    password: '',
-                    confirmPassword: '',
-                    accountNumber: '',
-                    idNumber: ''
-                });
-                // Navigate to the login page
-                navigate('/login');
-            })
-            .catch(error => {
-                window.alert(error);
-                console.error('Error during registration:', error);
+        try {
+            const response = await fetch('https://localhost:3001/user/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newUser)
             });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(JSON.stringify(errorData.errors));
+            }
+
+            // Reset the form state
+            setForm({
+                firstName: '',
+                lastName: '',
+                email: '',
+                username: '',
+                password: '',
+                confirmPassword: '',
+                accountNumber: '',
+                idNumber: ''
+            });
+
+            // Navigate to the login page
+            navigate('/login');
+        } catch (error) {
+            // Parse error messages and set them in the errors state
+            const errorMessages = JSON.parse(error.message).reduce((acc, err) => {
+                acc[err.field] = err.message;
+                return acc;
+            }, {});
+            setErrors(errorMessages);
+            console.error('Error during registration:', error);
+        }
     }
 
     // JSX to render the form
@@ -85,6 +88,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ firstName: e.target.value })}
                             required
                         />
+                        {errors.firstName && <div className="error-message">{errors.firstName}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="lastName">Last Name</label>
@@ -96,6 +100,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ lastName: e.target.value })}
                             required
                         />
+                        {errors.lastName && <div className="error-message">{errors.lastName}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
@@ -107,6 +112,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ email: e.target.value })}
                             required
                         />
+                        {errors.email && <div className="error-message">{errors.email}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
@@ -118,6 +124,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ username: e.target.value })}
                             required
                         />
+                        {errors.username && <div className="error-message">{errors.username}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
@@ -129,6 +136,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ password: e.target.value })}
                             required
                         />
+                        {errors.password && <div className="error-message">{errors.password}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="confirmPassword">Confirm Password</label>
@@ -140,6 +148,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
                             required
                         />
+                        {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="accountNumber">Account Number</label>
@@ -151,6 +160,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ accountNumber: e.target.value })}
                             required
                         />
+                        {errors.accountNumber && <div className="error-message">{errors.accountNumber}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="idNumber">ID Number</label>
@@ -162,6 +172,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ idNumber: e.target.value })}
                             required
                         />
+                        {errors.idNumber && <div className="error-message">{errors.idNumber}</div>}
                     </div>
                     <div className='form-group'>
                         <input
@@ -175,5 +186,3 @@ export default function Register() {
         </div>
     );
 }
-
-
