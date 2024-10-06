@@ -26,6 +26,7 @@
 }
 
 .form-group {
+    margin-right: 20px;
     margin-bottom: 20px; /* Add more space between form groups */
 }
 
@@ -47,7 +48,7 @@
     background-color: #007bff;
     color: white; 
     border: none; 
-    padding: 12px 15px; 
+    padding: 12px px; 
     border-radius: 8px; /* More rounded corners */
     cursor: pointer; 
     width: 100%; 
@@ -59,3 +60,10 @@
     transform: translateY(-2px); /* Slight lift effect on hover */
     transition: transform 0.2s; /* Smooth transition */
 }
+
+.error-message {
+    color: red; 
+    font-size: 0.875em;
+    margin-top: 0.25em;
+}
+

@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db/conn.mjs";
+import { db } from "../db/conn.mjs"; // Use named import for db
 import checkAuth from "../check-auth.mjs";
 import cors from "cors";
 
@@ -26,22 +26,28 @@ router.post("/", checkAuth, async (req, res) => {
     // Validate account number
     if (!accountNoPattern.test(recipientAccountNo)) {
       return res.status(400).send({
-        error: "Invalid account number. It should have 9 to 10 digits.",
+        fieldErrors: { recipientAccountNo: "Invalid account number. It should have 9 to 10 digits." },
       });
     }
 
     // Validate swift code
     if (!swiftCodePattern.test(swiftCode)) {
       return res.status(400).send({
-        error:
-          "Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers.",
+        fieldErrors: { swiftCode: "Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers." },
       });
     }
 
     // Optionally validate currency (e.g., must be a 3-letter code)
     if (!/^[A-Z]{3}$/.test(currency)) {
       return res.status(400).send({
-        error: "Invalid currency code. It should be a 3-letter uppercase code.",
+        fieldErrors: { currency: "Invalid currency code. It should be a 3-letter uppercase code." },
+      });
+    }
+
+    // Validate amount (must be a positive number)
+    if (amount <= 0) {
+      return res.status(400).send({
+        fieldErrors: { amount: "Invalid amount. It must be a positive number." },
       });
     }
 
