@@ -10,7 +10,7 @@ export default function Login() {
     });
 
     const [errors, setErrors] = useState({}); // State to manage error messages
-    const { setAuth } = useContext(AuthContext); // Use the context
+    const { login } = useContext(AuthContext); // Use the login function from context
     const navigate = useNavigate();
 
     function updateForm(value) {
@@ -46,7 +46,8 @@ export default function Login() {
             const data = await response.json();
             console.log('Login successful:', data);
 
-            setAuth({ token: data.token, username: data.username });
+            // Set the authentication state with token, username, and account number
+            login(data.token, data.username, data.accountNumber);
             navigate('/');
         } catch (error) {
             // Parse error messages and set them in the errors state
