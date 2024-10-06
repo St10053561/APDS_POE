@@ -9,10 +9,12 @@ export default function Login() {
         password: ''
     });
 
+    const [errors, setErrors] = useState({}); // State to manage error messages
     const { setAuth } = useContext(AuthContext); // Use the context
     const navigate = useNavigate();
 
     function updateForm(value) {
+        setErrors({}); // Clear errors when updating form
         return setForm((prev) => {
             return { ...prev, ...value };
         });
@@ -33,11 +35,12 @@ export default function Login() {
             if (!response.ok) {
                 let errorData;
                 try {
-                    errorData = await response.json();
+                    const text = await response.text();
+                    errorData = text ? JSON.parse(text) : {};
                 } catch (jsonError) {
                     throw new Error(`HTTP error! status: ${response.status}, message: ${response.statusText}`);
                 }
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+                throw new Error(JSON.stringify(errorData.errors || [{ field: 'general', message: 'Login failed' }]));
             }
 
             const data = await response.json();
@@ -46,53 +49,58 @@ export default function Login() {
             setAuth({ token: data.token, username: data.username });
             navigate('/');
         } catch (error) {
+            // Parse error messages and set them in the errors state
+            const errorMessages = JSON.parse(error.message).reduce((acc, err) => {
+                acc[err.field] = err.message;
+                return acc;
+            }, {});
+            setErrors(errorMessages);
             console.error('Error during login:', error);
-            window.alert(`An error occurred: ${error.message}`);
         }
     }
 
     return (
         <div className="login-container">
-        <div className="login-card">
-            <h3>Welcome Back!</h3>
-            <form onSubmit={onSubmit}>
+            <div className="login-card">
+                <h3>Welcome Back!</h3>
+                <form onSubmit={onSubmit}>
+                    <div className="form-group">
+                        <label htmlFor='usernameOrAccountNumber'>Username or Account Number</label>
+                        <input
+                            type="text"
+                            className='form-control'
+                            id="usernameOrAccountNumber"
+                            value={form.usernameOrAccountNumber}
+                            onChange={(e) => updateForm({ usernameOrAccountNumber: e.target.value })}
+                            placeholder="Username/Account Number" 
+                            required
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor='password'>Password</label>
+                        <input
+                            type='password'
+                            className='form-control'
+                            id='password'
+                            value={form.password}
+                            onChange={(e) => updateForm({ password: e.target.value })}
+                            placeholder="Password" 
+                            required
+                        />
+                    </div>
+                    {errors.general && <div className="error-message">{errors.general}</div>}
+                    <div className='form-group'>
+                        <input
+                            type='submit'
+                            value='Login'
+                            className='btn btn-primary'
+                        />
+                    </div>
+                </form>
                 <div className="form-group">
-                    <label htmlFor='usernameOrAccountNumber'>Username or Account Number</label>
-                    <input
-                        type="text"
-                        className='form-control'
-                        id="usernameOrAccountNumber"
-                        value={form.usernameOrAccountNumber}
-                        onChange={(e) => updateForm({ usernameOrAccountNumber: e.target.value })}
-                        placeholder="Username/Account Number" 
-                        required
-                    />
+                    <a href="/forgot-password">Forgot Password?</a>
                 </div>
-                <div className='form-group'>
-                    <label htmlFor='password'>Password</label>
-                    <input
-                        type='password'
-                        className='form-control'
-                        id='password'
-                        value={form.password}
-                        onChange={(e) => updateForm({ password: e.target.value })}
-                        placeholder="Password" 
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <input
-                        type='submit'
-                        value='Login'
-                        className='btn btn-primary'
-                    />
-                </div>
-            </form>
-            <div className="form-group">
-                <a href="/forgot-password">Forgot Password?</a>
             </div>
         </div>
-    </div>
-    
     );
 }

@@ -37,6 +37,10 @@ const PaymentPortal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.amount <= 0) {
+      setErrorMessage("Amount must be a positive number.");
+      return;
+    }
     try {
       await axios.post(
         "https://localhost:3001/payment",
@@ -132,6 +136,8 @@ const PaymentPortal = () => {
               onChange={handleChange}
               placeholder={`Amount (${currencySymbols[formData.currency]})`}
               required
+              min="0.01" // Ensure the amount is positive
+              step="0.01" // Allow decimal values
             />
           </div>
           <div className="form-group">
