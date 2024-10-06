@@ -60,3 +60,10 @@
     transform: translateY(-2px); /* Slight lift effect on hover */
     transition: transform 0.2s; /* Smooth transition */
 }
+
+.error-message {
+    color: red; 
+    font-size: 0.875em;
+    margin-top: 0.25em;
+}
+
