@@ -21,7 +21,7 @@ const Home = () => {
     const randomBank = banks[Math.floor(Math.random() * banks.length)];
 
     const bankingDetails = {
-        accountNumber: "123456789",
+        accountNumber: auth.accountNumber || "123456789", // Use the account number from auth
         bankName: randomBank,
         balance: "R10,000"
     };
