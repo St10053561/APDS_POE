@@ -1,0 +1,48 @@
+version: 2.1
+
+jobs:
+  setup:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Backend Dependencies
+          command: |
+            cd BACKEND
+            npm install
+
+  backend-tests:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Clean node_modules
+          command: |
+            cd BACKEND
+            rm -rf node_modules
+      - run:
+          name: Install Backend Dependencies
+          command: |
+            cd BACKEND
+            npm install
+      - run:
+          name: Ensure Jest Binary Has Execute Permissions
+          command: |
+            cd BACKEND
+            if [ -f node_modules/.bin/jest ]; then chmod +x node_modules/.bin/jest; fi
+      - run:
+          name: Run Backend Tests
+          command: |
+            cd BACKEND
+            ./node_modules/.bin/jest --config jest.backend.config.cjs
+
+workflows:
+  version: 2
+  test-and-build:
+    jobs:
+      - setup
+      - backend-tests:
+          requires:
+            - setup

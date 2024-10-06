@@ -1,0 +1,52 @@
+{
+  "name": "backend1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.mjs",
+    "test": "jest --config jest.backend.config.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@babel/core": "^7.25.7",
+    "@babel/preset-env": "^7.25.7",
+    "@babel/preset-modules": "^0.1.6",
+    "@babel/preset-react": "^7.25.7",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "nodemon": "^3.1.4",
+    "performance-now": "^2.1.0",
+    "supertest": "^6.3.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.2",
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "brute": "^1.0.2",
+    "cor": "^0.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-brute": "^1.0.1",
+    "express-rate-limit": "^7.4.1",
+    "express-validator": "^7.2.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.4",
+    "multer": "^1.4.5-lts.1",
+    "open": "^10.1.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.mjs$": "babel-jest"
+    },
+    "moduleFileExtensions": ["js", "mjs"]
+  }
+}
