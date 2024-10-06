@@ -60,8 +60,6 @@ router.post("/register", [
   }
 });
 
-
-// Login
 // Login
 router.post("/login", bruteforce.prevent, async (req, res) => {
     try {

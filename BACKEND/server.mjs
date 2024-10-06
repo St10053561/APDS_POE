@@ -9,6 +9,8 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import csrf from "csurf";
 import cookieParser from "cookie-parser"; 
+import session from "express-session";
+
 
 const PORT = 3001;
 const app = express();
@@ -26,6 +28,18 @@ app.use(helmet.hsts({
 // Middleware to parse JSON and handle CORS
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'defaultSecret', // Use an environment variable or fallback
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: true, // Send cookies only over HTTPS
+        httpOnly: true, // Prevent JavaScript access to cookies
+        sameSite: 'strict' // Enforce CSRF protection
+    }
+}));
 
 // HTTPS options
 const options = {
