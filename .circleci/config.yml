@@ -47,10 +47,15 @@ jobs:
             cd "FRONT END/frontend"
             npm install
       - run:
+          name: Ensure Jest Binary Has Execute Permissions
+          command: |
+            cd "FRONT END/frontend"
+            if [ -f node_modules/.bin/jest ]; then chmod +x node_modules/.bin/jest; fi
+      - run:
           name: Run Frontend Tests
           command: |
             cd "FRONT END/frontend"
-            npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendLogin.test.js'
+            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendLogin.test.js'
 
 workflows:
   version: 2
