@@ -66,4 +66,5 @@ describe('Registration Endpoint', () => {
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('User created successfully');
   });
+  //Extra testing cases
 });
