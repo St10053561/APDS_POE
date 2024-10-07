@@ -62,12 +62,17 @@ export default function Register() {
             // Navigate to the login page
             navigate('/login');
         } catch (error) {
-            // Parse error messages and set them in the errors state
-            const errorMessages = JSON.parse(error.message).reduce((acc, err) => {
-                acc[err.field] = err.message;
-                return acc;
-            }, {});
-            setErrors(errorMessages);
+            let errorMessage;
+            try {
+                errorMessage = JSON.parse(error.message);
+            } catch (e) {
+                errorMessage = error.message;
+            }
+            if (Array.isArray(errorMessage)) {
+                setErrors({ email: errorMessage[0].message });
+            } else {
+                setErrors({ email: errorMessage });
+            }
             console.error('Error during registration:', error);
         }
     }
@@ -88,7 +93,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ firstName: e.target.value })}
                             required
                         />
-                        {errors.firstName && <div className="error-message">{errors.firstName}</div>}
+                        {errors.firstName && <div className="error-message">{errors.firstName.toString()}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="lastName">Last Name</label>
@@ -100,7 +105,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ lastName: e.target.value })}
                             required
                         />
-                        {errors.lastName && <div className="error-message">{errors.lastName}</div>}
+                        {errors.lastName && <div className="error-message">{errors.lastName.toString()}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
@@ -112,7 +117,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ email: e.target.value })}
                             required
                         />
-                        {errors.email && <div className="error-message">{errors.email}</div>}
+                        {errors.email && <div className="error-message">{errors.email.toString()}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
@@ -124,7 +129,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ username: e.target.value })}
                             required
                         />
-                        {errors.username && <div className="error-message">{errors.username}</div>}
+                        {errors.username && <div className="error-message">{errors.username.toString()}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
@@ -136,7 +141,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ password: e.target.value })}
                             required
                         />
-                        {errors.password && <div className="error-message">{errors.password}</div>}
+                        {errors.password && <div className="error-message">{errors.password.toString()}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="confirmPassword">Confirm Password</label>
@@ -148,7 +153,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ confirmPassword: e.target.value })}
                             required
                         />
-                        {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
+                        {errors.confirmPassword && <div className="error-message">{errors.confirmPassword.toString()}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="accountNumber">Account Number</label>
@@ -160,7 +165,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ accountNumber: e.target.value })}
                             required
                         />
-                        {errors.accountNumber && <div className="error-message">{errors.accountNumber}</div>}
+                        {errors.accountNumber && <div className="error-message">{errors.accountNumber.toString()}</div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="idNumber">ID Number</label>
@@ -172,7 +177,7 @@ export default function Register() {
                             onChange={(e) => updateForm({ idNumber: e.target.value })}
                             required
                         />
-                        {errors.idNumber && <div className="error-message">{errors.idNumber}</div>}
+                        {errors.idNumber && <div className="error-message">{errors.idNumber.toString()}</div>}
                     </div>
                     <div className='form-group'>
                         <input
