@@ -10,4 +10,5 @@ module.exports = {
     '\\.(css|less)$': 'identity-obj-proxy',
   },
   testEnvironment: 'jsdom',
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!(axios)/)'],
 };
