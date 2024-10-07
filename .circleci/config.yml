@@ -1,5 +1,3 @@
-version: 2.1
-
 jobs:
   setup:
     docker:
@@ -63,6 +61,11 @@ jobs:
           command: |
             cd "FRONT END/frontend"
             ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendRegister.test.js'
+      - run:
+          name: Run Frontend Payment Tests
+          command: |
+            cd "FRONT END/frontend"
+            npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendPayment.test.js'
 
 workflows:
   version: 2
