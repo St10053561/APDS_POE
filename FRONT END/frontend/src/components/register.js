@@ -69,9 +69,13 @@ export default function Register() {
                 errorMessage = error.message;
             }
             if (Array.isArray(errorMessage)) {
-                setErrors({ email: errorMessage[0].message });
+                const errorObj = {};
+                errorMessage.forEach(err => {
+                    errorObj[err.field] = err.message;
+                });
+                setErrors(errorObj);
             } else {
-                setErrors({ email: errorMessage });
+                setErrors({ general: errorMessage });
             }
             console.error('Error during registration:', error);
         }
