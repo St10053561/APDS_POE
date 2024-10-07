@@ -1,29 +1,21 @@
-/* General styling for body */
-body {
-    font-size: 1.1rem;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4; 
-}
-
 /* Container for the payment form */
 .payment-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-   
 }
 
 /* Styling for the payment card */
 .payment-card {
-    background-color: #eae8e0; /* Matching background color to login card */
-    border: 2px solid #333; 
-    padding: 40px; /* Increased padding to match login card */
+    background-color: #eae8e0;
+    border: 2px solid #333;
+    padding: 40px;
     border-radius: 8px;
     width: 100%;
-    max-width: 400px; /* Consistent width */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Matching box shadow */
-    text-align: center; /* Centered text */
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
     margin-top: 100px;
 }
 
@@ -31,52 +23,52 @@ body {
 .payment-card h3 {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 2rem; /* Increased font size for heading consistency */
+    font-size: 2rem;
     font-weight: bold;
 }
 
-/* Form group styling for the payment form */
+/* Form group styling */
 .payment-form .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px; /* Consistent margin */
+    margin-bottom: 20px;
 }
 
-/* Styling for labels */
-.payment-form label {
-    text-align: left;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 1rem; /* Increased font size to match the login form */
-}
-
-/* Input fields styling */
-.payment-form input {
-    width: 100%;
-    padding: 10px; /* Consistent padding */
-    font-size: 1.1rem; /* Increased font size */
-    border: none; /* Remove default borders */
-    border-bottom: 2px solid #ccc; /* Match the input style from login page */
-    outline: none; 
+/* Uniform width for all input fields and select */
+.payment-form input,
+.payment-form select {
+    width: 100%;  
+    max-width: 380px;  
+    padding: 10px;
+    font-size: 1.1rem;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    box-sizing: border-box; 
     transition: border-bottom-color 0.3s ease;
 }
 
-/* Focus state for input fields */
-.payment-form input:focus {
-    border-bottom-color: #007bff; /* Consistent with login form */
+/* Focus state for input fields and select */
+.payment-form input:focus,
+.payment-form select:focus {
+    border-bottom-color: #007bff;
 }
 
-/* Placeholder styling */
-.payment-form input::placeholder {
-    color: #888;
-    font-style: italic;
+/* Styling for the currency dropdown */
+.payment-form select {
+    appearance: none;
+    background-color: #f4f4f4;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: 50%;
 }
 
-/* Primary button styling */
+/* Button styling */
 .payment-form button {
     background-color: #007bff;
     border: none;
-    font-size: 1.1rem; /* Increased font size */
+    font-size: 1.1rem;
     padding: 10px;
     width: 100%;
     border-radius: 4px;
@@ -84,9 +76,8 @@ body {
     cursor: pointer;
 }
 
-/* Hover state for primary button */
 .payment-form button:hover {
-    background-color: #0056b3; /* Matching hover effect */
+    background-color: #0056b3;
 }
 
 /* Secondary button styling */
@@ -94,7 +85,6 @@ body {
     background-color: #6c757d;
 }
 
-/* Hover state for secondary button */
 .payment-form button[type="button"]:hover {
     background-color: #5a6268;
 }
@@ -107,15 +97,4 @@ body {
     padding: 10px;
     border-radius: 4px;
     text-align: center;
-}
-
-/* Link styling */
-a {
-    text-decoration: none;
-    color: #007bff;
-    font-size: 1rem;
-}
-
-a:hover {
-    color: #0056b3;
 }
