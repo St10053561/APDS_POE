@@ -50,7 +50,7 @@ jobs:
           name: Run Frontend Tests
           command: |
             cd "FRONT END/frontend"
-            npx jest tests/frontendLogin.test.js
+            npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendLogin.test.js'
 
 workflows:
   version: 2
