@@ -2,7 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import router from '../routes/Login&Reg.mjs';
 import performanceNow from 'performance-now';
-import { client } from '../db/conn.mjs'; // Import the MongoDB client
+import { client, db } from '../db/conn.mjs'; // Import the MongoDB client and db
 
 // Polyfill the performance API
 global.performance = {
@@ -46,11 +46,37 @@ describe('Registration Endpoint', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.errors).toBeDefined();
-    expect(response.body.errors).toHaveLength(6); // Adjusted to 8 validation errors
+    expect(response.body.errors).toHaveLength(6); 
   });
 
   it('should create a new user with valid input', async () => {
+    const username = `johndoe${Math.random().toString(36).substr(2, 9)}`;
+    const email = `vjannatha${Math.random().toString(36).substr(2, 9)}@gmail.com`;
     const response = await request(app)
+      .post('/register')
+      .send({
+        firstName: 'vicky',
+        lastName: 'jannatha',
+        email,
+        username,
+        password: 'Abc@1234',
+        confirmPassword: 'Abc@1234',
+        accountNumber: '1234567890',
+        idNumber: '1234567890123'
+      });
+
+    expect(response.status).toBe(201);
+    expect(response.body.message).toBe('User created successfully');
+
+    // Check if the user was created in the database
+    const collection = await db.collection("CustomerReg&Login");
+    const user = await collection.findOne({ username });
+    expect(user).toBeDefined();
+  });
+
+  it('should return an error for duplicate username', async () => {
+    // First registration
+    await request(app)
       .post('/register')
       .send({
         firstName: 'John',
@@ -63,8 +89,56 @@ describe('Registration Endpoint', () => {
         idNumber: '1234567890123'
       });
 
-    expect(response.status).toBe(201);
-    expect(response.body.message).toBe('User created successfully');
+    // Attempt to register with the same username
+    const response = await request(app)
+      .post('/register')
+      .send({
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'jane.doe@example.com',
+        username: 'johndoe', // Duplicate username
+        password: 'Abc@1234',
+        confirmPassword: 'Abc@1234',
+        accountNumber: '0987654321',
+        idNumber: '3210987654321'
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors).toBeDefined();
+    expect(response.body.errors).toContainEqual({ field: 'username', message: 'Username already exists' });
   });
-  //Extra testing cases
+
+  it('should return an error for duplicate email', async () => {
+    // First registration
+    await request(app)
+      .post('/register')
+      .send({
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+        username: 'johndoe',
+        password: 'Abc@1234',
+        confirmPassword: 'Abc@1234',
+        accountNumber: '1234567890',
+        idNumber: '1234567890123'
+      });
+
+    // Attempt to register with the same email
+    const response = await request(app)
+      .post('/register')
+      .send({
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'john.doe@example.com', // Duplicate email
+        username: 'janedoe',
+        password: 'Abc@1234',
+        confirmPassword: 'Abc@1234',
+        accountNumber: '0987654321',
+        idNumber: '3210987654321'
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors).toBeDefined();
+    expect(response.body.errors).toContainEqual({ field: 'email', message: 'Email already exists' });
+  });
 });
