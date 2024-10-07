@@ -1,5 +1,3 @@
-version: 2.1
-
 jobs:
   setup:
     docker:
@@ -38,11 +36,30 @@ jobs:
             cd BACKEND
             ./node_modules/.bin/jest --config jest.backend.config.cjs
 
+  frontend-tests:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Frontend Dependencies
+          command: |
+            cd "FRONT END/frontend"
+            npm install
+      - run:
+          name: Run Frontend Tests
+          command: |
+            cd "FRONT END/frontend"
+            npm run test -- --watchAll=false
+
 workflows:
   version: 2
   test-and-build:
     jobs:
       - setup
       - backend-tests:
+          requires:
+            - setup
+      - frontend-tests:
           requires:
             - setup
