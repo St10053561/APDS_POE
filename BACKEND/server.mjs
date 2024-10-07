@@ -11,8 +11,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { body, validationResult } from 'express-validator';
-import uid2 from 'uid2';
+import { createStream } from 'rotating-file-stream';  
 
 const PORT = 3001;
 const app = express();
@@ -25,7 +24,12 @@ const options = {
 
 // Applying Helmet to secure HTTP headers
 app.use(helmet());
-
+// Preventing clickjacking
+app.use(helmet.frameguard({ action: 'deny' })); 
+// Adding XSS protection header
+app.use(helmet.xssFilter()); 
+// Preventing MIME-type sniffing
+app.use(helmet.noSniff()); 
 // Implementing HSTS to enforce HTTPS
 app.use(helmet.hsts({
     maxAge: 31536000, // One year in seconds
@@ -33,8 +37,14 @@ app.use(helmet.hsts({
     preload: true
 }));
 
-// Logging requests using Morgan (excluding sensitive data)
-app.use(morgan('combined'));
+// Set up rotating log files
+const accessLogStream = createStream('access.log', {
+    interval: '1d', // Rotate daily
+    path: './log'
+});
+
+// Logging requests using Morgan with rotating log files
+app.use(morgan('combined', { stream: accessLogStream }));
 
 // Middleware to parse JSON, handle CORS, and cookie parsing
 app.use(express.json());
@@ -46,22 +56,32 @@ app.use(cookieParser());
 
 // Secure Session Management
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'defaultSecret', // Using env variable for session secret
+    secret: process.env.SESSION_SECRET || 'defaultSecret', 
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false, 
     cookie: {
-        secure: true, // Sending cookies over HTTPS
-        httpOnly: true, // Preventing JavaScript access to cookies
-        sameSite: 'strict',
+        secure: true, 
+        httpOnly: true, 
+        sameSite: 'strict', 
     }
 }));
 
-// Implementing rate limiting globally (can also be applied per route as shown below)
+// Implementing rate limiting globally 
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // Providing a 15 minutes window
-    max: 100, // Limiting each IP to 100 requests per window
+    windowMs: 15 * 60 * 1000, 
+    max: 100, 
     message: "Too many requests from this IP, please try again after 15 minutes."
 });
+// Implementing rate limiting for login attempts
+const loginLimiter = rateLimit({
+    // 15 minutes
+    windowMs: 3 * 60 * 1000, 
+    // Limit to 10 login attempts per window
+    max: 10, 
+    message: "Too many login attempts, please try again after 15 minutes."
+});
+app.use("/login", loginLimiter);
+
 app.use(limiter);
 
 // Custom middleware to apply rate limiting on specific routes like login & registration
@@ -75,9 +95,10 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
 });
-
+// Hiding the X-Powered-By header to prevent attackers from knowing the server technology.
+app.disable('x-powered-by');
 // MongoDB NoSQL injection prevention
-mongoose.set('sanitizeFilter', true);
+mongoose.set('sanitizeFilter', true); 
 
 // Routes
 app.use("/user", loginRegRoutes); // Login and Registration Routes
