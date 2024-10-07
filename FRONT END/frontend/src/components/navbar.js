@@ -49,7 +49,7 @@ export default function Navbar() {
         )}
         {auth.username && (
           <li className='nav-item'>
-            <NavLink className='nav-item' onClick={handleLogout}>
+            <NavLink className='nav-item' onClick={handleLogout} style={{ color: 'red' }}>
               Logout
             </NavLink>
           </li>
