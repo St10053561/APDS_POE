@@ -1,5 +1,4 @@
-jobs:
-  setup:
+setup:
     docker:
       - image: circleci/node:latest
     steps:
@@ -10,7 +9,7 @@ jobs:
             cd BACKEND
             npm install
 
-  backend-tests:
+backend-tests:
     docker:
       - image: circleci/node:latest
     steps:
@@ -36,7 +35,7 @@ jobs:
             cd BACKEND
             ./node_modules/.bin/jest --config jest.backend.config.cjs
 
-  frontend-tests:
+frontend-tests:
     docker:
       - image: circleci/node:latest
     steps:
@@ -52,10 +51,15 @@ jobs:
             cd "FRONT END/frontend"
             if [ -f node_modules/.bin/jest ]; then chmod +x node_modules/.bin/jest; fi
       - run:
-          name: Run Frontend Tests
+          name: Run Frontend Login Tests
           command: |
             cd "FRONT END/frontend"
             ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendLogin.test.js'
+      - run:
+          name: Run Frontend Register Tests
+          command: |
+            cd "FRONT END/frontend"
+            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendRegister.test.js'
 
 workflows:
   version: 2
