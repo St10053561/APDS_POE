@@ -1,4 +1,7 @@
-setup:
+version: 2.1
+
+jobs:
+  setup:
     docker:
       - image: circleci/node:latest
     steps:
@@ -9,7 +12,7 @@ setup:
             cd BACKEND
             npm install
 
-backend-tests:
+  backend-tests:
     docker:
       - image: circleci/node:latest
     steps:
@@ -35,7 +38,7 @@ backend-tests:
             cd BACKEND
             ./node_modules/.bin/jest --config jest.backend.config.cjs
 
-frontend-tests:
+  frontend-tests:
     docker:
       - image: circleci/node:latest
     steps:
