@@ -1,5 +1,3 @@
-version: 2.1
-
 jobs:
   setup:
     docker:
@@ -38,11 +36,45 @@ jobs:
             cd BACKEND
             ./node_modules/.bin/jest --config jest.backend.config.cjs
 
+  frontend-tests:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Frontend Dependencies
+          command: |
+            cd "FRONT END/frontend"
+            npm install
+      - run:
+          name: Ensure Jest Binary Has Execute Permissions
+          command: |
+            cd "FRONT END/frontend"
+            if [ -f node_modules/.bin/jest ]; then chmod +x node_modules/.bin/jest; fi
+      - run:
+          name: Run Frontend Login Tests
+          command: |
+            cd "FRONT END/frontend"
+            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendLogin.test.js'
+      - run:
+          name: Run Frontend Register Tests
+          command: |
+            cd "FRONT END/frontend"
+            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendRegister.test.js'
+      - run:
+          name: Run Frontend Payment Tests
+          command: |
+            cd "FRONT END/frontend"
+            npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendPayment.test.js'
+
 workflows:
   version: 2
   test-and-build:
     jobs:
       - setup
       - backend-tests:
+          requires:
+            - setup
+      - frontend-tests:
           requires:
             - setup
