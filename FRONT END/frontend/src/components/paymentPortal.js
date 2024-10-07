@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../AuthContext.js";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./PaymentPortal.css";
 
@@ -9,11 +10,11 @@ const currencySymbols = {
   GBP: "£",
   INR: "₹",
   JPY: "¥",
-  
 };
 
 const PaymentPortal = () => {
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     recipientName: "",
     recipientBank: "",
@@ -27,6 +28,12 @@ const PaymentPortal = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // State for general error message
   const [fieldErrors, setFieldErrors] = useState({}); // State for field-specific errors
+
+  useEffect(() => {
+    if (!auth.token) {
+      navigate("/");
+    }
+  }, [auth.token, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

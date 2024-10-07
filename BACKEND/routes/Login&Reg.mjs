@@ -129,7 +129,7 @@ router.post("/login", bruteforce.prevent, async (req, res) => {
     }
     else {
       // Authentication successful
-      const token = jwt.sign({ username: user.username, accountNumber: user.accountNumber }, secretKey, { expiresIn: "20m" });
+      const token = jwt.sign({ username: user.username, accountNumber: user.accountNumber }, secretKey, { expiresIn: "30m" });
       res.status(200).json({ message: "Authentication successful", token, username: user.username, accountNumber: user.accountNumber });
     }
   } catch (error) {
