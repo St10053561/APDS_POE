@@ -20,5 +20,6 @@ This payment portal project focuses on secure, efficient, and user-friendly paym
 
 ### 🎥 Video Submission:
 The project demonstration video is submitted in the folder:  
-**`APDS POE Part 2 video`** 📂
+**`APDS POE Part 2 youtube video`** 📂
+https://youtu.be/4qCIh8BJiIk
 
