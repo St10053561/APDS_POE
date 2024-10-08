@@ -1,4 +1,5 @@
-setup:
+jobs:
+  setup:
     docker:
       - image: circleci/node:latest
     steps:
@@ -9,10 +10,9 @@ setup:
             cd BACKEND
             npm install
 
-backend-tests:
+  backend-tests:
     docker:
       - image: circleci/node:latest
-        resource_class: large
     steps:
       - checkout
       - run:
@@ -34,12 +34,11 @@ backend-tests:
           name: Run Backend Tests
           command: |
             cd BACKEND
-            ./node_modules/.bin/jest --config jest.backend.config.cjs --detectOpenHandles
+            ./node_modules/.bin/jest --config jest.backend.config.cjs
 
-frontend-tests:
+  frontend-tests:
     docker:
       - image: circleci/node:latest
-        resource_class: large
     steps:
       - checkout
       - run:
@@ -56,17 +55,17 @@ frontend-tests:
           name: Run Frontend Login Tests
           command: |
             cd "FRONT END/frontend"
-            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendLogin.test.js' --detectOpenHandles
+            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendLogin.test.js'
       - run:
           name: Run Frontend Register Tests
           command: |
             cd "FRONT END/frontend"
-            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendRegister.test.js' --detectOpenHandles
+            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendRegister.test.js'
       - run:
           name: Run Frontend Payment Tests
           command: |
             cd "FRONT END/frontend"
-            npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendPayment.test.js' --detectOpenHandles
+            npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendPayment.test.js'
 
 workflows:
   version: 2
