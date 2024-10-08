@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
 
-
 export default function ForgotPassword() {
     const [form, setForm] = useState({
-        username: '',
+        usernameOrAccountNumber: '',
         newPassword: '',
         confirmPassword: ''
     });
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
     function updateForm(value) {
+        setErrors({}); // Clear errors when updating form
         return setForm((prev) => {
             return { ...prev, ...value };
         });
@@ -22,7 +22,7 @@ export default function ForgotPassword() {
         e.preventDefault();
 
         if (form.newPassword !== form.confirmPassword) {
-            setError('Passwords do not match');
+            setErrors({ confirmPassword: 'Passwords do not match' });
             return;
         }
 
@@ -42,14 +42,19 @@ export default function ForgotPassword() {
                 } catch (jsonError) {
                     throw new Error(`HTTP error! status: ${response.status}, message: ${response.statusText}`);
                 }
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+                const fieldErrors = {};
+                errorData.errors.forEach(error => {
+                    fieldErrors[error.field] = error.message;
+                });
+                setErrors(fieldErrors);
+                return;
             }
 
             window.alert('Password has been reset successfully');
             navigate('/login');
         } catch (error) {
             console.error('Error during password reset:', error);
-            setError(`An error occurred: ${error.message}`);
+            setErrors({ general: error.message });
         }
     }
 
@@ -62,15 +67,16 @@ export default function ForgotPassword() {
                             <h3 className="card-title text-center mb-4">Forgot Password</h3>
                             <form onSubmit={onSubmit}>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="username">Username</label>
+                                    <label htmlFor="usernameOrAccountNumber">Username or Account Number</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="username"
-                                        value={form.username}
-                                        onChange={(e) => updateForm({ username: e.target.value })}
+                                        id="usernameOrAccountNumber"
+                                        value={form.usernameOrAccountNumber}
+                                        onChange={(e) => updateForm({ usernameOrAccountNumber: e.target.value })}
                                         required
                                     />
+                                    {errors.usernameOrAccountNumber && <div className="error-message">{errors.usernameOrAccountNumber}</div>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="newPassword">New Password</label>
@@ -82,6 +88,7 @@ export default function ForgotPassword() {
                                         onChange={(e) => updateForm({ newPassword: e.target.value })}
                                         required
                                     />
+                                    {errors.newPassword && <div className="error-message">{errors.newPassword}</div>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="confirmPassword">Confirm Password</label>
@@ -93,7 +100,7 @@ export default function ForgotPassword() {
                                         onChange={(e) => updateForm({ confirmPassword: e.target.value })}
                                         required
                                     />
-                                    {error && <small className="text-danger">{error}</small>}
+                                    {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
                                 </div>
                                 <div className="form-group text-center">
                                     <input
@@ -102,6 +109,7 @@ export default function ForgotPassword() {
                                         className="btn btn-primary"
                                     />
                                 </div>
+                                {errors.general && <div className="error-message text-center">{errors.general}</div>}
                             </form>
                         </div>
                     </div>

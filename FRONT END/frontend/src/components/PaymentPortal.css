@@ -1,121 +1,110 @@
-/* General styling for body */
-body {
-    font-size: 1.1rem;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4; 
-}
-
 /* Container for the payment form */
 .payment-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-   
+    align-items: flex-start; 
+    min-height: 100vh;
+    padding: 150px;
+    box-sizing: border-box;
+    overflow-y: auto; 
 }
 
-/* Styling for the payment card */
+/* Make the payment card responsive */
 .payment-card {
-    background-color: #eae8e0; /* Matching background color to login card */
-    border: 2px solid #333; 
-    padding: 40px; /* Increased padding to match login card */
+    background-color: #f9f9f9;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     width: 100%;
-    max-width: 400px; /* Consistent width */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Matching box shadow */
-    text-align: center; /* Centered text */
-    margin-top: 100px;
+    max-width: 600px; 
+    overflow-y: auto; 
 }
 
-/* Payment card title */
-.payment-card h3 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 2rem; /* Increased font size for heading consistency */
-    font-weight: bold;
-}
-
-/* Form group styling for the payment form */
 .payment-form .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px; /* Consistent margin */
+    margin-bottom: 15px;
 }
 
-/* Styling for labels */
-.payment-form label {
-    text-align: left;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 1rem; /* Increased font size to match the login form */
-}
-
-/* Input fields styling */
-.payment-form input {
+.payment-form input,
+.payment-form select {
     width: 100%;
-    padding: 10px; /* Consistent padding */
-    font-size: 1.1rem; /* Increased font size */
-    border: none; /* Remove default borders */
-    border-bottom: 2px solid #ccc; /* Match the input style from login page */
-    outline: none; 
-    transition: border-bottom-color 0.3s ease;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-/* Focus state for input fields */
-.payment-form input:focus {
-    border-bottom-color: #007bff; /* Consistent with login form */
-}
-
-/* Placeholder styling */
-.payment-form input::placeholder {
-    color: #888;
-    font-style: italic;
-}
-
-/* Primary button styling */
 .payment-form button {
-    background-color: #007bff;
-    border: none;
-    font-size: 1.1rem; /* Increased font size */
-    padding: 10px;
     width: 100%;
-    border-radius: 4px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-/* Hover state for primary button */
-.payment-form button:hover {
-    background-color: #0056b3; /* Matching hover effect */
-}
-
-/* Secondary button styling */
-.payment-form button[type="button"] {
-    background-color: #6c757d;
-}
-
-/* Hover state for secondary button */
-.payment-form button[type="button"]:hover {
-    background-color: #5a6268;
-}
-
-/* Success alert styling */
-.alert-success {
-    margin-top: 20px;
-    color: #155724;
-    background-color: #d4edda;
     padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
     border-radius: 4px;
-    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-/* Link styling */
-a {
-    text-decoration: none;
-    color: #007bff;
-    font-size: 1rem;
+.payment-form button:hover {
+    background-color: #0056b3;
 }
 
-a:hover {
-    color: #0056b3;
+/* Red Cancel button */
+.payment-form button[type="button"] {
+    background-color: #f44336; 
+}
+
+.payment-form button[type="button"]:hover {
+    background-color: #d32f2f; 
+}
+
+/* Success and error message styling */
+.alert {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+/* Make the form responsive for smaller screens */
+@media (max-width: 768px) {
+    .payment-card {
+        padding: 15px;
+        max-width: 100%; 
+    }
+
+    .payment-form button {
+        padding: 8px;
+    }
+
+    .form-group label {
+        font-size: 14px; 
+    }
+
+    .payment-form input, .payment-form select {
+        padding: 8px; 
+    }
+}
+
+@media (max-width: 576px) {
+    .payment-card {
+        padding: 10px;
+    }
+
+    .payment-form button {
+        font-size: 14px; 
+    }
+
+    .payment-form input, .payment-form select {
+        padding: 6px;
+    }
 }

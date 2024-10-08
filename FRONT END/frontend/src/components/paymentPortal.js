@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../AuthContext.js";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./PaymentPortal.css";
 
@@ -9,11 +10,11 @@ const currencySymbols = {
   GBP: "£",
   INR: "₹",
   JPY: "¥",
-  
 };
 
 const PaymentPortal = () => {
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     recipientName: "",
     recipientBank: "",
@@ -27,6 +28,12 @@ const PaymentPortal = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // State for general error message
   const [fieldErrors, setFieldErrors] = useState({}); // State for field-specific errors
+
+  useEffect(() => {
+    if (!auth.token) {
+      navigate("/");
+    }
+  }, [auth.token, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -86,9 +93,10 @@ const PaymentPortal = () => {
         <h3>Payment Portal</h3>
         <form onSubmit={handleSubmit} className="payment-form">
           <div className="form-group">
-            <label>Recipient's Name:</label>
+            <label htmlFor="recipientName">Recipient's Name:</label>
             <input
               type="text"
+              id="recipientName"
               name="recipientName"
               value={formData.recipientName}
               onChange={handleChange}
@@ -98,9 +106,10 @@ const PaymentPortal = () => {
             {fieldErrors.recipientName && <div className="error-message">{fieldErrors.recipientName}</div>}
           </div>
           <div className="form-group">
-            <label>Recipient's Bank:</label>
+            <label htmlFor="recipientBank">Recipient's Bank:</label>
             <input
               type="text"
+              id="recipientBank"
               name="recipientBank"
               value={formData.recipientBank}
               onChange={handleChange}
@@ -110,9 +119,10 @@ const PaymentPortal = () => {
             {fieldErrors.recipientBank && <div className="error-message">{fieldErrors.recipientBank}</div>}
           </div>
           <div className="form-group">
-            <label>Recipient's Account No:</label>
+            <label htmlFor="recipientAccountNo">Recipient's Account No:</label>
             <input
               type="text"
+              id="recipientAccountNo"
               name="recipientAccountNo"
               value={formData.recipientAccountNo}
               onChange={handleChange}
@@ -122,8 +132,9 @@ const PaymentPortal = () => {
             {fieldErrors.recipientAccountNo && <div className="error-message">{fieldErrors.recipientAccountNo}</div>}
           </div>
           <div className="form-group">
-            <label>Currency:</label>
+            <label htmlFor="currency">Currency:</label>
             <select
+              id="currency"
               name="currency"
               value={formData.currency}
               onChange={handleCurrencyChange}
@@ -139,9 +150,10 @@ const PaymentPortal = () => {
             {fieldErrors.currency && <div className="error-message">{fieldErrors.currency}</div>}
           </div>
           <div className="form-group">
-            <label>Amount to Transfer:</label>
+            <label htmlFor="amount">Amount to Transfer:</label>
             <input
               type="number"
+              id="amount"
               name="amount"
               value={formData.amount}
               onChange={handleChange}
@@ -153,9 +165,10 @@ const PaymentPortal = () => {
             {fieldErrors.amount && <div className="error-message">{fieldErrors.amount}</div>}
           </div>
           <div className="form-group">
-            <label>SWIFT Code:</label>
+            <label htmlFor="swiftCode">SWIFT Code:</label>
             <input
               type="text"
+              id="swiftCode"
               name="swiftCode"
               value={formData.swiftCode}
               onChange={handleChange}
