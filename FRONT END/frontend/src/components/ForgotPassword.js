@@ -4,7 +4,7 @@ import './ForgotPassword.css';
 
 export default function ForgotPassword() {
     const [form, setForm] = useState({
-        usernameOrAccountNumber: '',
+        identifier: '',
         newPassword: '',
         confirmPassword: ''
     });
@@ -32,7 +32,11 @@ export default function ForgotPassword() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(form)
+                body: JSON.stringify({
+                    identifier: form.identifier,
+                    newPassword: form.newPassword,
+                    confirmPassword: form.confirmPassword
+                })
             });
 
             if (!response.ok) {
@@ -43,9 +47,13 @@ export default function ForgotPassword() {
                     throw new Error(`HTTP error! status: ${response.status}, message: ${response.statusText}`);
                 }
                 const fieldErrors = {};
-                errorData.errors.forEach(error => {
-                    fieldErrors[error.field] = error.message;
-                });
+                if (Array.isArray(errorData.errors)) {
+                    errorData.errors.forEach(error => {
+                        fieldErrors[error.field] = error.message;
+                    });
+                } else {
+                    fieldErrors.general = 'Password reset failed';
+                }
                 setErrors(fieldErrors);
                 return;
             }
@@ -67,16 +75,16 @@ export default function ForgotPassword() {
                             <h3 className="card-title text-center mb-4">Forgot Password</h3>
                             <form onSubmit={onSubmit}>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="usernameOrAccountNumber">Username or Account Number</label>
+                                    <label htmlFor="identifier">Username or Account Number</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="usernameOrAccountNumber"
-                                        value={form.usernameOrAccountNumber}
-                                        onChange={(e) => updateForm({ usernameOrAccountNumber: e.target.value })}
+                                        id="identifier"
+                                        value={form.identifier}
+                                        onChange={(e) => updateForm({ identifier: e.target.value })}
                                         required
                                     />
-                                    {errors.usernameOrAccountNumber && <div className="error-message">{errors.usernameOrAccountNumber}</div>}
+                                    {errors.identifier && <div className="error-message">{errors.identifier}</div>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="newPassword">New Password</label>
