@@ -11,6 +11,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import { body, validationResult } from 'express-validator';
+import uid2 from 'uid2';
 import { createStream } from 'rotating-file-stream';  
 
 const PORT = 3001;
@@ -30,11 +32,22 @@ app.use(helmet.frameguard({ action: 'deny' }));
 app.use(helmet.xssFilter()); 
 // Preventing MIME-type sniffing
 app.use(helmet.noSniff()); 
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+app.use(helmet.ieNoOpen());
 // Implementing HSTS to enforce HTTPS
 app.use(helmet.hsts({
     maxAge: 31536000, // One year in seconds
     includeSubDomains: true,
     preload: true
+}));
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "trusted-cdn.com"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+    },
 }));
 
 // Set up rotating log files
@@ -44,7 +57,11 @@ const accessLogStream = createStream('access.log', {
 });
 
 // Logging requests using Morgan with rotating log files
-app.use(morgan('combined', { stream: accessLogStream }));
+app.use(morgan('combined', {
+    stream: accessLogStream,
+    // Logging only errors
+    skip: (req, res) => res.statusCode < 400 
+}));
 
 // Middleware to parse JSON, handle CORS, and cookie parsing
 app.use(express.json());
