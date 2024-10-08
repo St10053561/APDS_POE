@@ -1,18 +1,23 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
-import './Login.css'; // login styling
+import './Login.css'; // Import login styling
 
 export default function Login() {
+    // State to manage form inputs
     const [form, setForm] = useState({
         usernameOrAccountNumber: '',
         password: ''
     });
 
-    const [errors, setErrors] = useState({}); // State to manage error messages
-    const { login } = useContext(AuthContext); // Use the login function from context
+    // State to manage error messages
+    const [errors, setErrors] = useState({});
+    // Use the login function from AuthContext
+    const { login } = useContext(AuthContext);
+    // Hook to navigate programmatically
     const navigate = useNavigate();
 
+    // Function to update form state and clear errors
     function updateForm(value) {
         setErrors({}); // Clear errors when updating form
         return setForm((prev) => {
@@ -20,18 +25,21 @@ export default function Login() {
         });
     }
 
+    // Function to handle form submission
     async function onSubmit(e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevent default form submission
 
         try {
+            // Make a POST request to the login endpoint
             const response = await fetch('https://localhost:3001/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(form)
+                body: JSON.stringify(form) // Send form data as JSON
             });
 
+            // Handle non-OK responses
             if (!response.ok) {
                 let errorData;
                 try {
@@ -43,11 +51,13 @@ export default function Login() {
                 throw new Error(JSON.stringify(errorData.errors || [{ field: 'general', message: 'Login failed' }]));
             }
 
+            // Parse the response data
             const data = await response.json();
             console.log('Login successful:', data);
 
             // Set the authentication state with token, username, and account number
             login(data.token, data.username, data.accountNumber);
+            // Navigate to the home page
             navigate('/');
         } catch (error) {
             // Parse error messages and set them in the errors state

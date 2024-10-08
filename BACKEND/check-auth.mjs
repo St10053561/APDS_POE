@@ -3,24 +3,30 @@ import jwt from 'jsonwebtoken';
 
 const checkAuth = (req, res, next) => {
     try {
+        // Get the Authorization header from the request
         const authHeader = req.headers.authorization;
         if (!authHeader) {
             console.error('Authentication failed: No authorization header provided');
             return res.status(401).json({ message: "Authentication failed: No authorization header provided" });
         }
 
-        const token = authHeader.split(" ")[1]; // Extract the token from the Authorization header
+        // Extract the token from the Authorization header
+        const token = authHeader.split(" ")[1];
         if (!token) {
             console.error('Authentication failed: No token provided');
             return res.status(401).json({ message: "Authentication failed: No token provided" });
         }
 
-        const decoded = jwt.verify(token, "this_secret_should_be_Longer_than_it_is"); // Verify the token
-        req.userData = decoded; // Attach the decoded token data to the request object
-        next(); // Call the next middleware or route handler
+        // Verify the token using the secret key
+        const decoded = jwt.verify(token, "this_secret_should_be_Longer_than_it_is");
+        // Attach the decoded token data to the request object
+        req.userData = decoded;
+        // Call the next middleware or route handler
+        next();
     } catch (error) {
-        console.error('Authentication failed:', error); // Log error
-        return res.status(401).json({ message: "Authentication failed" }); // Send a 401 Unauthorized response if token verification fails
+        // Log error and send a 401 Unauthorized response if token verification fails
+        console.error('Authentication failed:', error);
+        return res.status(401).json({ message: "Authentication failed" });
     }
 };
 

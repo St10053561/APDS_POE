@@ -151,31 +151,41 @@ router.post("/login", bruteforce.prevent, async (req, res) => {
 // Forgot Password
 router.post("/forgot-password", async (req, res) => {
   try {
-    const { username, newPassword, confirmPassword } = req.body;
+    const { identifier, newPassword, confirmPassword } = req.body;
 
     // Check if all required fields are provided
-    if (!username || !newPassword || !confirmPassword) {
+    if (!identifier || !newPassword || !confirmPassword) {
+      console.log("Missing fields:", { identifier, newPassword, confirmPassword });
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Validate username and password
-    if (!usernamePattern.test(username)) {
-      return res.status(400).json({ message: "Invalid username format" });
+    // Validate identifier (username or account number) and password
+    if (!usernamePattern.test(identifier) && !accountNumberPattern.test(identifier)) {
+      console.log("Invalid identifier format:", identifier);
+      return res.status(400).json({ message: "Invalid username or account number format" });
     }
     if (!passwordPattern.test(newPassword)) {
+      console.log("Invalid password format:", newPassword);
       return res.status(400).json({ message: "Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character" });
     }
 
     // Check if newPassword and confirmPassword match
     if (newPassword !== confirmPassword) {
+      console.log("Passwords do not match:", { newPassword, confirmPassword });
       return res.status(400).json({ message: "Passwords do not match" });
     }
 
-    // Find the user in the CustomerReg&Login collection
+    // Find the user in the CustomerReg&Login collection using either username or accountNumber
     const collection = await db.collection("CustomerReg&Login");
-    const user = await collection.findOne({ username });
+    const user = await collection.findOne({
+      $or: [
+        { username: identifier },
+        { accountNumber: identifier }
+      ]
+    });
 
     if (!user) {
+      console.log("User not found:", identifier);
       return res.status(404).json({ message: "User not found" });
     }
 
@@ -184,7 +194,12 @@ router.post("/forgot-password", async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
     // Update the user's password in the database
-    await collection.updateOne({ username }, { $set: { password: hashedPassword } });
+    const updateResult = await collection.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });
+
+    if (updateResult.modifiedCount === 0) {
+      console.log("Password update failed for user:", identifier);
+      return res.status(500).json({ message: "Password update failed" });
+    }
 
     res.status(200).json({ message: "Password has been reset successfully" });
   } catch (error) {
@@ -192,5 +207,4 @@ router.post("/forgot-password", async (req, res) => {
     res.status(500).json({ message: "Forgot Password Failed" });
   }
 });
-
 export default router;
