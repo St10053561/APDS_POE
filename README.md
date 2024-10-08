@@ -1,7 +1,3 @@
-Here's the enhanced README with suitable emojis to make it visually engaging:
-
----
-
 # 💳 APDS POE - Payment Portal
 
 Welcome to the **APDS POE** repository!  
