@@ -78,4 +78,3 @@ workflows:
       - frontend-tests:
           requires:
             - setup
-            
