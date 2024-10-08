@@ -1,0 +1,74 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    height: 100vh; /* Full viewport height to center vertically */
+    text-align: center; /* Center text */
+}
+
+h1 {
+    font-size: 80px;  /* Make the text big */
+    color: white;     /* Change the text color to white */
+    margin-top: 20px; /* Adjust the top margin */
+    margin-bottom: 10px; /* Space below the h1 */
+    
+    /* Animation */
+    opacity: 0;  /* Start invisible */
+    transform: translateY(20px);  /* Start from slightly lower position */
+    animation: fadeInUp 2s ease-out forwards;  /* Run the animation */
+}
+
+p {
+    font-size: 25px; /* Make the paragraph text larger */
+    color: white; /* Set paragraph text color to white */
+    margin-top: 0; /* Remove top margin */
+    margin-bottom: 20px; /* Add bottom margin */
+ 
+    /* Animation */
+    opacity: 0;  /* Start invisible */
+    transform: translateY(10px);  /* Start from a slightly lower position */
+    animation: fadeInUp 2s ease-out forwards;  /* Delay the animation for a smoother effect */
+}
+
+/* Keyframes for the animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);  /* Starting point */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);  /* End at the original position */
+    }
+}
+
+/* Specific styling for the last word "TransactIO" */
+.highlight {
+    color: rgb(100, 100, 100);  /* Set the color of "TransactIO" to black */
+}
+
+.dashboard {
+    background-color: #eae8e0; /* Set background color */
+    padding: 20px;            /* Add padding for better spacing */
+    border-radius: 8px;      /* Optional: round the corners */
+    display: flex;            /* Use flexbox for alignment */
+    flex-direction: column;   /* Stack items vertically */
+    justify-content: space-between; /* Space items out evenly */
+    height: 400px;  
+    width: 400px;   
+}       
+
+.dashboard button {
+    background-color: #007bff;
+    border: none;
+    font-size: 1.1rem;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 30px; 
+}
+
+.dashboard button:hover {
+    background-color: #0056b3;
+}
+
