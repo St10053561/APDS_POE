@@ -9,6 +9,7 @@ jobs:
           command: |
             cd BACKEND
             npm install
+            
 
   backend-tests:
     docker:

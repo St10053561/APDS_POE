@@ -156,23 +156,23 @@ router.post("/forgot-password", async (req, res) => {
     // Check if all required fields are provided
     if (!identifier || !newPassword || !confirmPassword) {
       console.log("Missing fields:", { identifier, newPassword, confirmPassword });
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ errors: [{ field: 'general', message: "All fields are required" }] });
     }
 
     // Validate identifier (username or account number) and password
     if (!usernamePattern.test(identifier) && !accountNumberPattern.test(identifier)) {
       console.log("Invalid identifier format:", identifier);
-      return res.status(400).json({ message: "Invalid username or account number format" });
+      return res.status(400).json({ errors: [{ field: 'identifier', message: "Invalid username or account number format" }] });
     }
     if (!passwordPattern.test(newPassword)) {
       console.log("Invalid password format:", newPassword);
-      return res.status(400).json({ message: "Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character" });
+      return res.status(400).json({ errors: [{ field: 'newPassword', message: "Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character" }] });
     }
 
     // Check if newPassword and confirmPassword match
     if (newPassword !== confirmPassword) {
       console.log("Passwords do not match:", { newPassword, confirmPassword });
-      return res.status(400).json({ message: "Passwords do not match" });
+      return res.status(400).json({ errors: [{ field: 'confirmPassword', message: "Passwords do not match" }] });
     }
 
     // Find the user in the CustomerReg&Login collection using either username or accountNumber
@@ -186,7 +186,7 @@ router.post("/forgot-password", async (req, res) => {
 
     if (!user) {
       console.log("User not found:", identifier);
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ errors: [{ field: 'identifier', message: "User not found" }] });
     }
 
     // Hash the new password asynchronously
@@ -198,13 +198,13 @@ router.post("/forgot-password", async (req, res) => {
 
     if (updateResult.modifiedCount === 0) {
       console.log("Password update failed for user:", identifier);
-      return res.status(500).json({ message: "Password update failed" });
+      return res.status(500).json({ errors: [{ field: 'general', message: "Password update failed" }] });
     }
 
     res.status(200).json({ message: "Password has been reset successfully" });
   } catch (error) {
     console.log("Forgot Password Error:", error);
-    res.status(500).json({ message: "Forgot Password Failed" });
+    res.status(500).json({ errors: [{ field: 'general', message: "Forgot Password Failed" }] });
   }
 });
 export default router;

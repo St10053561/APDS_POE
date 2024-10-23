@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config(); // Load environment variables from .env file
 
+
 // Polyfill the performance API
 global.performance = {
     now: performanceNow
