@@ -9,6 +9,7 @@ global.performance = {
   now: performanceNow
 };
 
+//This is getting a express route
 const app = express();
 app.use(express.json());
 app.use('/', router);
