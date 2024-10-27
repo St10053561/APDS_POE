@@ -7,6 +7,8 @@ import { AuthProvider } from './AuthContext.js'; // Import the AuthProvider
 import PaymentPortal from './components/paymentPortal.js'; 
 import Home from './components/Home.js'; // Import the Home component
 import ForgotPassword from './components/ForgotPassword.js'; // Import the ForgotPassword component
+import EmployeeLogin from './components/employeeLogin.js'; // Import the EmployeeLogin component
+import LoginSelection from './components/LoginSelection.js'; // Import the LoginSelection component
 
 import './App.css';
 
@@ -22,6 +24,8 @@ const App = () => {
                         <Route exact path="/login" element={<Login />} />
                         <Route exact path="/paymentCreate" element={<PaymentPortal />} /> {/* Add the route for PaymentPortal */}
                         <Route exact path="/forgot-password" element={<ForgotPassword />} /> {/* Add the route for ForgotPassword */}
+                        <Route exact path="/emp" element={<EmployeeLogin />} /> {/* Add the route for Employee Login */}
+                        <Route exact path="/login-selection" element={<LoginSelection />} /> {/* Add the route for LoginSelection */}
                     </Routes>
                 </div>
             </Router>
