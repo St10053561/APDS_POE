@@ -91,7 +91,10 @@ jobs:
               -Dsonar.projectKey=$SONAR_PROJECT_KEY \
               -Dsonar.organization=$SONAR_ORG \
               -Dsonar.login=$SONAR_TOKEN \
-              -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\""
+              -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\"" \
+              -Dsonar.c.file.suffixes=- \
+              -Dsonar.cpp.file.suffixes=- \
+              -Dsonar.objc.file.suffixes=-
 
 workflows:
   version: 2
