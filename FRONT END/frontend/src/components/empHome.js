@@ -1,9 +1,16 @@
-// empHome.js
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
+import { useNavigate } from 'react-router-dom';
 
 export default function EmpHome() {
-    const { auth } = useContext(AuthContext); // Get the auth state from context
+    const { auth } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!auth.token) {
+            navigate('/'); // Redirect to home if not logged in
+        }
+    }, [auth.token, navigate]);
 
     return (
         <div style={styles.container}>
