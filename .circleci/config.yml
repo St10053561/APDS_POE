@@ -1,3 +1,5 @@
+version: 2.1
+
 jobs:
   setup:
     docker:
@@ -9,7 +11,6 @@ jobs:
           command: |
             cd BACKEND
             npm install
-            
 
   backend-tests:
     docker:
@@ -68,6 +69,22 @@ jobs:
             cd "FRONT END/frontend"
             npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendPayment.test.js'
 
+  sonar-scan:
+    docker:
+      - image: sonarsource/sonar-scanner-cli:latest
+    environment:
+      SONAR_ORG: $SONAR_ORG  # Ensure this is set in CircleCI environment variables
+      SONAR_PROJECT_KEY: $SONAR_PROJECT_KEY  # Ensure this is set in CircleCI environment variables
+    steps:
+      - checkout
+      - run:
+          name: Run SonarQube Scan
+          command: |
+            sonar-scanner \
+              -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+              -Dsonar.organization=$SONAR_ORG \
+              -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\""
+
 workflows:
   version: 2
   test-and-build:
@@ -79,3 +96,7 @@ workflows:
       - frontend-tests:
           requires:
             - setup
+      - sonar-scan:
+          requires:
+            - backend-tests
+            - frontend-tests
