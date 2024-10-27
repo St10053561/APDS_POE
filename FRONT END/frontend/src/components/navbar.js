@@ -1,3 +1,4 @@
+// Navbar.js
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logo from './transactio.png'; 
@@ -11,7 +12,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/login-selection'); // Redirect to login selection after logout
   };
 
   return (
@@ -21,19 +22,27 @@ export default function Navbar() {
       </NavLink>
 
       <ul className="nav-links">
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/">
-            Home
-          </NavLink>
-        </li>
-        {auth.username && ( // Conditionally render the Create Payment link
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/paymentCreate">
-              Create Payment
-            </NavLink>
-          </li>
-        )}
-        {!auth.username && (
+        {auth.token ? ( // Check if user is logged in
+          <>
+            <li className="nav-item">
+              <NavLink className="nav-link" to={auth.accountNumber ? "/emp-home" : "/"}> {/* Redirect based on user type */}
+                Home
+              </NavLink>
+            </li>
+            {auth.accountNumber && ( // If logged in as employee
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/paymentCreate">
+                  Create Payment
+                </NavLink>
+              </li>
+            )}
+            <li className='nav-item'>
+              <NavLink className='nav-item' onClick={handleLogout} style={{ color: 'red' }}>
+                Logout
+              </NavLink>
+            </li>
+          </>
+        ) : (
           <>
             <li className="nav-item">
               <NavLink className="nav-link" to="/register">
@@ -41,18 +50,11 @@ export default function Navbar() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/login-selection"> {/* Update the link to /login-selection */}
+              <NavLink className="nav-link" to="/login-selection">
                 Login
               </NavLink>
             </li>
           </>
-        )}
-        {auth.username && (
-          <li className='nav-item'>
-            <NavLink className='nav-item' onClick={handleLogout} style={{ color: 'red' }}>
-              Logout
-            </NavLink>
-          </li>
         )}
       </ul>
     </nav>
