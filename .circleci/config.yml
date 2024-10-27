@@ -78,6 +78,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Debug Environment Variables
+          command: |
+            echo "SONAR_PROJECT_KEY: $SONAR_PROJECT_KEY"
+            echo "SONAR_ORG: $SONAR_ORG"
+            echo "CIRCLE_BRANCH: $CIRCLE_BRANCH"
+      - run:
           name: Run SonarQube Scan
           command: |
             sonar-scanner \
