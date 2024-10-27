@@ -83,7 +83,8 @@ jobs:
             sonar-scanner \
               -Dsonar.projectKey=$SONAR_PROJECT_KEY \
               -Dsonar.organization=$SONAR_ORG \
-              -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\""
+              -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\"" \
+              -Dsonar.branch.name=$CIRCLE_BRANCH  # Set the branch name dynamically
 
 workflows:
   version: 2
