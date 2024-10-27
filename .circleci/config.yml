@@ -73,7 +73,6 @@ jobs:
     docker:
       - image: sonarsource/sonar-scanner-cli:latest
     environment:
-      SONAR_TOKEN: $SONAR_TOKEN  # Ensure this is set in CircleCI environment variables
       SONAR_ORG: $SONAR_ORG  # Ensure this is set in CircleCI environment variables
       SONAR_PROJECT_KEY: $SONAR_PROJECT_KEY  # Ensure this is set in CircleCI environment variables
     steps:
@@ -84,8 +83,7 @@ jobs:
             sonar-scanner \
               -Dsonar.projectKey=$SONAR_PROJECT_KEY \
               -Dsonar.organization=$SONAR_ORG \
-              -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\"" \
-              -Dsonar.login=$SONAR_TOKEN
+              -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\""
 
 workflows:
   version: 2
@@ -102,4 +100,3 @@ workflows:
           requires:
             - backend-tests
             - frontend-tests
-            
