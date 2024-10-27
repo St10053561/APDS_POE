@@ -41,7 +41,7 @@ export default function Navbar() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
+              <NavLink className="nav-link" to="/login-selection"> {/* Update the link to /login-selection */}
                 Login
               </NavLink>
             </li>
