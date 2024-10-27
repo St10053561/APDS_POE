@@ -1,5 +1,3 @@
-version: 2.1
-
 jobs:
   setup:
     docker:
@@ -11,6 +9,7 @@ jobs:
           command: |
             cd BACKEND
             npm install
+            
 
   backend-tests:
     docker:
@@ -69,22 +68,6 @@ jobs:
             cd "FRONT END/frontend"
             npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendPayment.test.js'
 
-  sonar-scan:
-    docker:
-      - image: sonarsource/sonar-scanner-cli:latest
-    environment:
-      SONAR_TOKEN: $SONAR_TOKEN
-    steps:
-      - checkout
-      - run:
-          name: Run SonarQube Scan
-          command: |
-            sonar-scanner \
-              -Dsonar.projectKey=YourProjectKey \
-              -Dsonar.sources=./ \
-              -Dsonar.host.url=$SONAR_HOST_URL \
-              -Dsonar.login=$SONAR_TOKEN
-
 workflows:
   version: 2
   test-and-build:
@@ -96,7 +79,3 @@ workflows:
       - frontend-tests:
           requires:
             - setup
-      - sonar-scan:
-          requires:
-            - backend-tests
-            - frontend-tests
