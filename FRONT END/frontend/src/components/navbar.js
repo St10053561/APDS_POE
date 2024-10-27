@@ -12,7 +12,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login-selection'); // Redirect to login selection after logout
+    navigate('/'); // Redirect to the default home page after logout
   };
 
   return (
