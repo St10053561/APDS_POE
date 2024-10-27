@@ -74,7 +74,7 @@ jobs:
       - image: sonarsource/sonar-scanner-cli:latest
     environment:
       SONAR_ORG: st10053561  # Organization key
-      SONAR_TOKEN: $SONAR_TOKEN  # Ensure this is set in CircleCI environment variables
+      SONAR_TOKEN: df586036a5ffa05d51604218a631ad6fc95bde7c  # Hardcoded token
       SONAR_PROJECT_KEY: St10053561_APDS_POE  # Project key
     steps:
       - checkout
