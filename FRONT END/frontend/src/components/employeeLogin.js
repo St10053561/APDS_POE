@@ -31,7 +31,7 @@ export default function EmployeeLogin() {
 
             const data = await response.json();
             login(data.token, data.username);
-            navigate('/'); // Redirect to your desired route
+            navigate('/emp-Home'); // Redirect to your desired route
         } catch (error) {
             const errorMessages = JSON.parse(error.message).reduce((acc, err) => {
                 acc[err.field] = err.message;
