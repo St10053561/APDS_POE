@@ -1,6 +1,6 @@
 // Navbar.js
 import React, { useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import logo from './transactio.png'; 
 import '../navbar.css'; // Custom CSS file for styling
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
@@ -9,6 +9,7 @@ import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
 export default function Navbar() {
   const { auth, logout } = useContext(AuthContext); // Use the context
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
 
   const handleLogout = () => {
     logout();
@@ -45,15 +46,17 @@ export default function Navbar() {
         ) : (
           <>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/register">
-                Register
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link" to="/login-selection">
                 Login
               </NavLink>
             </li>
+            {location.pathname !== '/emp' && ( // Hide "Register" if on employee login page
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/register">
+                  Register
+                </NavLink>
+              </li>
+            )}
           </>
         )}
       </ul>
