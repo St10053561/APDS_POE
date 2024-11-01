@@ -9,6 +9,7 @@ import PaymentPortal from './components/paymentPortal.js';
 import Home from './components/Home.js'; // Import the Home component
 import ForgotPassword from './components/ForgotPassword.js'; // Import the ForgotPassword component
 import EmployeeLogin from './components/employeeLogin.js'; // Import the EmployeeLogin component
+import EmployeeForgotPassword from './components/EmployeeForgotPassword.js'; // Import the EmployeeForgotPassword component
 import LoginSelection from './components/LoginSelection.js'; // Import the LoginSelection component
 import EmpHome from './components/empHome.js'; // Import the EmpHome component
 import './App.css';
@@ -27,6 +28,7 @@ const App = () => {
                         <Route exact path="/emp-home" element={<EmpHome />} /> {/* Employee Home */}
                         <Route exact path="/paymentCreate" element={<PaymentPortal />} /> {/* Payment Portal */}
                         <Route exact path="/forgot-password" element={<ForgotPassword />} /> {/* Forgot Password */}
+                        <Route exact path="/employee-forgot-password" element={<EmployeeForgotPassword />} /> {/* Employee Forgot Password */}
                         <Route exact path="/login-selection" element={<LoginSelection />} /> {/* Login Selection */}
                     </Routes>
                 </div>
