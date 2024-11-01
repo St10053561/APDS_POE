@@ -64,6 +64,9 @@ export default function EmployeeLogin() {
                 />
                 {errors.general && <div className="error-message">{errors.general}</div>}
                 <button type="submit" className="login-button">Login</button>
+                <div className="form-group">
+                    <a href="/employee-forgot-password">Forgot Password?</a>
+                </div>
             </form>
         </div>
     );
