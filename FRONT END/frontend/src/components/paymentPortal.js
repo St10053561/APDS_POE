@@ -28,6 +28,8 @@ const PaymentPortal = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // State for general error message
   const [fieldErrors, setFieldErrors] = useState({}); // State for field-specific errors
+  const [approvalMessage, setApprovalMessage] = useState(""); // State for approval notification
+  const [paymentStatus, setPaymentStatus] = useState(""); // State for payment status
 
   useEffect(() => {
     if (!auth.token) {
@@ -52,7 +54,7 @@ const PaymentPortal = () => {
       return;
     }
     try {
-      await axios.post(
+      const response = await axios.post(
         "https://localhost:3001/payment",
         {
           ...formData,
@@ -65,6 +67,7 @@ const PaymentPortal = () => {
         }
       );
       setSuccessMessage("Payment has been made successfully!");
+      setApprovalMessage("Your payment will be processed once approved by an employee."); // Set approval message
       setErrorMessage(""); // Clear any previous error message
       setFieldErrors({}); // Clear field errors
       setFormData({
@@ -77,9 +80,11 @@ const PaymentPortal = () => {
         date: new Date().toISOString().split("T")[0],
         currency: "ZAR",
       });
+      setPaymentStatus(response.data.status); // Set payment status
     } catch (error) {
       console.error("Error making payment:", error);
       setSuccessMessage("");
+      setApprovalMessage(""); // Clear approval message on error
       setErrorMessage(error.response?.data?.error || "Failed to make payment");
       if (error.response?.data?.fieldErrors) {
         setFieldErrors(error.response.data.fieldErrors);
@@ -92,6 +97,7 @@ const PaymentPortal = () => {
       <div className="payment-card">
         <h3>Payment Portal</h3>
         <form onSubmit={handleSubmit} className="payment-form">
+          {/* Form fields */}
           <div className="form-group">
             <label htmlFor="recipientName">Recipient's Name:</label>
             <input
@@ -203,6 +209,14 @@ const PaymentPortal = () => {
         )}
         {errorMessage && (
           <div className="alert alert-danger">{errorMessage}</div>
+        )}
+        {approvalMessage && (
+          <div className="alert alert-info">{approvalMessage}</div>
+        )}
+        {paymentStatus && (
+          <div className={`alert alert-${paymentStatus === 'approved' ? 'success' : 'warning'}`}>
+            Your payment status: {paymentStatus}
+          </div>
         )}
       </div>
     </div>

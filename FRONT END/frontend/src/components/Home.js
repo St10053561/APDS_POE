@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../AuthContext.js';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Home.css';
@@ -21,14 +21,13 @@ const Home = () => {
             </div>
         );
     }
+
     const banks = ["ABSA", "NEDBANK", "FNB", "CAPITEC", "STANDARD BANK"];
     const randomBank = banks[Math.floor(Math.random() * banks.length)];
-
 
     const maskAccountNumber = (accountNumber) => {
         return accountNumber.slice(0, -3).replace(/./g, 'x') + accountNumber.slice(-3);
     };
-
 
     const bankingDetails = {
         accountNumber: maskAccountNumber(auth.accountNumber || "123456789"), // Use the account number from auth
@@ -41,7 +40,6 @@ const Home = () => {
             <h1>Welcome to TransactIO</h1>
             <p>Hello, {auth.username}</p>
             <div className="dashboard">
-
                 <h2>Banking Details</h2>
                 <p1>Account Number: {bankingDetails.accountNumber}</p1>
                 <p1>Bank Name: {bankingDetails.bankName}</p1>
