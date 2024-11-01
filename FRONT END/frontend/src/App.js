@@ -12,6 +12,7 @@ import EmployeeLogin from './components/employeeLogin.js'; // Import the Employe
 import EmployeeForgotPassword from './components/EmployeeForgotPassword.js'; // Import the EmployeeForgotPassword component
 import LoginSelection from './components/LoginSelection.js'; // Import the LoginSelection component
 import EmpHome from './components/empHome.js'; // Import the EmpHome component
+import NotificationPage from './components/NotificationPage.js'; // Import the NotificationPage component
 import './App.css';
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
                         <Route exact path="/forgot-password" element={<ForgotPassword />} /> {/* Forgot Password */}
                         <Route exact path="/employee-forgot-password" element={<EmployeeForgotPassword />} /> {/* Employee Forgot Password */}
                         <Route exact path="/login-selection" element={<LoginSelection />} /> {/* Login Selection */}
+                        <Route exact path="/notifications" element={<NotificationPage />} /> {/* Notification Page */}
                     </Routes>
                 </div>
             </Router>

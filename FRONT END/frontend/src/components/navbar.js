@@ -26,7 +26,7 @@ export default function Navbar() {
         {auth.token ? ( // Check if user is logged in
           <>
             <li className="nav-item">
-              <NavLink className="nav-link" to={auth.accountNumber ? "/emp-home" : "/"}> {/* Redirect based on user type */}
+              <NavLink className="nav-link" to={auth.accountNumber ? "/" : "/emp-home"}> {/* Redirect based on user type */}
                 Home
               </NavLink>
             </li>
@@ -37,6 +37,11 @@ export default function Navbar() {
                 </NavLink>
               </li>
             )}
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/notifications">
+                <img src="notification-icon.png" alt="Notifications" />
+              </NavLink>
+            </li>
             <li className='nav-item'>
               <NavLink className='nav-item' onClick={handleLogout} style={{ color: 'red' }}>
                 Logout
