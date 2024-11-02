@@ -50,7 +50,6 @@ test('submits the form successfully', async () => {
 
     // Simulate form submission
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
-    
 
     // Wait for the form to be reset and the navigation to occur
     await waitFor(() => {

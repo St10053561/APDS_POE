@@ -4,7 +4,6 @@ import fs from "fs";
 import https from "https";
 import loginRegRoutes from "./routes/Login&Reg.mjs";
 import paymentRouter from "./routes/payment.mjs";
-import employeeLoginRouter from "./routes/employeeLogin.mjs"; // Import the employee login route
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -12,6 +11,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import { body, validationResult } from 'express-validator';
+import uid2 from 'uid2';
 import { createStream } from 'rotating-file-stream';  
 
 const PORT = 3001;
@@ -119,7 +120,6 @@ mongoose.set('sanitizeFilter', true);
 // Routes
 app.use("/user", loginRegRoutes); // Login and Registration Routes
 app.use("/payment", paymentRouter); // Payment Routes
-app.use("/emp", employeeLoginRouter); // Employee Login Route
 
 // Catch validation errors globally
 app.use((err, req, res, next) => {

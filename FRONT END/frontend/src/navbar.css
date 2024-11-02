@@ -63,8 +63,3 @@
 .active-link {
   color: #09064d; /* Active link color */
 }
-
-.nav-left {
-  display: flex; /* Use flexbox for alignment */
-  align-items: center; /* Center items vertically */
-}
