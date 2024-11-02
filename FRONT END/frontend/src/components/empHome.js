@@ -31,11 +31,29 @@ export default function EmpHome() {
 
     const updatePaymentStatus = async (id, status) => {
         try {
+            // Update the payment status
             await axios.put(`https://localhost:3001/payment/${id}/status`, { status }, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`,
                 },
             });
+
+            // Log the transaction history
+            const payment = pendingPayments.find(payment => payment._id === id);
+            if (payment) {
+                await axios.post('https://localhost:3001/payment/history', {
+                    recipientName: payment.recipientName,
+                    amount: payment.amount,
+                    currency: payment.currency,
+                    status: status,
+                    date: new Date().toISOString(), // Use current date
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`,
+                    },
+                });
+            }
+
             fetchPendingPayments(); // Refresh the list after updating
         } catch (error) {
             console.error("Error updating payment status:", error);
@@ -50,14 +68,15 @@ export default function EmpHome() {
             <ul>
                 {pendingPayments.map(payment => (
                     <li key={payment._id} style={{ color: 'black' }}>
-                        <p1>Recipient: {payment.recipientName}</p1>
-                        <p1>Amount: {payment.amount} {payment.currency}</p1>
-                        <p1>Date: {payment.date}</p1>
+                        <p>Recipient: {payment.recipientName}</p>
+                        <p>Amount: {payment.amount} {payment.currency}</p>
+                        <p>Date: {payment.date}</p>
                         <button onClick={() => updatePaymentStatus(payment._id, 'approved')}>Approve</button>
                         <button onClick={() => updatePaymentStatus(payment._id, 'disapproved')}>Disapprove</button>
                     </li>
                 ))}
             </ul>
+            <button onClick={() => navigate('/transaction-history')}>View Transaction History</button>
         </div>
     );
 }

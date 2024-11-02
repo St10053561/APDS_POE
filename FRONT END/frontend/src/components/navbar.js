@@ -1,7 +1,7 @@
 // Navbar.js
 import React, { useContext } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import logo from './transactio.png'; 
+import logo from './transactio.png';
 import '../navbar.css'; // Custom CSS file for styling
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
 
@@ -23,7 +23,7 @@ export default function Navbar() {
       </NavLink>
 
       <div className="nav-left">
-        {auth.token && auth.accountNumber && ( // If logged in as employee
+        {auth.token && auth.accountNumber && ( // If logged in as Customer
           <NavLink className="nav-link" to="/notifications">
             <img src="notification-icon.png" alt="Notifications" />
           </NavLink>
@@ -38,10 +38,19 @@ export default function Navbar() {
                 Home
               </NavLink>
             </li>
-            {auth.accountNumber && ( // If logged in as employee
+            {auth.accountNumber && ( // If logged in as Customer
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/paymentCreate">
+                    Create Payment
+                  </NavLink>
+                </li>
+              </>
+            )}
+            {!auth.accountNumber && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/paymentCreate">
-                  Create Payment
+                <NavLink className="nav-link" to="/transaction-history">
+                  Transaction History
                 </NavLink>
               </li>
             )}

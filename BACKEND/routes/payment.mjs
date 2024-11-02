@@ -121,4 +121,38 @@ router.get("/status", checkAuth, async (req, res) => {
   }
 });
 
+// Endpoint to log transaction history
+router.post("/history", checkAuth, async (req, res) => {
+  const { recipientName, amount, currency, status, date } = req.body;
+
+  const newTransaction = {
+    recipientName,
+    amount,
+    currency,
+    status,
+    date,
+  };
+
+  try {
+    let collection = db.collection("transactionHistory");
+    let result = await collection.insertOne(newTransaction);
+    res.status(201).send(result);
+  } catch (error) {
+    console.error("Error logging transaction history:", error);
+    res.status(400).send(error);
+  }
+});
+
+// Endpoint to fetch transaction history
+router.get("/history", checkAuth, async (req, res) => {
+  try {
+    let collection = db.collection("transactionHistory");
+    let transactionHistory = await collection.find().toArray();
+    res.status(200).send(transactionHistory);
+  } catch (error) {
+    console.error("Error fetching transaction history:", error);
+    res.status(500).send({ error: "Failed to fetch transaction history" });
+  }
+});
+
 export default router;
