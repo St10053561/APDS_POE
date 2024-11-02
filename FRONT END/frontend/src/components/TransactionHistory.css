@@ -1,0 +1,60 @@
+/* TransactionHistory.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.transaction-list {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    width: 100%;
+    max-width: 900px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.transaction-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.transaction-card:hover {
+    transform: translateY(-4px);
+}
+
+.transaction-card p {
+    color: #555;
+    margin: 4px 0;
+    font-size: 1rem;
+}
+
+.transaction-card p strong {
+    color: #333;
+}
+
+.amount {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.status {
+    font-weight: bold;
+    color: #FF9800;
+}
