@@ -2,6 +2,7 @@ import express from "express";
 import { db } from "../db/conn.mjs"; // Use named import for db
 import checkAuth from "../check-auth.mjs";
 import cors from "cors";
+import { ObjectId } from 'mongodb'; // Import ObjectId from MongoDB
 
 const router = express.Router();
 router.use(cors());
@@ -107,16 +108,16 @@ router.put("/:id/status", checkAuth, async (req, res) => {
   }
 });
 
-// Endpoint to fetch approved payments for a specific user
-router.get("/approved", checkAuth, async (req, res) => {
+// Endpoint to fetch approved and disapproved payments for a specific user
+router.get("/status", checkAuth, async (req, res) => {
   try {
     const { username } = req.query;
     let collection = db.collection("payments");
-    let approvedPayments = await collection.find({ username, status: "approved" }).toArray();
-    res.status(200).send(approvedPayments);
+    let payments = await collection.find({ username, status: { $in: ["approved", "disapproved"] } }).toArray();
+    res.status(200).send(payments);
   } catch (error) {
-    console.error("Error fetching approved payments:", error);
-    res.status(500).send({ error: "Failed to fetch approved payments" });
+    console.error("Error fetching payments:", error);
+    res.status(500).send({ error: "Failed to fetch payments" });
   }
 });
 

@@ -37,11 +37,13 @@ export default function Navbar() {
                 </NavLink>
               </li>
             )}
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/notifications">
-                <img src="notification-icon.png" alt="Notifications" />
-              </NavLink>
-            </li>
+            {auth.accountNumber && ( // If not logged in as employee
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/notifications">
+                  <img src="notification-icon.png" alt="Notifications" />
+                </NavLink>
+              </li>
+            )}
             <li className='nav-item'>
               <NavLink className='nav-item' onClick={handleLogout} style={{ color: 'red' }}>
                 Logout
