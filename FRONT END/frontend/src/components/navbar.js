@@ -22,11 +22,19 @@ export default function Navbar() {
         <img className="logo-3d" src={logo} alt="Logo" />
       </NavLink>
 
+      <div className="nav-left">
+        {auth.token && auth.accountNumber && ( // If logged in as employee
+          <NavLink className="nav-link" to="/notifications">
+            <img src="notification-icon.png" alt="Notifications" />
+          </NavLink>
+        )}
+      </div>
+
       <ul className="nav-links">
         {auth.token ? ( // Check if user is logged in
           <>
             <li className="nav-item">
-              <NavLink className="nav-link" to={auth.accountNumber ? "/" : "/emp-home"}> {/* Redirect based on user type */}
+              <NavLink className="nav-link" to={auth.accountNumber ? "/" : "/emp-home"}>
                 Home
               </NavLink>
             </li>
@@ -34,13 +42,6 @@ export default function Navbar() {
               <li className="nav-item">
                 <NavLink className="nav-link" to="/paymentCreate">
                   Create Payment
-                </NavLink>
-              </li>
-            )}
-            {auth.accountNumber && ( // If not logged in as employee
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/notifications">
-                  <img src="notification-icon.png" alt="Notifications" />
                 </NavLink>
               </li>
             )}

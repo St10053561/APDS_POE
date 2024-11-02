@@ -39,10 +39,10 @@ const NotificationPage = () => {
       <ul>
         {payments.map(payment => (
           <li key={payment._id}>
-            <p>Recipient: {payment.recipientName}</p>
-            <p>Amount: {payment.amount} {payment.currency}</p>
-            <p>Date: {payment.date}</p>
-            <p>Status: {payment.status}</p>
+            <p><strong>Recipient:</strong> {payment.recipientName}</p>
+            <p className="amount"><strong>Amount:</strong> {payment.amount} {payment.currency}</p>
+            <p><strong>Date:</strong> {payment.date}</p>
+            <p className="status"><strong>Status:</strong> {payment.status}</p>
           </li>
         ))}
       </ul>
