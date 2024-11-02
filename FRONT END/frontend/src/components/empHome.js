@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,15 +8,7 @@ export default function EmpHome() {
     const navigate = useNavigate();
     const [pendingPayments, setPendingPayments] = useState([]);
 
-    useEffect(() => {
-        if (!auth.token) {
-            navigate('/'); // Redirect to home if not logged in
-        } else {
-            fetchPendingPayments();
-        }
-    }, [auth.token, navigate]);
-
-    const fetchPendingPayments = async () => {
+    const fetchPendingPayments = useCallback(async () => {
         try {
             const response = await axios.get('https://localhost:3001/payment/pending', {
                 headers: {
@@ -27,7 +19,15 @@ export default function EmpHome() {
         } catch (error) {
             console.error("Error fetching pending payments:", error);
         }
-    };
+    }, [auth.token]);
+
+    useEffect(() => {
+        if (!auth.token) {
+            navigate('/'); // Redirect to home if not logged in
+        } else {
+            fetchPendingPayments();
+        }
+    }, [auth.token, navigate, fetchPendingPayments]);
 
     const updatePaymentStatus = async (id, status) => {
         try {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../AuthContext.js';
 import axios from 'axios';
 import './NotificationPage.css';
@@ -7,13 +7,7 @@ const NotificationPage = () => {
   const { auth } = useContext(AuthContext);
   const [approvedPayments, setApprovedPayments] = useState([]);
 
-  useEffect(() => {
-    if (auth.token) {
-      fetchApprovedPayments();
-    }
-  }, [auth.token]);
-
-  const fetchApprovedPayments = async () => {
+  const fetchApprovedPayments = useCallback(async () => {
     try {
       const response = await axios.get('https://localhost:3001/payment/approved', {
         headers: {
@@ -27,7 +21,13 @@ const NotificationPage = () => {
     } catch (error) {
       console.error("Error fetching approved payments:", error);
     }
-  };
+  }, [auth.token, auth.username]);
+
+  useEffect(() => {
+    if (auth.token) {
+      fetchApprovedPayments();
+    }
+  }, [auth.token, fetchApprovedPayments]);
 
   return (
     <div className="notification-page">
