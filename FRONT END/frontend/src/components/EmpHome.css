@@ -1,0 +1,84 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    margin-top: 114px;
+    font-family: Arial, sans-serif;
+}
+
+.greeting {
+    font-size: 1.8rem;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.date {
+    font-size: 1rem;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.heading {
+    font-size: 1.5rem;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.list {
+    width: 100%;
+    max-width: 800px;
+    display: grid;
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.text {
+    color: #000; /* Ensures all paragraph text is black */
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.approveButton {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.disapproveButton {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.historyButton {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #1976D2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
