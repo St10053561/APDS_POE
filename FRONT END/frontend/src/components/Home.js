@@ -43,7 +43,7 @@ const Home = () => {
             navigate('/'); // Redirect to home if not logged in
         } else {
             // Fetch notifications every 5 seconds
-            const intervalId = setInterval(fetchNotifications, 5000);
+            const intervalId = setInterval(fetchNotifications, 3000);
             return () => clearInterval(intervalId); // Cleanup on unmount
         }
     }, [auth.token, navigate, fetchNotifications]);
