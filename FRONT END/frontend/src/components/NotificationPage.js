@@ -34,11 +34,11 @@ const NotificationPage = () => {
   }, [auth.token, fetchPayments, navigate]);
 
   return (
-    <div className="notification-page">
-      <h1>Transactions</h1>
-      <ul>
+    <div className="container">
+      <h2>Notifications History</h2>
+      <ul className="notification-list">
         {payments.map(payment => (
-          <li key={payment._id}>
+          <li key={payment._id} className="notification-card">
             <p><strong>Recipient:</strong> {payment.recipientName}</p>
             <p className="amount"><strong>Amount:</strong> {payment.amount} {payment.currency}</p>
             <p><strong>Date:</strong> {payment.date}</p>
