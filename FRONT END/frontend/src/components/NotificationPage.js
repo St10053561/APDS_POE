@@ -57,7 +57,9 @@ const NotificationPage = () => {
             <p className="amount"><strong>Amount:</strong> {payment.amount} {payment.currency}</p>
             <p><strong>Date:</strong> {payment.date}</p>
             <p className="status"><strong>Status:</strong> {payment.status}</p>
-            <button onClick={() => markAsRead(payment._id)}>Mark as Read</button>
+            {!readNotifications.has(payment._id) && ( // Show button only if notification is unread
+              <button onClick={() => markAsRead(payment._id)}>Mark as Read</button>
+            )}
           </li>
         ))}
       </ul>
