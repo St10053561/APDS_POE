@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './EmpHome.css'; // Import the CSS file
 
 export default function EmpHome() {
     const { auth } = useContext(AuthContext);
@@ -45,8 +46,8 @@ export default function EmpHome() {
                     recipientName: payment.recipientName,
                     amount: payment.amount,
                     currency: payment.currency,
-                    status: status,
-                    date: new Date().toISOString(), // Use current date
+                    status : status,
+                    date: new Date().toISOString(),
                 }, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
@@ -61,41 +62,24 @@ export default function EmpHome() {
     };
 
     return (
-        <div style={styles.container}>
-            <h1 style={{ ...styles.greeting, color: 'black' }}>Hello, {auth.username}!</h1>
-            <p style={{ ...styles.date, color: 'black' }}>Today is {new Date().toLocaleDateString()}</p>
-            <h2 style={{ color: 'black' }}>Pending Payments</h2>
-            <ul>
+        <div className="container">
+            <h1 className="greeting">Hello, {auth.username}!</h1>
+            <p className="date">Today is {new Date().toLocaleDateString()}</p>
+            <h2 className="heading">Pending Payments</h2>
+            <div className="list">
                 {pendingPayments.map(payment => (
-                    <li key={payment._id} style={{ color: 'black' }}>
-                        <p>Recipient: {payment.recipientName}</p>
-                        <p>Amount: {payment.amount} {payment.currency}</p>
-                        <p>Date: {payment.date}</p>
-                        <button onClick={() => updatePaymentStatus(payment._id, 'approved')}>Approve</button>
-                        <button onClick={() => updatePaymentStatus(payment._id, 'disapproved')}>Disapprove</button>
-                    </li>
+                    <div key={payment._id} className="card">
+                        <p className="text"><strong>Recipient:</strong> {payment.recipientName}</p>
+                        <p className="text"><strong>Amount:</strong> {payment.amount} {payment.currency}</p>
+                        <p className="text"><strong>Date:</strong> {new Date(payment.date).toLocaleDateString()}</p>
+                        <div className="buttonContainer">
+                            <button className="approveButton" onClick={() => updatePaymentStatus(payment._id, 'approved')}>Approve</button>
+                            <button className="disapproveButton" onClick={() => updatePaymentStatus(payment._id, 'disapproved')}>Disapprove</button>
+                        </div>
+                    </div>
                 ))}
-            </ul>
-            <button onClick={() => navigate('/transaction-history')}>View Transaction History</button>
+            </div>
+            <button className="historyButton" onClick={() => navigate('/transaction-history')}>View Transaction History</button>
         </div>
     );
 }
-
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        backgroundColor: '#f8f9fa'
-    },
-    greeting: {
-        fontSize: '2rem',
-        color: '#333'
-    },
-    date: {
-        fontSize: '1.2rem',
-        color: '#666'
-    }
-};

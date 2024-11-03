@@ -8,6 +8,7 @@ const NotificationPage = () => {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [payments, setPayments] = useState([]);
+  const [readNotifications, setReadNotifications] = useState(new Set(JSON.parse(localStorage.getItem('readNotifications')) || []));
 
   const fetchPayments = useCallback(async () => {
     try {
@@ -19,11 +20,24 @@ const NotificationPage = () => {
           username: auth.username,
         },
       });
-      setPayments(response.data);
+
+      if (response.status === 200) {
+        setPayments(response.data);
+      } else {
+        console.error("Error: Received non-200 response", response.status);
+      }
     } catch (error) {
-      console.error("Error fetching payments:", error);
+      console.error("Error fetching payments:", error.message);
     }
   }, [auth.token, auth.username]);
+
+  const markAsRead = (id) => {
+    setReadNotifications((prev) => {
+      const updated = new Set(prev).add(id);
+      localStorage.setItem('readNotifications', JSON.stringify(Array.from(updated))); // Save to local storage
+      return updated;
+    });
+  };
 
   useEffect(() => {
     if (!auth.token) {
@@ -34,15 +48,18 @@ const NotificationPage = () => {
   }, [auth.token, fetchPayments, navigate]);
 
   return (
-    <div className="notification-page">
-      <h1>Transactions</h1>
-      <ul>
+    <div className="container">
+      <h2>Notifications History</h2>
+      <ul className="notification-list">
         {payments.map(payment => (
-          <li key={payment._id}>
+          <li key={payment._id} className={`notification-card ${readNotifications.has(payment._id) ? 'read' : 'unread'}`}>
             <p><strong>Recipient:</strong> {payment.recipientName}</p>
             <p className="amount"><strong>Amount:</strong> {payment.amount} {payment.currency}</p>
             <p><strong>Date:</strong> {payment.date}</p>
             <p className="status"><strong>Status:</strong> {payment.status}</p>
+            {!readNotifications.has(payment._id) && ( // Show button only if notification is unread
+              <button onClick={() => markAsRead(payment._id)}>Mark as Read</button>
+            )}
           </li>
         ))}
       </ul>
