@@ -1,0 +1,61 @@
+/* NotificationPage.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f0f2f5; /* Match background color with TransactionHistory */
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+
+h2 {
+  color: #333;
+  font-size: 1.8rem; /* Match font size with TransactionHistory */
+  margin-bottom: 20px;
+}
+
+.notification-list {
+  display: grid;
+  gap: 16px; /* Match gap with TransactionHistory */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Match grid layout */
+  width: 100%;
+  max-width: 900px; /* Match max-width with TransactionHistory */
+  padding: 0;
+  list-style-type: none;
+}
+
+.notification-card {
+  background-color: #fff;
+  border-radius: 8px; /* Match border radius with TransactionHistory */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.notification-card:hover {
+  transform: translateY(-4px); /* Match hover effect with TransactionHistory */
+}
+
+.notification-card p {
+  color: #555;
+  margin: 4px 0;
+  font-size: 1rem; /* Match font size with TransactionHistory */
+}
+
+.notification-card p strong {
+  color: #333;
+}
+
+.amount {
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.status {
+  font-weight: bold;
+  color: #FF9800;
+}
