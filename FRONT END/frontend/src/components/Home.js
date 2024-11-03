@@ -1,17 +1,52 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../AuthContext.js';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Home.css';
+import loginSound from './notification-sound.mp3'; // Import the sound file
+import axios from 'axios';
 
 const Home = () => {
     const { auth } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [notifications, setNotifications] = useState([]);
+
+    // Function to play notification sound
+    const playNotificationSound = () => {
+        const audio = new Audio(loginSound); // Use the imported sound file
+        audio.play();
+    };
+
+    // Function to fetch notifications
+    const fetchNotifications = useCallback(async () => {
+        try {
+            const response = await axios.get('https://localhost:3001/payment/status', {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+                params: {
+                    username: auth.username,
+                },
+            });
+
+            // Check if there are new notifications
+            if (response.data.length > notifications.length) {
+                playNotificationSound(); // Play sound when new notifications are fetched
+                setNotifications(response.data); // Update notifications state
+            }
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+        }
+    }, [auth.token, auth.username, notifications.length]);
 
     useEffect(() => {
         if (!auth.token) {
             navigate('/'); // Redirect to home if not logged in
+        } else {
+            // Fetch notifications every 5 seconds
+            const intervalId = setInterval(fetchNotifications, 5000);
+            return () => clearInterval(intervalId); // Cleanup on unmount
         }
-    }, [auth.token, navigate]);
+    }, [auth.token, navigate, fetchNotifications]);
 
     if (!auth.token) {
         return (

@@ -3,17 +3,11 @@ import { AuthContext } from '../AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './NotificationPage.css';
-import notificationSound from './notification-sound.mp3'; // Import the sound file
 
 const NotificationPage = () => {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [payments, setPayments] = useState([]);
-
-  const playNotificationSound = () => {
-    const audio = new Audio(notificationSound); // Use the imported sound file
-    audio.play();
-  };
 
   const fetchPayments = useCallback(async () => {
     try {
@@ -26,10 +20,9 @@ const NotificationPage = () => {
         },
       });
       
-      // Check if there are new payments and play sound
+      // Check if there are new payments and update state
       if (response.data.length > 0) {
         setPayments(response.data);
-        playNotificationSound(); // Play sound when new payments are fetched
       }
     } catch (error) {
       console.error("Error fetching payments:", error);
