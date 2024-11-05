@@ -93,7 +93,7 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 
     let collection = db.collection("payments");
     let result = await collection.updateOne(
-      { _id: new ObjectId(id) },
+      { _id: new ObjectId(String(id)) }, // Convert id to string before passing it to ObjectId
       { $set: { status: status } }
     );
 
