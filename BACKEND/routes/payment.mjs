@@ -122,7 +122,7 @@ router.put("/:id/status", checkAuth, async (req, res) => {
     let collection = db.collection("payments");
     let result = await collection.updateOne(
       { _id: ObjectId(id) }, // Use ObjectId directly
-      { $set: { status: status } }
+      { $set: { status: sanitizeInput(status) } } // Sanitize status before using it
     );
 
     if (result.modifiedCount === 0) {
@@ -165,7 +165,7 @@ router.post("/history", checkAuth, async (req, res) => {
     recipientName: sanitizeInput(recipientName),
     amount,
     currency: sanitizeInput(currency),
-    status,
+    status: sanitizeInput(status), // Sanitize status before using it
     date,
   };
 
