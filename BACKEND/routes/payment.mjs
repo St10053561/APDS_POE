@@ -161,12 +161,27 @@ router.get("/status", checkAuth, async (req, res) => {
 router.post("/history", checkAuth, async (req, res) => {
   const { recipientName, amount, currency, status, date } = req.body;
 
+  // Validate input
+  if (typeof amount !== 'number' || amount <= 0) {
+    return res.status(400).send({ error: "Invalid amount. It must be a positive number." });
+  }
+
+  const validCurrencies = ["ZAR", "USD", "GBP", "INR", "JPY"]; // Add valid currencies as needed
+  if (!validCurrencies.includes(currency)) {
+    return res.status(400).send({ error: "Invalid currency." });
+  }
+
+  const validStatuses = ["approved", "disapproved", "pending"]; // Define valid statuses
+  if (!validStatuses.includes(status)) {
+    return res.status(400).send({ error: "Invalid status." });
+  }
+
   const newTransaction = {
     recipientName: sanitizeInput(recipientName),
-    amount,
+    amount: parseFloat(amount), // Ensure amount is a number
     currency: sanitizeInput(currency),
     status: sanitizeInput(status), // Sanitize status before using it
-    date,
+    date: new Date(date), // Ensure date is a valid date object
   };
 
   try {
@@ -175,7 +190,7 @@ router.post("/history", checkAuth, async (req, res) => {
     res.status(201).send(result);
   } catch (error) {
     console.error("Error logging transaction history:", error);
-    res.status(400).send(error);
+    res.status(500).send({ error: "Failed to log transaction history." });
   }
 });
 
