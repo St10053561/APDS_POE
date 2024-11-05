@@ -2,6 +2,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
 
+const InputField = ({ id, label, type, value, onChange, error }) => (
+    <div className="form-group mb-3">
+        <label htmlFor={id}>{label}</label>
+        <input
+            type={type}
+            className="form-control"
+            id={id}
+            value={value}
+            onChange={onChange}
+            required
+        />
+        {error && <div className="error-message">{error}</div>}
+    </div>
+);
+
 export default function EmployeeForgotPassword() {
     const [form, setForm] = useState({
         username: '',
@@ -13,19 +28,15 @@ export default function EmployeeForgotPassword() {
 
     function updateForm(value) {
         setErrors({}); // Clear errors when updating form
-        return setForm((prev) => {
-            return { ...prev, ...value };
-        });
+        setForm((prev) => ({ ...prev, ...value }));
     }
 
     async function onSubmit(e) {
         e.preventDefault();
-
         if (form.newPassword !== form.confirmPassword) {
             setErrors({ confirmPassword: 'Passwords do not match' });
             return;
         }
-
         try {
             const response = await fetch('https://localhost:3001/emp/forgot-password', {
                 method: 'POST',
@@ -38,7 +49,6 @@ export default function EmployeeForgotPassword() {
                     confirmPassword: form.confirmPassword
                 })
             });
-
             if (!response.ok) {
                 let errorData;
                 try {
@@ -57,7 +67,6 @@ export default function EmployeeForgotPassword() {
                 setErrors(fieldErrors);
                 return;
             }
-
             window.alert('Password has been reset successfully');
             navigate('/emp'); // Redirect to the employee login page
         } catch (error) {
@@ -74,42 +83,30 @@ export default function EmployeeForgotPassword() {
                         <div className="card-body">
                             <h3 className="card-title text-center mb-4">Forgot Password</h3>
                             <form onSubmit={onSubmit}>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="username">Username</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="username"
-                                        value={form.username}
-                                        onChange={(e) => updateForm({ username: e.target.value })}
-                                        required
-                                    />
-                                    {errors.username && <div className="error-message">{errors.username}</div>}
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="newPassword">New Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="newPassword"
-                                        value={form.newPassword}
-                                        onChange={(e) => updateForm({ newPassword: e.target.value })}
-                                        required
-                                    />
-                                    {errors.newPassword && <div className="error-message">{errors.newPassword}</div>}
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="confirmPassword">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="confirmPassword"
-                                        value={form.confirmPassword}
-                                        onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-                                        required
-                                    />
-                                    {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
-                                </div>
+                                <InputField
+                                    id="username"
+                                    label="Username"
+                                    type="text"
+                                    value={form.username}
+                                    onChange={(e) => updateForm({ username: e.target.value })}
+                                    error={errors.username}
+                                />
+                                <InputField
+                                    id="newPassword"
+                                    label="New Password"
+                                    type="password"
+                                    value={form.newPassword}
+                                    onChange={(e) => updateForm({ newPassword: e.target.value })}
+                                    error={errors.newPassword}
+                                />
+                                <InputField
+                                    id="confirmPassword"
+                                    label="Confirm Password"
+                                    type="password"
+                                    value={form.confirmPassword}
+                                    onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+                                    error={errors.confirmPassword}
+                                />
                                 <div className="form-group text-center">
                                     <input
                                         type="submit"
