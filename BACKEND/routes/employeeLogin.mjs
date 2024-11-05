@@ -13,6 +13,14 @@ const bruteforce = new ExpressBrute(store); // Global brute-force instance
 
 const secretKey = process.env.SECRET_KEY; // Read secret key from environment variable
 
+// Function to sanitize input
+const sanitizeInput = (input) => {
+  if (typeof input === 'string') {
+    return input.replace(/[<>]/g, ""); // Remove potentially harmful characters
+  }
+  return input;
+};
+
 // Employee Login
 router.post("/emplogin", bruteforce.prevent, async (req, res) => {
   try {
@@ -28,9 +36,12 @@ router.post("/emplogin", bruteforce.prevent, async (req, res) => {
       return res.status(400).json({ errors });
     }
 
+    // Sanitize username
+    const sanitizedUsername = sanitizeInput(username);
+
     // Find the employee in the Employee collection
-    const collection = await db.collection("Employees"); // Change to your employee collection name
-    const employee = await collection.findOne({ username: { $eq: username } }); // Safe comparison
+    const collection = await db.collection("Employees");
+    const employee = await collection.findOne({ username: sanitizedUsername }); // Safe comparison
 
     if (!employee) {
       console.log("Employee not found");
@@ -70,12 +81,15 @@ router.post("/forgot-password", async (req, res) => {
       return res.status(400).json({ errors: [{ field: 'confirmPassword', message: "Passwords do not match" }] });
     }
 
-    // Find the employee in the Employees collection using username
+    // Sanitize username
+    const sanitizedUsername = sanitizeInput(username);
+
+    // Find the employee in the Employees collection using sanitized username
     const collection = await db.collection("Employees");
-    const employee = await collection.findOne({ username: { $eq: username } }); // Safe comparison
+    const employee = await collection.findOne({ username: sanitizedUsername }); // Safe comparison
 
     if (!employee) {
-      console.log("Employee not found:", username);
+      console.log("Employee not found:", sanitizedUsername);
       return res.status(404).json({ errors: [{ field: 'username', message: "Employee not found" }] });
     }
 
@@ -87,7 +101,7 @@ router.post("/forgot-password", async (req, res) => {
     const updateResult = await collection.updateOne({ _id: employee._id }, { $set: { password: hashedPassword } });
 
     if (updateResult.modifiedCount === 0) {
-      console.log("Password update failed for employee:", username);
+      console.log("Password update failed for employee:", sanitizedUsername);
       return res.status(500).json({ errors: [{ field: 'general', message: "Password update failed" }] });
     }
 

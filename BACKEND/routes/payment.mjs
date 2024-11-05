@@ -61,14 +61,14 @@ router.post("/", checkAuth, async (req, res) => {
     }
 
     const newPayment = {
-      recipientName,
-      recipientBank,
+      recipientName: sanitizeInput(recipientName),
+      recipientBank: sanitizeInput(recipientBank),
       recipientAccountNo,
       amount,
-      swiftCode,
-      username,
+      swiftCode: sanitizeInput(swiftCode),
+      username: sanitizeInput(username),
       date,
-      currency,
+      currency: sanitizeInput(currency),
       status: "pending" // Add status field
     };
 
@@ -137,7 +137,7 @@ router.get("/status", checkAuth, async (req, res) => {
 
     let collection = db.collection("payments");
     let payments = await collection.find({
-      username: { $eq: sanitizedUsername },
+      username: sanitizedUsername, // Use sanitized username directly
       status: { $in: ["approved", "disapproved"] }
     }).toArray();
 
@@ -153,9 +153,9 @@ router.post("/history", checkAuth, async (req, res) => {
   const { recipientName, amount, currency, status, date } = req.body;
 
   const newTransaction = {
-    recipientName,
+    recipientName: sanitizeInput(recipientName),
     amount,
-    currency,
+    currency: sanitizeInput(currency),
     status,
     date,
   };
