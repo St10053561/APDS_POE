@@ -13,30 +13,22 @@ export default function EmployeeForgotPassword() {
 
     function updateForm(value) {
         setErrors({}); // Clear errors when updating form
-        return setForm((prev) => {
-            return { ...prev, ...value };
-        });
+        setForm((prev) => ({ ...prev, ...value }));
     }
 
     async function onSubmit(e) {
         e.preventDefault();
-
         if (form.newPassword !== form.confirmPassword) {
             setErrors({ confirmPassword: 'Passwords do not match' });
             return;
         }
-
         try {
             const response = await fetch('https://localhost:3001/emp/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    username: form.username,
-                    newPassword: form.newPassword,
-                    confirmPassword: form.confirmPassword
-                })
+                body: JSON.stringify(form) // Send the entire form object
             });
 
             if (!response.ok) {
@@ -57,7 +49,6 @@ export default function EmployeeForgotPassword() {
                 setErrors(fieldErrors);
                 return;
             }
-
             window.alert('Password has been reset successfully');
             navigate('/emp'); // Redirect to the employee login page
         } catch (error) {
@@ -65,6 +56,21 @@ export default function EmployeeForgotPassword() {
             setErrors({ general: error.message });
         }
     }
+
+    const renderInput = (id, label, type) => (
+        <div className="form-group mb-3">
+            <label htmlFor={id}>{label}</label>
+            <input
+                type={type}
+                className="form-control"
+                id={id}
+                value={form[id]}
+                onChange={(e) => updateForm({ [id]: e.target.value })}
+                required
+            />
+            {errors[id] && <div className="error-message">{errors[id]}</div>}
+        </div>
+    );
 
     return (
         <div className="container mt-5">
@@ -74,42 +80,9 @@ export default function EmployeeForgotPassword() {
                         <div className="card-body">
                             <h3 className="card-title text-center mb-4">Forgot Password</h3>
                             <form onSubmit={onSubmit}>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="username">Username</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="username"
-                                        value={form.username}
-                                        onChange={(e) => updateForm({ username: e.target.value })}
-                                        required
-                                    />
-                                    {errors.username && <div className="error-message">{errors.username}</div>}
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="newPassword">New Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="newPassword"
-                                        value={form.newPassword}
-                                        onChange={(e) => updateForm({ newPassword: e.target.value })}
-                                        required
-                                    />
-                                    {errors.newPassword && <div className="error-message">{errors.newPassword}</div>}
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="confirmPassword">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="confirmPassword"
-                                        value={form.confirmPassword}
-                                        onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-                                        required
-                                    />
-                                    {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
-                                </div>
+                                {renderInput('username', 'Username', 'text')}
+                                {renderInput('newPassword', 'New Password', 'password')}
+                                {renderInput('confirmPassword', 'Confirm Password', 'password')}
                                 <div className="form-group text-center">
                                     <input
                                         type="submit"
