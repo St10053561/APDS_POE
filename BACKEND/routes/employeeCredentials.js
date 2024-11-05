@@ -8,7 +8,8 @@ dotenv.config();
 const uri = process.env.ATLAS_URL; // Use the connection string from the .env file
 const client = new MongoClient(uri);
 
-const password = "Abc@1234"; // Your specified plaintext password
+// Use an environment variable for the password
+const password = process.env.EMPLOYEE_PASSWORD; // Your specified plaintext password from .env
 const saltRounds = 10;
 
 bcrypt.hash(password, saltRounds, async (err, hash) => {
