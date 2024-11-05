@@ -10,6 +10,26 @@ router.use(cors());
 router.post("/", checkAuth, async (req, res) => {
   const { username, recipientName, amount, currency, status, date } = req.body;
 
+  // Validate input data
+  if (typeof username !== 'string' || username.trim() === '') {
+    return res.status(400).send({ error: "Invalid username" });
+  }
+  if (typeof recipientName !== 'string' || recipientName.trim() === '') {
+    return res.status(400).send({ error: "Invalid recipient name" });
+  }
+  if (typeof amount !== 'number' || amount <= 0) {
+    return res.status(400).send({ error: "Invalid amount" });
+  }
+  if (typeof currency !== 'string' || currency.trim() === '') {
+    return res.status(400).send({ error: "Invalid currency" });
+  }
+  if (typeof status !== 'string' || status.trim() === '') {
+    return res.status(400).send({ error: "Invalid status" });
+  }
+  if (typeof date !== 'string' || date.trim() === '') {
+    return res.status(400).send({ error: "Invalid date" });
+  }
+
   const newNotification = {
     username,
     recipientName,
