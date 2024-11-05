@@ -39,13 +39,11 @@ export default function Navbar() {
               </NavLink>
             </li>
             {auth.accountNumber && ( // If logged in as Customer
-              <>
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/paymentCreate">
-                    Create Payment
-                  </NavLink>
-                </li>
-              </>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/paymentCreate">
+                  Create Payment
+                </NavLink>
+              </li>
             )}
             {!auth.accountNumber && (
               <li className="nav-item">
