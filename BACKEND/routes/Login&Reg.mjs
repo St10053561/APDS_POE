@@ -1,9 +1,8 @@
 import express from "express";
-import { db, client } from "../db/conn.mjs"; // Import db and client from conn.mjs
+import { db } from "../db/conn.mjs"; // Remove client from the import
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import ExpressBrute from "express-brute";
-import { body, validationResult } from "express-validator";
 import dotenv from "dotenv";
 
 dotenv.config(); // Load environment variables from .env file
@@ -14,7 +13,7 @@ const bruteforce = new ExpressBrute(store); // Global brute-force instance
 
 // Regex patterns
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
+const usernamePattern = /^\w{3,20}$/; // Use concise character class syntax
 const accountNumberPattern = /^\d{9,10}$/; // Updated to allow 9 or 10 digits
 const idNumberPattern = /^\d{13}$/; // Updated to allow exactly 13 digits
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Password pattern
@@ -207,4 +206,5 @@ router.post("/forgot-password", async (req, res) => {
     res.status(500).json({ errors: [{ field: 'general', message: "Forgot Password Failed" }] });
   }
 });
+
 export default router;
