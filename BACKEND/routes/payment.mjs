@@ -67,7 +67,26 @@ router.post("/", checkAuth, async (req, res) => {
     res.status(201).send(result);
   } catch (error) {
     console.error("Error storing payment:", error);
-    res.status(400).send({ error: error.message });
+
+    // Create a fieldErrors object to hold validation errors
+    const fieldErrors = {};
+
+    // Check for specific validation errors and populate fieldErrors
+    if (error.message.includes("account number")) {
+      fieldErrors.recipientAccountNo = "Invalid account number. It should have 9 to 10 digits.";
+    }
+    if (error.message.includes("swift code")) {
+      fieldErrors.swiftCode = "Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers.";
+    }
+    if (error.message.includes("currency code")) {
+      fieldErrors.currency = "Invalid currency code. It should be a 3-letter uppercase code.";
+    }
+    if (error.message.includes("amount")) {
+      fieldErrors.amount = "Invalid amount. It must be a positive number.";
+    }
+
+    // Send the fieldErrors object in the response
+    res.status(400).send({ fieldErrors });
   }
 });
 
