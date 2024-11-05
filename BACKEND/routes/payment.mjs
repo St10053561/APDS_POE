@@ -7,6 +7,14 @@ import { ObjectId } from 'mongodb'; // Import ObjectId from MongoDB
 const router = express.Router();
 router.use(cors());
 
+// Function to sanitize input
+const sanitizeInput = (input) => {
+  if (typeof input === 'string') {
+    return input.replace(/[<>]/g, ""); // Remove potentially harmful characters
+  }
+  return input;
+};
+
 router.post("/", checkAuth, async (req, res) => {
   try {
     const {
@@ -97,9 +105,14 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 
     const { status } = req.body;
 
+    // Validate status
+    if (!["approved", "disapproved", "pending"].includes(status)) {
+      return res.status(400).send({ error: "Invalid status value" });
+    }
+
     let collection = db.collection("payments");
     let result = await collection.updateOne(
-      { _id: new ObjectId(id) }, // Convert id to ObjectId safely
+      { _id: ObjectId(id) }, // Use ObjectId directly
       { $set: { status: status } }
     );
 
@@ -119,11 +132,13 @@ router.get("/status", checkAuth, async (req, res) => {
   try {
     const { username } = req.query;
 
-    // Use safe query
+    // Sanitize username input
+    const sanitizedUsername = sanitizeInput(username);
+
     let collection = db.collection("payments");
-    let payments = await collection.find({ 
-      username: { $eq: username }, 
-      status: { $in: ["approved", "disapproved"] } 
+    let payments = await collection.find({
+      username: { $eq: sanitizedUsername },
+      status: { $in: ["approved", "disapproved"] }
     }).toArray();
 
     res.status(200).send(payments);
