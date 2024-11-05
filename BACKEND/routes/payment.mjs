@@ -15,6 +15,25 @@ const sanitizeInput = (input) => {
   return input;
 };
 
+// Function to validate input
+const validatePaymentInput = (data) => {
+  const accountNoPattern = /^\d{9,10}$/;
+  const swiftCodePattern = /^[A-Z]{4,5}\d{1,2}$/;
+
+  if (!accountNoPattern.test(data.recipientAccountNo)) {
+    throw new Error("Invalid account number. It should have 9 to 10 digits.");
+  }
+  if (!swiftCodePattern.test(data.swiftCode)) {
+    throw new Error("Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers.");
+  }
+  if (!/^[A-Z]{3}$/.test(data.currency)) {
+    throw new Error("Invalid currency code. It should be a 3-letter uppercase code.");
+  }
+  if (data.amount <= 0) {
+    throw new Error("Invalid amount. It must be a positive number.");
+  }
+};
+
 router.post("/", checkAuth, async (req, res) => {
   try {
     const {
@@ -28,42 +47,13 @@ router.post("/", checkAuth, async (req, res) => {
       currency,
     } = req.body;
 
-    // Define regex patterns
-    const accountNoPattern = /^\d{9,10}$/;
-    const swiftCodePattern = /^[A-Z]{4,5}\d{1,2}$/;
-
-    // Validate account number
-    if (!accountNoPattern.test(recipientAccountNo)) {
-      return res.status(400).send({
-        fieldErrors: { recipientAccountNo: "Invalid account number. It should have 9 to 10 digits." },
-      });
-    }
-
-    // Validate swift code
-    if (!swiftCodePattern.test(swiftCode)) {
-      return res.status(400).send({
-        fieldErrors: { swiftCode: "Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers." },
-      });
-    }
-
-    // Optionally validate currency (e.g., must be a 3-letter code)
-    if (!/^[A-Z]{3}$/.test(currency)) {
-      return res.status(400).send({
-        fieldErrors: { currency: "Invalid currency code. It should be a 3-letter uppercase code." },
-      });
-    }
-
-    // Validate amount (must be a positive number)
-    if (amount <= 0) {
-      return res.status(400).send({
-        fieldErrors: { amount: "Invalid amount. It must be a positive number." },
-      });
-    }
+    // Validate input
+    validatePaymentInput(req.body);
 
     const newPayment = {
       recipientName: sanitizeInput(recipientName),
       recipientBank: sanitizeInput(recipientBank),
-      recipientAccountNo,
+      recipientAccountNo: sanitizeInput(recipientAccountNo), // Sanitize account number
       amount,
       swiftCode: sanitizeInput(swiftCode),
       username: sanitizeInput(username),
@@ -77,7 +67,7 @@ router.post("/", checkAuth, async (req, res) => {
     res.status(201).send(result);
   } catch (error) {
     console.error("Error storing payment:", error);
-    res.status(500).send({ error: "Failed to store payment" });
+    res.status(400).send({ error: error.message });
   }
 });
 
