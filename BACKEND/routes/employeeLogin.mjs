@@ -30,7 +30,7 @@ router.post("/emplogin", bruteforce.prevent, async (req, res) => {
 
     // Find the employee in the Employee collection
     const collection = await db.collection("Employees"); // Change to your employee collection name
-    const employee = await collection.findOne({ username });
+    const employee = await collection.findOne({ username: { $eq: username } }); // Safe comparison
 
     if (!employee) {
       console.log("Employee not found");
@@ -72,7 +72,7 @@ router.post("/forgot-password", async (req, res) => {
 
     // Find the employee in the Employees collection using username
     const collection = await db.collection("Employees");
-    const employee = await collection.findOne({ username });
+    const employee = await collection.findOne({ username: { $eq: username } }); // Safe comparison
 
     if (!employee) {
       console.log("Employee not found:", username);

@@ -89,11 +89,17 @@ router.get("/pending", checkAuth, async (req, res) => {
 router.put("/:id/status", checkAuth, async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Validate ObjectId
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).send({ error: "Invalid payment ID" });
+    }
+
     const { status } = req.body;
 
     let collection = db.collection("payments");
     let result = await collection.updateOne(
-      { _id: new ObjectId(String(id)) }, // Convert id to string before passing it to ObjectId
+      { _id: new ObjectId(id) }, // Convert id to ObjectId safely
       { $set: { status: status } }
     );
 
@@ -112,8 +118,14 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 router.get("/status", checkAuth, async (req, res) => {
   try {
     const { username } = req.query;
+
+    // Use safe query
     let collection = db.collection("payments");
-    let payments = await collection.find({ username, status: { $in: ["approved", "disapproved"] } }).toArray();
+    let payments = await collection.find({ 
+      username: { $eq: username }, 
+      status: { $in: ["approved", "disapproved"] } 
+    }).toArray();
+
     res.status(200).send(payments);
   } catch (error) {
     console.error("Error fetching payments:", error);

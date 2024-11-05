@@ -26,7 +26,7 @@ router.post("/", checkAuth, async (req, res) => {
     res.status(201).send(result);
   } catch (error) {
     console.error("Error logging notification:", error);
-    res.status(400).send(error);
+    res.status(400).send({ error: "Failed to log notification" });
   }
 });
 
@@ -34,14 +34,19 @@ router.post("/", checkAuth, async (req, res) => {
 router.get("/notify", checkAuth, async (req, res) => {
   const { username } = req.query;
 
+  // Validate username to prevent injection
+  if (typeof username !== 'string' || username.trim() === '') {
+    return res.status(400).send({ error: "Invalid username" });
+  }
+
   try {
-    let collection = db.collection("payments"); // Ensure you're querying the correct collection
-    let notifications = await collection.find({ username }).toArray();
+    let collection = db.collection("notifications"); // Ensure you're querying the correct collection
+    let notifications = await collection.find({ username: { $eq: username } }).toArray(); // Use safe query
     console.log("Fetched notifications for user:", username, notifications); // Debug message
     res.status(200).send(notifications);
   } catch (error) {
     console.error("Error fetching notifications:", error);
-    res.status(500).send(error);
+    res.status(500).send({ error: "Failed to fetch notifications" });
   }
 });
 
