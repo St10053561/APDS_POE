@@ -121,7 +121,7 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 
     let collection = db.collection("payments");
     let result = await collection.updateOne(
-      { _id: ObjectId(id) }, // Use ObjectId directly
+      { _id: new ObjectId(id) }, // Use new ObjectId here
       { $set: { status: sanitizeInput(status) } } // Sanitize status before using it
     );
 
