@@ -25,7 +25,17 @@ export default function EmployeeLogin() {
 
             if (!response.ok) {
                 const text = await response.text();
-                const errorData = text ? JSON.parse(text) : {};
+                let errorData = {};
+
+                // Check if the response is JSON
+                try {
+                    errorData = text ? JSON.parse(text) : {};
+                } catch (jsonError) {
+                    console.error("Failed to parse error response:", jsonError);
+                    errorData = { errors: [{ field: 'general', message: 'Login failed. Please try again.' }] };
+                }
+
+                // Throw an error with the parsed error data or a general message
                 throw new Error(JSON.stringify(errorData.errors || [{ field: 'general', message: 'Login failed' }]));
             }
 
@@ -33,10 +43,19 @@ export default function EmployeeLogin() {
             login(data.token, data.username);
             navigate('/emp-Home'); // Redirect to your desired route
         } catch (error) {
-            const errorMessages = JSON.parse(error.message).reduce((acc, err) => {
-                acc[err.field] = err.message;
-                return acc;
-            }, {});
+            let errorMessages = {};
+
+            // Attempt to parse the error message
+            try {
+                errorMessages = JSON.parse(error.message).reduce((acc, err) => {
+                    acc[err.field] = err.message;
+                    return acc;
+                }, {});
+            } catch (parseError) {
+                console.error("Failed to parse error message:", parseError);
+                errorMessages.general = 'An unexpected error occurred. Please try again.';
+            }
+
             setErrors(errorMessages);
             console.error('Error during employee login:', error);
         }
