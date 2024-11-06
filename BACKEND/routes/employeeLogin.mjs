@@ -41,7 +41,7 @@ router.post("/emplogin", bruteforce.prevent, async (req, res) => {
 
     // Find the employee in the Employee collection
     const collection = await db.collection("Employees");
-    const employee = await collection.findOne({ username: sanitizedUsername }); // Safe comparison
+    const employee = await collection.findOne({ username: sanitizedUsername });
 
     if (!employee) {
       console.log("Employee not found");
@@ -56,11 +56,11 @@ router.post("/emplogin", bruteforce.prevent, async (req, res) => {
     } else {
       // Authentication successful
       const token = jwt.sign({ username: employee.username }, secretKey, { expiresIn: "30m" });
-      res.status(200).json({ message: "Authentication successful", token, username: employee.username });
+      return res.status(200).json({ message: "Authentication successful", token, username: employee.username });
     }
   } catch (error) {
     console.log("Employee Login Error:", error);
-    res.status(500).json({ message: "Login Failed" });
+    res.status(500).json({ errors: [{ field: 'general', message: "Login Failed" }] }); // Include a general error message
   }
 });
 
