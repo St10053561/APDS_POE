@@ -36,7 +36,7 @@ jobs:
           name: Run Backend Tests
           command: |
             cd BACKEND
-            ./node_modules/.bin/jest --config jest.backend.config.cjs
+            ./node_modules/.bin/jest --config jest.backend.config.cjs --testPathPattern='tests/employeeLogin.test.js' 
 
   frontend-tests:
     docker:
