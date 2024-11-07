@@ -5,6 +5,7 @@ import https from "https";
 import loginRegRoutes from "./routes/Login&Reg.mjs";
 import paymentRouter from "./routes/payment.mjs";
 import employeeLoginRouter from "./routes/employeeLogin.mjs"; // Import the employee login route
+import notificationRouter from "./routes/manageNotifications.mjs"; // Import the notification route
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -120,6 +121,7 @@ mongoose.set('sanitizeFilter', true);
 app.use("/user", loginRegRoutes); // Login and Registration Routes
 app.use("/payment", paymentRouter); // Payment Routes
 app.use("/emp", employeeLoginRouter); // Employee Login Route
+app.use("/notifications", notificationRouter); // Notification Routes
 
 // Catch validation errors globally
 app.use((err, req, res, next) => {
