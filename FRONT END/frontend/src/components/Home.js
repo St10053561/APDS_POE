@@ -9,6 +9,7 @@ const Home = () => {
     const { auth } = useContext(AuthContext);
     const navigate = useNavigate();
     const [unreadCount, setUnreadCount] = useState(0); // Track unread notifications count
+    const [notifications, setNotifications] = useState([]); // Store the notifications
 
     // Function to play notification sound
     const playNotificationSound = () => {
@@ -18,28 +19,17 @@ const Home = () => {
 
     const fetchNotifications = useCallback(async () => {
         try {
-            const response = await axios.get('https://localhost:3001/payment/status', {
-                headers: {
-                    Authorization: `Bearer ${auth.token}`,
-                },
-                params: {
-                    username: auth.username,
-                },
+            const response = await axios.get(`https://localhost:3001/notifications/${auth.username}`, {
+                headers: { Authorization: `Bearer ${auth.token}` },
             });
 
             if (response.status === 200) {
                 const readNotifications = new Set(JSON.parse(localStorage.getItem('readNotifications')) || []);
+                const newNotifications = response.data.filter(notification => !readNotifications.has(notification._id));
 
-                const newNotifications = response.data.filter(notification =>
-                    !readNotifications.has(notification._id) // Check if the notification is unread
-                );
-
-                // Update unread notifications count
-                setUnreadCount(newNotifications.length);
-
-                if (newNotifications.length > 0) {
-                    playNotificationSound(); // Play sound only for new, unread notifications
-                }
+                setUnreadCount(newNotifications.length); // Update count
+                setNotifications(newNotifications); // Store notifications to display
+                if (newNotifications.length > 0) playNotificationSound(); // Play sound for new notifications
             } else {
                 console.error("Error: Received non-200 response", response.status);
             }
@@ -85,16 +75,21 @@ const Home = () => {
             <p>Hello, {auth.username}</p>
             <div className="dashboard">
                 <h2>Banking Details</h2>
-                <p1>Account Number: {bankingDetails.accountNumber}</p1>
-                <p1>Bank Name: {bankingDetails.bankName}</p1>
-                <p1>Balance: {bankingDetails.balance}</p1>
+                <p>Account Number: {bankingDetails.accountNumber}</p>
+                <p>Bank Name: {bankingDetails.bankName}</p>
+                <p>Balance: {bankingDetails.balance}</p>
                 <NavLink to="/paymentCreate">
                     <button>Make International Payment</button>
                 </NavLink>
             </div>
             <div className="notifications">
                 <h2>Notifications</h2>
-                <p>Unread Notifications: {unreadCount}</p> {/* Display only the count */}
+                <p>Unread Notifications: {unreadCount}</p>
+                <ul>
+                    {notifications.map((notification) => (
+                        <li key={notification._id}>{notification.message}</li> // Display notification messages
+                    ))}
+                </ul>
             </div>
         </div>
     );

@@ -121,26 +121,39 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 
     let collection = db.collection("payments");
     let result = await collection.updateOne(
-      { _id: new ObjectId(id) }, // Use new ObjectId here
-      { $set: { status: sanitizeInput(status) } } // Sanitize status before using it
+      { _id: new ObjectId(id) },
+      { $set: { status: sanitizeInput(status) } }
     );
 
     if (result.modifiedCount === 0) {
       return res.status(404).send({ error: "Payment not found" });
     }
 
-    res.status(200).send({ message: "Payment status updated successfully" });
+    // Fetch the updated payment details
+    const payment = await collection.findOne({ _id: new ObjectId(id) });
+
+    // Emit notification using the username
+    const notificationCollection = db.collection("notifications");
+    await notificationCollection.insertOne({
+      username: payment.username, // Use the username instead of userId
+      message: `Payment for ${payment.recipientName} of ${payment.amount} ${payment.currency} was ${status}`,
+      date: new Date(),
+      read: false
+    });
+
+    res.status(200).send({ message: "Payment status updated and notification sent" });
   } catch (error) {
     console.error("Error updating payment status:", error);
     res.status(500).send({ error: "Failed to update payment status" });
   }
 });
 
+
 router.post("/history", checkAuth, async (req, res) => {
   console.log("Received request to log transaction history:", req.body); // Add this line
   const { recipientName, amount, currency, status, date } = req.body;
 
-    // Validate input
+  // Validate input
   if (typeof amount !== 'number' || amount <= 0) {
     return res.status(400).send({ error: "Invalid amount. It must be a positive number." });
   }
