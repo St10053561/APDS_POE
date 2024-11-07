@@ -29,7 +29,7 @@ const Home = () => {
 
                 setUnreadCount(newNotifications.length); // Update count
                 setNotifications(newNotifications); // Store notifications to display
-                if (newNotifications.length > 0) playNotificationSound(); // Play sound for new notifications
+                if (newNotifications.length > 0) playNotificationSound(); // Play sound if there are new notifications
             } else {
                 console.error("Error: Received non-200 response", response.status);
             }
@@ -42,10 +42,9 @@ const Home = () => {
         if (!auth.token) {
             navigate('/'); // Redirect to home if not logged in
         } else {
-            const intervalId = setInterval(fetchNotifications, 3000);
-            return () => clearInterval(intervalId); // Cleanup on unmount
+            fetchNotifications(); // Fetch notifications only once on load
         }
-    }, [auth.token, navigate, fetchNotifications]);
+    }, [auth.token, navigate, fetchNotifications]); // This will run once when the component mounts
 
     if (!auth.token) {
         return (
@@ -75,9 +74,9 @@ const Home = () => {
             <p>Hello, {auth.username}</p>
             <div className="dashboard">
                 <h2>Banking Details</h2>
-                <p1>Account Number: {bankingDetails.accountNumber}</p1>
-                <p1>Bank Name: {bankingDetails.bankName}</p1>
-                <p1>Balance: {bankingDetails.balance}</p1>
+                <p>Account Number: {bankingDetails.accountNumber}</p>
+                <p>Bank Name: {bankingDetails.bankName}</p>
+                <p>Balance: {bankingDetails.balance}</p>
                 <NavLink to="/paymentCreate">
                     <button>Make International Payment</button>
                 </NavLink>
