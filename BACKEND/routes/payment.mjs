@@ -136,32 +136,11 @@ router.put("/:id/status", checkAuth, async (req, res) => {
   }
 });
 
-// Endpoint to fetch approved and disapproved payments for a specific user
-router.get("/status", checkAuth, async (req, res) => {
-  try {
-    const { username } = req.query;
-
-    // Sanitize username input
-    const sanitizedUsername = sanitizeInput(username);
-
-    let collection = db.collection("payments");
-    let payments = await collection.find({
-      username: sanitizedUsername, // Use sanitized username directly
-      status: { $in: ["approved", "disapproved"] }
-    }).toArray();
-
-    res.status(200).send(payments);
-  } catch (error) {
-    console.error("Error fetching payments:", error);
-    res.status(500).send({ error: "Failed to fetch payments" });
-  }
-});
-
-// Endpoint to log transaction history
 router.post("/history", checkAuth, async (req, res) => {
+  console.log("Received request to log transaction history:", req.body); // Add this line
   const { recipientName, amount, currency, status, date } = req.body;
 
-  // Validate input
+    // Validate input
   if (typeof amount !== 'number' || amount <= 0) {
     return res.status(400).send({ error: "Invalid amount. It must be a positive number." });
   }
@@ -187,6 +166,7 @@ router.post("/history", checkAuth, async (req, res) => {
   try {
     let collection = db.collection("transactionHistory");
     let result = await collection.insertOne(newTransaction);
+    console.log("Transaction history stored:", result); // Log the result of the insert
     res.status(201).send(result);
   } catch (error) {
     console.error("Error logging transaction history:", error);
