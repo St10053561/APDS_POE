@@ -46,7 +46,7 @@ describe('Employee Login', () => {
     it('should return an error for invalid credentials', async () => {
         const invalidCredentials = {
             username: 'invaliduser',
-            password: 'wrongpassword'
+            password: process.env.TEST_PASSWORD 
         };
 
         const response = await request(app)
