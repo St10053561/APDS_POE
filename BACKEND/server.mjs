@@ -12,7 +12,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { createStream } from 'rotating-file-stream';  
+import { createStream } from 'rotating-file-stream';
+import ExpressBrute from "express-brute";
 
 const PORT = 3001;
 const app = express();
@@ -115,6 +116,14 @@ app.use((req, res, next) => {
 app.disable('x-powered-by');
 // MongoDB NoSQL injection prevention
 mongoose.set('sanitizeFilter', true); 
+
+// Express Brute for brute-force protection
+const store = new ExpressBrute.MemoryStore(); // Don't use this in production
+const bruteforce = new ExpressBrute(store); // Global brute-force instance
+
+// Apply brute-force protection to specific routes
+app.use("/login", bruteforce.prevent);
+app.use("/emp", bruteforce.prevent);
 
 // Routes
 app.use("/user", loginRegRoutes); // Login and Registration Routes
