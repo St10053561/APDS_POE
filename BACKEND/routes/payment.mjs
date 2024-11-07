@@ -121,7 +121,7 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 
     let collection = db.collection("payments");
     let result = await collection.updateOne(
-      { _id: new ObjectId(id) },
+      { _id: new ObjectId(id) }, // This line is correct as it is
       { $set: { status: sanitizeInput(status) } }
     );
 
@@ -130,7 +130,7 @@ router.put("/:id/status", checkAuth, async (req, res) => {
     }
 
     // Fetch the updated payment details
-    const payment = await collection.findOne({ _id: new ObjectId(id) });
+    const payment = await collection.findOne({ _id: new ObjectId(id) }); // This line is also correct
 
     // Emit notification using the username
     const notificationCollection = db.collection("notifications");
