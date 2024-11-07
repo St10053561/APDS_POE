@@ -27,7 +27,7 @@ bcrypt.hash(password, saltRounds, async (err, hash) => {
 
         try {
             await client.connect();
-            const database = client.db('APDS'); 
+            const database = client.db('APDS');
             const collectionName = 'Employees'; // Collection name
 
             // Check if the collection exists
@@ -41,7 +41,7 @@ bcrypt.hash(password, saltRounds, async (err, hash) => {
             }
 
             // Insert the employee record
-            const collection = database.collection(collectionName); 
+            const collection = database.collection(collectionName);
             const result = await collection.insertOne(employeeRecord);
             console.log(`New employee created with the following id: ${result.insertedId}`);
         } catch (error) {
