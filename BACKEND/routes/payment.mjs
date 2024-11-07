@@ -120,8 +120,10 @@ router.put("/:id/status", checkAuth, async (req, res) => {
     }
 
     let collection = db.collection("payments");
+    
+    // Use ObjectId.createFromHexString or ObjectId(id) based on your driver version
     let result = await collection.updateOne(
-      { _id: new ObjectId(id) }, // This line is correct as it is
+      { _id: ObjectId.createFromHexString(id) }, // Updated line
       { $set: { status: sanitizeInput(status) } }
     );
 
@@ -130,7 +132,7 @@ router.put("/:id/status", checkAuth, async (req, res) => {
     }
 
     // Fetch the updated payment details
-    const payment = await collection.findOne({ _id: new ObjectId(id) }); // This line is also correct
+    const payment = await collection.findOne({ _id: ObjectId.createFromHexString(id) }); // Updated line
 
     // Emit notification using the username
     const notificationCollection = db.collection("notifications");
@@ -147,7 +149,6 @@ router.put("/:id/status", checkAuth, async (req, res) => {
     res.status(500).send({ error: "Failed to update payment status" });
   }
 });
-
 
 router.post("/history", checkAuth, async (req, res) => {
   console.log("Received request to log transaction history:", req.body); // Add this line
