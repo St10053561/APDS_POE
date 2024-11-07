@@ -49,6 +49,13 @@ const NotificationPage = () => {
     }
   }, [auth.token, fetchNotifications, navigate]);
 
+  // Helper function to format the date
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options).replace(/(\d{2})\/(\w{3})\/(\d{4})/, '$3 - $2 - $1').toUpperCase();
+  };
+
   return (
     <div className="container">
       <h2>Notifications History</h2>
@@ -56,7 +63,7 @@ const NotificationPage = () => {
         {notifications.map(notification => (
           <li key={notification._id} className={`notification-card ${readNotifications.has(notification._id) ? 'read' : 'unread'}`}>
             <p><strong>Message:</strong> {notification.message}</p>
-            <p><strong>Date:</strong> {notification.date}</p>
+            <p><strong>Date:</strong> {formatDate(notification.date)}</p>
             {!readNotifications.has(notification._id) && (
               <button onClick={() => markAsRead(notification._id)}>Mark as Read</button>
             )}
