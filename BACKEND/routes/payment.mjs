@@ -121,44 +121,36 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 
     let collection = db.collection("payments");
     let result = await collection.updateOne(
-      { _id: ObjectId(id) }, // Use ObjectId directly
-      { $set: { status: sanitizeInput(status) } } // Sanitize status before using it
+      { _id: new ObjectId(id) },
+      { $set: { status: sanitizeInput(status) } }
     );
 
     if (result.modifiedCount === 0) {
       return res.status(404).send({ error: "Payment not found" });
     }
 
-    res.status(200).send({ message: "Payment status updated successfully" });
+    // Fetch the updated payment details
+    const payment = await collection.findOne({ _id: new ObjectId(id) });
+
+    // Emit notification using the username
+    const notificationCollection = db.collection("notifications");
+    await notificationCollection.insertOne({
+      username: payment.username, // Use the username instead of userId
+      message: `Payment for ${payment.recipientName} of ${payment.amount} ${payment.currency} was ${status}`,
+      date: new Date(),
+      read: false
+    });
+
+    res.status(200).send({ message: "Payment status updated and notification sent" });
   } catch (error) {
     console.error("Error updating payment status:", error);
     res.status(500).send({ error: "Failed to update payment status" });
   }
 });
 
-// Endpoint to fetch approved and disapproved payments for a specific user
-router.get("/status", checkAuth, async (req, res) => {
-  try {
-    const { username } = req.query;
 
-    // Sanitize username input
-    const sanitizedUsername = sanitizeInput(username);
-
-    let collection = db.collection("payments");
-    let payments = await collection.find({
-      username: sanitizedUsername, // Use sanitized username directly
-      status: { $in: ["approved", "disapproved"] }
-    }).toArray();
-
-    res.status(200).send(payments);
-  } catch (error) {
-    console.error("Error fetching payments:", error);
-    res.status(500).send({ error: "Failed to fetch payments" });
-  }
-});
-
-// Endpoint to log transaction history
 router.post("/history", checkAuth, async (req, res) => {
+  console.log("Received request to log transaction history:", req.body); // Add this line
   const { recipientName, amount, currency, status, date } = req.body;
 
   // Validate input
@@ -187,6 +179,7 @@ router.post("/history", checkAuth, async (req, res) => {
   try {
     let collection = db.collection("transactionHistory");
     let result = await collection.insertOne(newTransaction);
+    console.log("Transaction history stored:", result); // Log the result of the insert
     res.status(201).send(result);
   } catch (error) {
     console.error("Error logging transaction history:", error);
