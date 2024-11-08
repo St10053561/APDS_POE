@@ -121,7 +121,7 @@ router.put("/:id/status", checkAuth, async (req, res) => {
 
         let collection = db.collection("payments");
         let result = await collection.updateOne(
-            { _id: new ObjectId(id) },
+            { _id: ObjectId.createFromHexString(id) }, // Use createFromHexString here
             { $set: { status: sanitizeInput(status) } }
         );
 
@@ -130,12 +130,12 @@ router.put("/:id/status", checkAuth, async (req, res) => {
         }
 
         // Fetch the updated payment details
-        const payment = await collection.findOne({ _id: new ObjectId(id) });
+        const payment = await collection.findOne({ _id: ObjectId.createFromHexString(id) }); // Use createFromHexString here
 
         // Emit notification using the username
         const notificationCollection = db.collection("notifications");
         await notificationCollection.insertOne({
-            username: payment.username, // Use the username instead of userId
+            username: payment.username,
             message: `Payment for ${payment.recipientName} of ${payment.amount} ${payment.currency} was ${status}`,
             date: new Date(),
             read: false
