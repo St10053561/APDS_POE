@@ -38,11 +38,17 @@ async function createEmployee() {
             console.log(`Collection '${collectionName}' already exists.`);
         }
 
+        // Check if the employee already exists
+        const existingEmployee = await database.collection(collectionName).findOne({ username: employeeRecord.username });
+        if (existingEmployee) {
+            console.log(`Employee with username '${employeeRecord.username}' already exists.`);
+            return; // Exit the function if the employee already exists
+        }
+
         // Insert the employee record
         const collection = database.collection(collectionName);
         const result = await collection.insertOne(employeeRecord);
         console.log(`New employee created with the following id: ${result.insertedId}`);
-
     } catch (error) {
         console.error("Error during employee creation:", error);
     } finally {
