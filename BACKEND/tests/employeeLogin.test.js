@@ -5,12 +5,10 @@ global.performance = {
     now: () => Date.now(),
 };
 
-
 import request from 'supertest';
 import express from 'express';
 import employeeRouter from '../routes/employeeLogin.mjs'; // Adjust the path to your router
 import { client } from '../db/conn.mjs'; // Import the MongoDB client
-
 
 const app = express();
 app.use(express.json()); // Middleware to parse JSON
@@ -29,10 +27,10 @@ afterAll(async () => {
 
 describe('Employee Login', () => {
     it('should successfully log in with valid credentials', async () => {
-        // Replace with valid test credentials
+        // Use environment variables for test credentials
         const validCredentials = {
-            username: 'emp1', // Replace with a valid username
-            password: 'Flexvision@27' // Replace with the corresponding password
+            username: process.env.TEST_USERNAME, // Reference the username from .env
+            password: process.env.TEST_PASSWORD  // Reference the password from .env
         };
 
         const response = await request(app)
@@ -48,7 +46,7 @@ describe('Employee Login', () => {
     it('should return an error for invalid credentials', async () => {
         const invalidCredentials = {
             username: 'invaliduser',
-            password: 'wrongpassword'
+            password: process.env.TEST_PASSWORD 
         };
 
         const response = await request(app)
