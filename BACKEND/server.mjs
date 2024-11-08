@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+// Loading environment variables from .env file
+dotenv.config(); 
+
 import open from "open";
 import express from "express";
 import fs from "fs";
@@ -14,8 +18,19 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import { createStream } from 'rotating-file-stream';
 import ExpressBrute from "express-brute";
+import winston from 'winston';
 
-const PORT = 3001;
+// Configure Winston logger
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' }),
+    ],
+});
+
+const PORT = process.env.PORT || 3001; // Use PORT from environment variables if available
 const app = express();
 
 // HTTPS options for secure connection
@@ -41,11 +56,17 @@ app.use(helmet.hsts({
     includeSubDomains: true,
     preload: true
 }));
+//Implementing Content Security Policy
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "trusted-cdn.com"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+        fontSrc: ["'self'", "https:"],
         objectSrc: ["'none'"],
+        frameSrc: ["'none'"],
         upgradeInsecureRequests: [],
     },
 }));
@@ -101,8 +122,13 @@ app.use("/login", loginLimiter);
 
 app.use(limiter);
 
-// Custom middleware to apply rate limiting on specific routes like login & registration
-app.use("/user", limiter);
+// Custom rate limiter for user-related routes
+const userLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, 
+    max: 50, 
+    message: "Too many requests from this IP, please try again after 15 minutes."
+});
+app.use("/user", userLimiter);
 
 // Set Access-Control headers
 app.use((req, res, next) => {
@@ -140,8 +166,19 @@ app.use((err, req, res, next) => {
 
 // Global error handler for catching any unhandled errors
 app.use((err, req, res, next) => {
+    logger.error(err.stack); // Log the error using Winston
     console.error("Global error handler caught:", err);
     res.status(500).json({ error: "An unexpected error occurred." });
+});
+
+//Disabling HTTP methods not used by the application
+app.use((req, res, next) => {
+    const allowedMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+    if (!allowedMethods.includes(req.method)) {
+        res.status(405).send('Method Not Allowed');
+    } else {
+        next();
+    }
 });
 
 // Start the HTTPS server
