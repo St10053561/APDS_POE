@@ -73,23 +73,25 @@ const Home = () => {
             <h1>Welcome to TransactIO</h1>
             <p>Hello, {auth.username}</p>
             <div className="dashboard">
-                <h2>Banking Details</h2>
-                <p>Account Number: {bankingDetails.accountNumber}</p>
-                <p>Bank Name: {bankingDetails.bankName}</p>
-                <p>Balance: {bankingDetails.balance}</p>
+                <h2 className="banking-details">  Banking Details</h2>
+                <p className="banking-details">Account Number: {bankingDetails.accountNumber}</p>
+                <p className="banking-details">Bank Name: {bankingDetails.bankName}</p>
+                <p className="banking-details">Balance: {bankingDetails.balance}</p>
                 <NavLink to="/paymentCreate">
                     <button>Make International Payment</button>
                 </NavLink>
             </div>
             <div className="notifications">
-                <h2>Notifications</h2>
-                <p>Unread Notifications: {unreadCount}</p>
-                <ul>
-                    {notifications.map((notification) => (
-                        <li key={notification._id}>{notification.message}</li> // Display notification messages
-                    ))}
-                </ul>
-            </div>
+    <h2>Notifications</h2>
+    <p>Unread Notifications: {unreadCount}</p>
+    <div className="notifications-card">
+        <ul>
+            {notifications.map((notification) => (
+                <li key={notification._id}>{notification.message}</li>
+            ))}
+        </ul>
+    </div>
+</div>
         </div>
     );
 };

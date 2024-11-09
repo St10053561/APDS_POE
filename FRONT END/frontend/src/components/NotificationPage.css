@@ -51,13 +51,42 @@ h2 {
   color: #333;
 }
 
+/* Button styles */
+.notification-card button {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.notification-card button:hover {
+  color: #333;
+}
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
   h2 {
-      font-size: 2rem; /* Slightly smaller font size on mobile */
+    font-size: 2rem;
   }
   .notification-card {
-      padding: 15px; /* Reduced padding for smaller screens */
+    padding: 15px;
   }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.5s ease forwards; 
 }

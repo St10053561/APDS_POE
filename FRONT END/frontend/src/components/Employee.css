@@ -54,24 +54,6 @@
     margin-bottom: 1rem;
 }
 
-/* Login.css */
-.outer-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: rgba(255, 255, 255, 0.8); /* Optional overlay effect */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Optional shadow for depth */
-    border-radius: 30px;
-    max-width: 400px;
-    padding: 10px; 
-    margin: auto;
+.form-group {
+    margin-top: 1rem; /* Add this line for spacing */
 }
-
-body {
-    background: linear-gradient(to bottom, #bbdfe3, #008ea7); /* Light (#94dde6) to slightly darker (#4ba6b7) */
-    min-height: 100vh; /* Ensure it covers the full height of the viewport */
-    margin: 0; /* Remove default margin */
-  }
-
-
