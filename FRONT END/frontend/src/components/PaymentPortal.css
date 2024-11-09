@@ -95,6 +95,13 @@
     }
 }
 
+/* Approval message styling */
+.alert-info {
+    background-color: #ffe0b2; 
+    color: #8B4000; 
+    border: 1px solid #ff9800; 
+}
+
 @media (max-width: 576px) {
     .payment-card {
         padding: 10px;

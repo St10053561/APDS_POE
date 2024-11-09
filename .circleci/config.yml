@@ -68,6 +68,11 @@ jobs:
           command: |
             cd "FRONT END/frontend"
             npm run test -- --testPathPattern='FRONT END/frontend/tests/frontendPayment.test.js'
+      - run:
+          name: Run Frontend Employee Login Tests
+          command: |
+            cd "FRONT END/frontend"
+            ./node_modules/.bin/jest --testPathPattern='FRONT END/frontend/tests/frontendEmpLogin.test.js'
 
   sonar-scan:
     docker:
@@ -107,7 +112,7 @@ workflows:
       - frontend-tests:
           requires:
             - setup
-             - sonar-scan:
+      - sonar-scan:
           requires:
             - backend-tests
             - frontend-tests
