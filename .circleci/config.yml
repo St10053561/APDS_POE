@@ -107,7 +107,7 @@ workflows:
       - frontend-tests:
           requires:
             - setup
-      - sonar-scan:
+             - sonar-scan:
           requires:
             - backend-tests
             - frontend-tests
