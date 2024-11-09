@@ -92,14 +92,9 @@ jobs:
               -Dsonar.organization=$SONAR_ORG \
               -Dsonar.login=$SONAR_TOKEN \
               -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\"" \
-              -Dsonar.exclusions="**/node_modules/**, **/*.test.js, **/*.spec.js, **/coverage/**, **/BACKEND/tests/**, **/FRONT END/frontend/tests/**" \
               -Dsonar.c.file.suffixes=- \
               -Dsonar.cpp.file.suffixes=- \
-              -Dsonar.objc.file.suffixes=- \
-              -Dsonar.coverage.exclusions="**/FRONT END/frontend/tests/**, **/BACKEND/tests/**" \
-              -Dsonar.issue.ignore.multicriteria=e1 \
-              -Dsonar.issue.ignore.multicriteria.e1.ruleKey=javascript:S3751 \
-              -Dsonar.issue.ignore.multicriteria.e1.resourceKey="**/*.test.js"
+              -Dsonar.objc.file.suffixes=-
 
 workflows:
   version: 2
