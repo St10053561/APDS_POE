@@ -1,26 +1,32 @@
 /* TransactionHistory.css */
 
+body {
+    background-color: #f0f2f5; 
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+}
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    background-color: #f0f2f5;
+    background: transparent;
+    padding: 40px;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
 }
 
 h2 {
-    color: #333;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+    color: #333; 
+    font-size: 2.4rem; 
+    margin-bottom: 20px; 
+    text-align: center;
 }
 
 .transaction-list {
     display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     width: 100%;
     max-width: 900px;
     padding: 0;
@@ -28,21 +34,22 @@ h2 {
 }
 
 .transaction-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .transaction-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .transaction-card p {
     color: #555;
-    margin: 4px 0;
-    font-size: 1rem;
+    margin: 10px 0; 
+    font-size: 1rem; 
 }
 
 .transaction-card p strong {
@@ -51,10 +58,21 @@ h2 {
 
 .amount {
     font-weight: bold;
-    color: #4CAF50;
+    color: #4CAF50; 
 }
 
 .status {
     font-weight: bold;
-    color: #FF9800;
+    color: #FF9800; 
 }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    h2 {
+        font-size: 1.8rem;
+    }
+    .transaction-card {
+        padding: 15px; 
+    }
+}
+

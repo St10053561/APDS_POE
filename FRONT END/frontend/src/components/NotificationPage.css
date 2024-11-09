@@ -5,57 +5,59 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background-color: #f0f2f5; /* Match background color with TransactionHistory */
+  padding: 40px; 
+  background: transparent; 
   min-height: 100vh;
   font-family: Arial, sans-serif;
 }
 
-
 h2 {
-  color: #333;
-  font-size: 1.8rem; /* Match font size with TransactionHistory */
+  color: #ffffff; 
+  font-size: 2.4rem; 
   margin-bottom: 20px;
+  text-align: center; 
 }
 
 .notification-list {
   display: grid;
-  gap: 16px; /* Match gap with TransactionHistory */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Match grid layout */
+  gap: 20px; 
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
   width: 100%;
-  max-width: 900px; /* Match max-width with TransactionHistory */
+  max-width: 900px; 
   padding: 0;
   list-style-type: none;
 }
 
 .notification-card {
-  background-color: #fff;
-  border-radius: 8px; /* Match border radius with TransactionHistory */
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px; 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
 }
 
 .notification-card:hover {
-  transform: translateY(-4px); /* Match hover effect with TransactionHistory */
+  transform: translateY(-4px); 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .notification-card p {
   color: #555;
-  margin: 4px 0;
-  font-size: 1rem; /* Match font size with TransactionHistory */
+  margin: 8px 0;
+  font-size: 1.1rem; 
 }
 
 .notification-card p strong {
   color: #333;
 }
 
-.amount {
-  font-weight: bold;
-  color: #4CAF50;
-}
 
-.status {
-  font-weight: bold;
-  color: #FF9800;
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  h2 {
+      font-size: 2rem; /* Slightly smaller font size on mobile */
+  }
+  .notification-card {
+      padding: 15px; /* Reduced padding for smaller screens */
+  }
 }
