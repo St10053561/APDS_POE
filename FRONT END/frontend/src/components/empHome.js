@@ -3,6 +3,7 @@ import { AuthContext } from '../AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmpHome.css'; // Import the CSS file
+import './Login.css';
 
 export default function EmpHome() {
     const { auth } = useContext(AuthContext);
@@ -63,7 +64,8 @@ export default function EmpHome() {
     };
 
     return (
-        <div className="container">
+        <div className="login-container">
+        <div className="outer-container2">
             <h1 className="greeting">Hello, {auth.username}!</h1>
             <p className="date">Today is {new Date().toLocaleDateString()}</p>
             <h2 className="heading">Pending Payments</h2>
@@ -82,5 +84,17 @@ export default function EmpHome() {
             </div>
             <button className="historyButton" onClick={() => navigate('/transaction-history')}>View Transaction History</button>
         </div>
+        </div>
     );
 }
+
+   // Adding keyframe animation for background shift
+   const styleSheet = document.styleSheets[0];
+   styleSheet.insertRule(`
+       @keyframes backgroundShift {
+           0% { background: linear-gradient(135deg, #f8f9fa, #e9ecef); }
+           100% { background: linear-gradient(135deg, #e9ecef, #d6d8db); }
+       }
+   `, styleSheet.cssRules.length);
+   
+   
