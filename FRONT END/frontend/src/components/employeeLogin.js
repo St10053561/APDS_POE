@@ -75,15 +75,19 @@ export default function EmployeeLogin() {
                     onChange={(e) => updateForm({ username: e.target.value })}
                     required
                 />
+                {errors.username && <div className="error-message">{errors.username}</div>} {/* Display username error */}
+
                 <input
                     type="password"
                     className="input-field"
                     placeholder="Password"
                     value={form.password}
                     onChange={(e) => updateForm({ password: e.target.value })}
-                    required
-                />
-                {errors.general && <div className="error-message">{errors.general}</div>}
+                    required />
+                {errors.password && <div className="error-message">{errors.password}</div>} {/* Display password error */}
+
+                {errors.general && <div className="error-message">{errors.general}</div>} {/* Display general error */}
+                
                 <button type="submit" className="login-button">Login</button>
                 <div className="form-group">
                     <a href="/employee-forgot-password">Forgot Password?</a>

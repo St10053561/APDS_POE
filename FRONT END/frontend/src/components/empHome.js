@@ -43,17 +43,18 @@ export default function EmpHome() {
             // Log the transaction history
             const payment = pendingPayments.find(payment => payment._id === id);
             if (payment) {
-                await axios.post('https://localhost:3001/payment/history', {
+                const response = await axios.post('https://localhost:3001/payment/history', {
                     recipientName: payment.recipientName,
-                    amount: payment.amount,
+                    amount: Number(payment.amount),
                     currency: payment.currency,
-                    status : status,
+                    status: status,
                     date: new Date().toISOString(),
                 }, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
                 });
+                console.log("Transaction history logged:", response.data); // Log the response
             }
 
             fetchPendingPayments(); // Refresh the list after updating
