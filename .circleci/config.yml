@@ -37,65 +37,21 @@ jobs:
           command: |
             cd BACKEND
             ./node_modules/.bin/jest --config jest.backend.config.cjs
-
-  backend-employee-login-tests:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run:
-          name: Install Backend Dependencies
-          command: |
-            cd BACKEND
-            npm install
       - run:
           name: Run Backend Employee Login Tests
           command: |
             cd BACKEND
             ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/employeeLogin.test.js'
-
-  backend-login-tests:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run:
-          name: Install Backend Dependencies
-          command: |
-            cd BACKEND
-            npm install
       - run:
           name: Run Backend Login Tests
           command: |
             cd BACKEND
             ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/login.test.js'
-
-  backend-login-reg-tests:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run:
-          name: Install Backend Dependencies
-          command: |
-            cd BACKEND
-            npm install
       - run:
           name: Run Backend LoginReg Tests
           command: |
             cd BACKEND
             ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/LoginReg.test.js'
-
-  backend-payment-tests:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run:
-          name: Install Backend Dependencies
-          command: |
-            cd BACKEND
-            npm install
       - run:
           name: Run Backend Payment Tests
           command: |
@@ -171,18 +127,6 @@ workflows:
     jobs:
       - setup
       - backend-tests:
-          requires:
-            - setup
-      - backend-employee-login-tests:
-          requires:
-            - setup
-      - backend-login-tests:
-          requires:
-            - setup
-      - backend-login-reg-tests:
-          requires:
-            - setup
-      - backend-payment-tests:
           requires:
             - setup
       - frontend-tests:
