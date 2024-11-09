@@ -25,7 +25,7 @@ const PaymentPortal = () => {
     date: new Date().toISOString().split("T")[0],
     currency: "ZAR",
   });
-  const [successMessage, setSuccessMessage] = useState("");
+  
   const [errorMessage, setErrorMessage] = useState(""); // State for general error message
   const [fieldErrors, setFieldErrors] = useState({}); // State for field-specific errors
   const [showApprovalMessage, setShowApprovalMessage] = useState(false); // State for approval message
@@ -65,7 +65,7 @@ const PaymentPortal = () => {
           },
         }
       );
-      setSuccessMessage("Payment has been made successfully!");
+     
       setShowApprovalMessage(true); // Show approval message
       setErrorMessage(""); // Clear any previous error message
       setFieldErrors({}); // Clear field errors
@@ -81,7 +81,7 @@ const PaymentPortal = () => {
       });
     } catch (error) {
       console.error("Error making payment:", error);
-      setSuccessMessage("");
+     
       setShowApprovalMessage(false); // Hide approval message
       setErrorMessage(error.response?.data?.error || "Failed to make payment");
       if (error.response?.data?.fieldErrors) {
@@ -201,9 +201,7 @@ const PaymentPortal = () => {
             Cancel
           </button>
         </form>
-        {successMessage && (
-          <div className="alert alert-success">{successMessage}</div>
-        )}
+       
         {showApprovalMessage && (
           <div className="alert alert-info">Your payment will be processed once it has been approved by an employee.</div>
         )}
