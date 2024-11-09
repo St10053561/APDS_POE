@@ -28,15 +28,8 @@ async function createEmployee() {
         const database = client.db('APDS');
         const collectionName = 'Employees'; // Collection name
 
-        // Check if the collection exists
-        const collections = await database.listCollections({ name: collectionName }).toArray();
-        if (collections.length === 0) {
-            // Create the collection if it doesn't exist
-            await database.createCollection(collectionName);
-            console.log(`Collection '${collectionName}' created.`);
-        } else {
-            console.log(`Collection '${collectionName}' already exists.`);
-        }
+        const initialCount = await database.collection(collectionName).countDocuments();
+        console.log(`Initial employee count: ${initialCount}`);
 
         // Check if the employee already exists
         const existingEmployee = await database.collection(collectionName).findOne({ username: employeeRecord.username });
@@ -46,9 +39,11 @@ async function createEmployee() {
         }
 
         // Insert the employee record
-        const collection = database.collection(collectionName);
-        const result = await collection.insertOne(employeeRecord);
+        const result = await database.collection(collectionName).insertOne(employeeRecord);
         console.log(`New employee created with the following id: ${result.insertedId}`);
+
+        const finalCount = await database.collection(collectionName).countDocuments();
+        console.log(`Final employee count: ${finalCount}`);
     } catch (error) {
         console.error("Error during employee creation:", error);
     } finally {
