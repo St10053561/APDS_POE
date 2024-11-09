@@ -1,4 +1,3 @@
-// Navbar.js
 import React, { useContext } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import logo from './transactio.png';
@@ -22,23 +21,22 @@ export default function Navbar() {
         <img className="logo-3d" src={logo} alt="Logo" />
       </NavLink>
 
-      <div className="nav-left">
-        {auth.token && auth.accountNumber && ( // If logged in as Customer
-          <NavLink className="nav-link" to="/notifications">
-            <img src="notification-icon.png" alt="Notifications" />
-          </NavLink>
-        )}
-      </div>
-
       <ul className="nav-links">
         {auth.token ? ( // Check if user is logged in
           <>
+            {auth.accountNumber && ( // If logged in as Customer
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/notifications">
+                  <img src="noti.png" alt="Notifications" className="notification-bell" />
+                </NavLink>
+              </li>
+            )}
             <li className="nav-item">
               <NavLink className="nav-link" to={auth.accountNumber ? "/" : "/emp-home"}>
                 Home
               </NavLink>
             </li>
-            {auth.accountNumber && ( // If logged in as Customer
+            {auth.accountNumber && (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/paymentCreate">
                   Create Payment

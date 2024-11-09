@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
-import PaymentPortal from '../src/components/paymentPortal'; 
+import PaymentPortal from '../src/components/paymentPortal';
 import { AuthContext } from '../src/AuthContext'; // Import the AuthContext
 
 jest.mock('axios', () => ({
@@ -62,9 +62,9 @@ test('submits the form successfully', async () => {
   // Simulate form submission
   fireEvent.click(screen.getByRole('button', { name: /Pay Now/i }));
 
-  // Wait for the success message to be displayed
+  // Wait for the approval message to be displayed
   await waitFor(() => {
-    expect(screen.getByText('Payment has been made successfully!')).toBeInTheDocument();
+    expect(screen.getByText('Your payment will be processed once it has been approved by an employee.')).toBeInTheDocument();
   });
 });
 
