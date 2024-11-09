@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext.js'; // Import the AuthContext
 import './Employee.css'; // Import login styling
-import './Login.css';
 
 export default function EmployeeLogin() {
     const [form, setForm] = useState({ username: '', password: '' });
@@ -63,8 +62,7 @@ export default function EmployeeLogin() {
     }
 
     return (
-        <div className="login-container">
-      
+        <div className="simple-login-container">
             <form onSubmit={onSubmit} className="simple-login-form">
                 <h2>Employee Login</h2>
                 <input
@@ -94,17 +92,5 @@ export default function EmployeeLogin() {
                 </div>
             </form>
         </div>
-        
     );
-
-    
 }
-
-// Adding keyframe animation for background shift
-const styleSheet = document.styleSheets[0];
-styleSheet.insertRule(`
-    @keyframes backgroundShift {
-        0% { background: linear-gradient(135deg, #f8f9fa, #e9ecef); }
-        100% { background: linear-gradient(135deg, #e9ecef, #d6d8db); }
-    }
-`, styleSheet.cssRules.length);
