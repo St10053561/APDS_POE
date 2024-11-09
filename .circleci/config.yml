@@ -92,6 +92,7 @@ jobs:
               -Dsonar.organization=$SONAR_ORG \
               -Dsonar.login=$SONAR_TOKEN \
               -Dsonar.sources="BACKEND,\"FRONT END/frontend/src\"" \
+              -Dsonar.exclusions="**/node_modules/**, **/*.test.js, **/*.spec.js, **/coverage/**, **/BACKEND/tests/**" \
               -Dsonar.c.file.suffixes=- \
               -Dsonar.cpp.file.suffixes=- \
               -Dsonar.objc.file.suffixes=-
