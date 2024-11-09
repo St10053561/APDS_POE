@@ -62,16 +62,16 @@ const NotificationPage = () => {
       <ul className="notification-list">
         {notifications.map(notification => (
           <li key={notification._id} className={`notification-card ${readNotifications.has(notification._id) ? 'read' : 'unread'}`}>
-            <p><strong>Message:</strong> {notification.message}</p>
-            <p><strong>Date:</strong> {formatDate(notification.date)}</p>
+            <p className={`fade-up`}><strong>Message:</strong> {notification.message}</p>
+            <p className={`fade-up`}><strong>Date:</strong> {formatDate(notification.date)}</p>
             {!readNotifications.has(notification._id) && (
-              <button onClick={() => markAsRead(notification._id)}>Mark as Read</button>
+              <button className={`fade-up`} onClick={() => markAsRead(notification._id)}>Mark as Read</button>
             )}
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}
 
 export default NotificationPage;
