@@ -53,3 +53,7 @@
     margin-top: -0.5rem;
     margin-bottom: 1rem;
 }
+
+.form-group {
+    margin-top: 1rem; /* Add this line for spacing */
+}

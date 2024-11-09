@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthContext } from '../src/AuthContext'; // Adjust path if necessary
-import EmployeeLogin from '../src/components/EmployeeLogin'; // Adjust path if necessary
+import EmployeeLogin from '../src/components/employeeLogin'; // Adjust path if necessary
 
 // Mocking the AuthContext's login function and navigation
 const mockLogin = jest.fn();
