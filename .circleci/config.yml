@@ -37,7 +37,28 @@ jobs:
           command: |
             cd BACKEND
             ./node_modules/.bin/jest --config jest.backend.config.cjs
+      - run:
+          name: Run Backend Employee Login Tests
+          command: |
+            cd BACKEND
+            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/employeeLogin.test.js'
+      - run:
+          name: Run Backend Customer Login Tests
+          command: |
+            cd BACKEND
+            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/login.test.js'
+      - run:
+          name: Run Backend Customer Registration Tests
+          command: |
+            cd BACKEND
+            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/LoginReg.test.js'
+      - run:
+          name: Run Backend Customer Payments & transaction history Tests
+          command: |
+            cd BACKEND
+            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/payment.test.js'
 
+            
   frontend-tests:
     docker:
       - image: circleci/node:latest
