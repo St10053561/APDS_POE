@@ -2,12 +2,11 @@ import request from 'supertest';
 import express from 'express';
 import router from '../routes/payment.mjs';
 import performanceNow from 'performance-now';
-import { client, db } from '../db/conn.mjs'; // Import the MongoDB client and db
+import { client } from '../db/conn.mjs'; // Removed the unused import of 'db'
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
 dotenv.config(); // Load environment variables from .env file
-
 
 // Polyfill the performance API
 global.performance = {
@@ -94,5 +93,25 @@ describe('Payment Endpoint', () => {
         expect(response.body.fieldErrors.swiftCode).toBe('Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers.');
     });
 
+    // Test case for fetching pending payments
+    it('should fetch pending payments', async () => {
+        const token = generateToken('FlexVision', '789258146'); // Generate a token for authentication
+        const response = await request(app)
+            .get('/pending') // Call the endpoint to fetch pending payments
+            .set('Authorization', `Bearer ${token}`); // Set the authorization header
 
+        expect(response.status).toBe(200); // Expect a successful response
+        expect(Array.isArray(response.body)).toBe(true); // Expect the response body to be an array
+    });
+
+    // Test case for fetching transaction history
+    it('should fetch transaction history', async () => {
+        const token = generateToken('FlexVision', '789258146'); // Generate a token for authentication
+        const response = await request(app)
+            .get('/history') // Call the endpoint to fetch transaction history
+            .set('Authorization', `Bearer ${token}`); // Set the authorization header
+
+        expect(response.status).toBe(200); // Expect a successful response
+        expect(Array.isArray(response.body)).toBe(true); // Expect the response body to be an array
+    });
 });

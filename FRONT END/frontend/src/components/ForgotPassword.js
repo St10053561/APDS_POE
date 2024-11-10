@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
+import './Login.css';
+
 
 export default function ForgotPassword() {
     const [form, setForm] = useState({
@@ -67,7 +69,7 @@ export default function ForgotPassword() {
     }
 
     return (
-        <div className="container mt-5">
+        <div className="login-container">
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="card">
@@ -126,3 +128,12 @@ export default function ForgotPassword() {
         </div>
     );
 }
+
+// Adding keyframe animation for background shift
+const styleSheet = document.styleSheets[0];
+styleSheet.insertRule(`
+    @keyframes backgroundShift {
+        0% { background: linear-gradient(135deg, #f8f9fa, #e9ecef); }
+        100% { background: linear-gradient(135deg, #e9ecef, #d6d8db); }
+    }
+`, styleSheet.cssRules.length);

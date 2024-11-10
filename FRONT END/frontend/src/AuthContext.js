@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 // Create a context for authentication
 export const AuthContext = createContext();
@@ -29,9 +30,17 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
+    // Memoize the value to prevent unnecessary re-renders
+    const value = useMemo(() => ({ auth, setAuth, login, logout }), [auth]);
+
     return (
-        <AuthContext.Provider value={{ auth, setAuth, login, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
+};
+
+// Prop validation for AuthProvider
+AuthProvider.propTypes = {
+    children: PropTypes.node.isRequired // Validate that children is a required prop of type node
 };

@@ -23,13 +23,16 @@ beforeAll((done) => {
 });
 
 afterAll(async () => {
-  // Close the MongoDB connection after all tests are done
-  await client.close();
-  // Close the Express server after all tests are done
+  if (client?.topology?.isConnected()) { // Using optional chaining
+    await client.close();
+  }
   server.close();
 });
 
-jest.setTimeout(10000); // Increase the timeout to 10 seconds
+beforeAll(() => {
+  jest.setTimeout(10000);
+});
+ // Increase the timeout to 10 seconds
 
 describe('Login Endpoint', () => {
   it('should return validation errors for invalid input', async () => {
