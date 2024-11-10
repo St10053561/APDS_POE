@@ -31,6 +31,7 @@ const validateRequiredFields = (fields) => {
   return errors;
 };
 
+//This is testing
 // Helper function to validate field formats
 const validateFieldFormats = (fields) => {
   const errors = [];
