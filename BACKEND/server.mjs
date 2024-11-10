@@ -68,10 +68,12 @@ app.use(helmet.contentSecurityPolicy({
         connectSrc: ["'self'"],
         fontSrc: ["'self'", "https:"],
         objectSrc: ["'none'"],
-        frameSrc: ["'self'"], // Allowing frames from the same origin
-        upgradeInsecureRequests: [], // Allow mixed content
+        frameSrc: ["'self'"], // Allowing frames from the same origin (safer than allowing all)
+        // To enforce secure connections, use:
+        upgradeInsecureRequests: [], // Automatically upgrade HTTP requests to HTTPS
     },
 }));
+
 
 // Set up rotating log files
 const accessLogStream = createStream('access.log', {
