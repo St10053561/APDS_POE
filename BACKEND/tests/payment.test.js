@@ -94,5 +94,27 @@ describe('Payment Endpoint', () => {
         expect(response.body.fieldErrors.swiftCode).toBe('Invalid swift code. It should have 4 to 5 capital letters followed by 1 to 2 numbers.');
     });
 
+    // Test case for fetching pending payments
+    it('should fetch pending payments', async () => {
+        const token = generateToken('FlexVision', '789258146'); // Generate a token for authentication
+        const response = await request(app)
+            .get('/pending') // Call the endpoint to fetch pending payments
+            .set('Authorization', `Bearer ${token}`); // Set the authorization header
+
+        expect(response.status).toBe(200); // Expect a successful response
+        expect(Array.isArray(response.body)).toBe(true); // Expect the response body to be an array
+    });
+
+    // Test case for fetching transaction history
+    it('should fetch transaction history', async () => {
+        const token = generateToken('FlexVision', '789258146'); // Generate a token for authentication
+        const response = await request(app)
+            .get('/history') // Call the endpoint to fetch transaction history
+            .set('Authorization', `Bearer ${token}`); // Set the authorization header
+
+        expect(response.status).toBe(200); // Expect a successful response
+        expect(Array.isArray(response.body)).toBe(true); // Expect the response body to be an array
+    });
+
 
 });
