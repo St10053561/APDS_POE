@@ -62,7 +62,7 @@ const checkForDuplicates = async (username, email) => {
 
   // Validate username
   if (usernamePattern.test(username)) {
-    const existingUser = await collection.findOne({ username });
+    const existingUser = await collection.findOne({ username: username });
     if (existingUser) {
       errors.push({ field: 'username', message: 'Username already exists' });
     }
@@ -70,7 +70,7 @@ const checkForDuplicates = async (username, email) => {
 
   // Validate email
   if (emailPattern.test(email)) {
-    const existingEmail = await collection.findOne({ email });
+    const existingEmail = await collection.findOne({ email: email });
     if (existingEmail) {
       errors.push({ field: 'email', message: 'Email already exists' });
     }
@@ -159,8 +159,7 @@ router.post("/login", bruteforce.prevent, async (req, res) => {
     if (!passwordMatch) {
       console.log("Password mismatch");
       return res.status(401).json({ errors: [{ field: 'general', message: 'Username or password could be incorrect' }] });
-    }
-    else {
+    } else {
       // Authentication successful
       const token = jwt.sign({ username: user.username, accountNumber: user.accountNumber }, secretKey, { expiresIn: "30m" });
       res.status(200).json({ message: "Authentication successful", token, username: user.username, accountNumber: user.accountNumber });
