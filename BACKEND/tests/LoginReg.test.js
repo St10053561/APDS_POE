@@ -3,6 +3,12 @@ import express from 'express';
 import router from '../routes/Login&Reg.mjs';
 import performanceNow from 'performance-now';
 import { client, db } from '../db/conn.mjs'; // Import the MongoDB client and db
+import dotenv from 'dotenv'; // Import dotenv
+
+
+// Load environment variables from .env file
+dotenv.config();
+
 
 // Polyfill the performance API
 global.performance = {
@@ -39,7 +45,7 @@ describe('Registration Endpoint', () => {
         lastName: 'Doe',
         email: 'invalid-email', // Invalid email
         username: 'jd', // Invalid username (too short)
-        password: '123', // Invalid password (too weak)
+        password: process.env.TEST_PASSWORD2, // Invalid password (too weak)
         confirmPassword: '1234', // Passwords do not match
         accountNumber: '123', // Invalid account number (too short)
         idNumber: '123456789012' // Invalid ID number (too short)
@@ -47,12 +53,12 @@ describe('Registration Endpoint', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.errors).toBeDefined();
-    expect(response.body.errors).toHaveLength(6); 
+    expect(response.body.errors).toHaveLength(6);
   });
 
   it('should create a new user with valid input', async () => {
-    const username = `johndoe${Math.random().toString(36).slice(2, 11)}`; 
-    const email = `vjannatha${Math.random().toString(36).slice(2, 11)}@gmail.com`; 
+    const username = `johndoe${Math.random().toString(36).slice(2, 11)}`;
+    const email = `vjannatha${Math.random().toString(36).slice(2, 11)}@gmail.com`;
     const response = await request(app)
       .post('/register')
       .send({
@@ -60,7 +66,7 @@ describe('Registration Endpoint', () => {
         lastName: 'jannatha',
         email,
         username,
-        password: 'Abc@1234',
+        password: process.env.EMPLOYEE_PASSWORD,
         confirmPassword: 'Abc@1234',
         accountNumber: '1234567890',
         idNumber: '1234567890123'
@@ -84,7 +90,7 @@ describe('Registration Endpoint', () => {
         lastName: 'Doe',
         email: 'john.doe@example.com',
         username: 'johndoe',
-        password: 'Abc@1234',
+        password: process.env.EMPLOYEE_PASSWORD,
         confirmPassword: 'Abc@1234',
         accountNumber: '1234567890',
         idNumber: '1234567890123'
@@ -98,7 +104,7 @@ describe('Registration Endpoint', () => {
         lastName: 'Doe',
         email: 'jane.doe@example.com',
         username: 'johndoe', // Duplicate username
-        password: 'Abc@1234',
+        password: process.env.EMPLOYEE_PASSWORD,
         confirmPassword: 'Abc@1234',
         accountNumber: '0987654321',
         idNumber: '3210987654321'
@@ -118,7 +124,7 @@ describe('Registration Endpoint', () => {
         lastName: 'Doe',
         email: 'john.doe@example.com',
         username: 'johndoe',
-        password: 'Abc@1234',
+        password: process.env.EMPLOYEE_PASSWORD,
         confirmPassword: 'Abc@1234',
         accountNumber: '1234567890',
         idNumber: '1234567890123'
@@ -132,7 +138,7 @@ describe('Registration Endpoint', () => {
         lastName: 'Doe',
         email: 'john.doe@example.com', // Duplicate email
         username: 'janedoe',
-        password: 'Abc@1234',
+        password: process.env.EMPLOYEE_PASSWORD,
         confirmPassword: 'Abc@1234',
         accountNumber: '0987654321',
         idNumber: '3210987654321'
