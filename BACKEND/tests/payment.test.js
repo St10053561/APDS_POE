@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config(); // Load environment variables from .env file
 
+
 // Polyfill the performance API
 global.performance = {
     now: performanceNow
@@ -38,21 +39,19 @@ afterAll(async () => {
     }
 });
 
+jest.setTimeout(10000); // Increase the timeout to 10 seconds
+
+const generateToken = (username, accountNumber) => {
+    try {
+        const token = jwt.sign({ username, accountNumber }, process.env.SECRET_KEY, { expiresIn: "20m" });
+        return token;
+    } catch (error) {
+        console.error('Error generating token:', error);
+        throw error;
+    }
+};
+
 describe('Payment Endpoint', () => {
-    beforeAll(() => {
-        jest.setTimeout(10000); // Increase the timeout to 10 seconds
-    });
-
-    const generateToken = (username, accountNumber) => {
-        try {
-            const token = jwt.sign({ username, accountNumber }, process.env.SECRET_KEY, { expiresIn: "20m" });
-            return token;
-        } catch (error) {
-            console.error('Error generating token:', error);
-            throw error;
-        }
-    };
-
     it('should return validation errors for invalid account number', async () => {
         const token = generateToken('FlexVision', '789258146');
         const response = await request(app)
@@ -116,4 +115,6 @@ describe('Payment Endpoint', () => {
         expect(response.status).toBe(200); // Expect a successful response
         expect(Array.isArray(response.body)).toBe(true); // Expect the response body to be an array
     });
+
+
 });
