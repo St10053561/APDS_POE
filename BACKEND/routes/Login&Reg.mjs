@@ -58,16 +58,24 @@ const validateFieldFormats = (fields) => {
 // Helper function to check for duplicate username or email
 const checkForDuplicates = async (username, email) => {
   const collection = await db.collection("CustomerReg&Login");
-  const existingUser = await collection.findOne({ $or: [{ username }, { email }] });
   const errors = [];
-  if (existingUser) {
-    if (existingUser.username === username) {
+
+  // Validate username
+  if (usernamePattern.test(username)) {
+    const existingUser = await collection.findOne({ username });
+    if (existingUser) {
       errors.push({ field: 'username', message: 'Username already exists' });
     }
-    if (existingUser.email === email) {
+  }
+
+  // Validate email
+  if (emailPattern.test(email)) {
+    const existingEmail = await collection.findOne({ email });
+    if (existingEmail) {
       errors.push({ field: 'email', message: 'Email already exists' });
     }
   }
+
   return errors;
 };
 
@@ -134,12 +142,13 @@ router.post("/login", bruteforce.prevent, async (req, res) => {
 
     // Find the user in the CustomerReg&Login collection using either username or accountNumber
     const collection = await db.collection("CustomerReg&Login");
-    const user = await collection.findOne({
-      $or: [
-        { username: usernameOrAccountNumber },
-        { accountNumber: usernameOrAccountNumber }
-      ]
-    });
+    let user;
+
+    if (usernamePattern.test(usernameOrAccountNumber)) {
+      user = await collection.findOne({ username: usernameOrAccountNumber });
+    } else if (accountNumberPattern.test(usernameOrAccountNumber)) {
+      user = await collection.findOne({ accountNumber: usernameOrAccountNumber });
+    }
 
     if (!user) {
       console.log("User not found");
@@ -191,12 +200,13 @@ router.post("/forgot-password", async (req, res) => {
 
     // Find the user in the CustomerReg&Login collection using either username or accountNumber
     const collection = await db.collection("CustomerReg&Login");
-    const user = await collection.findOne({
-      $or: [
-        { username: identifier },
-        { accountNumber: identifier }
-      ]
-    });
+    let user;
+
+    if (usernamePattern.test(identifier)) {
+      user = await collection.findOne({ username: identifier });
+    } else if (accountNumberPattern.test(identifier)) {
+      user = await collection.findOne({ accountNumber: identifier });
+    }
 
     if (!user) {
       console.log("User not found:", identifier);
