@@ -37,11 +37,7 @@ jobs:
           command: |
             cd BACKEND
             ./node_modules/.bin/jest --config jest.backend.config.cjs
-      - run:
-          name: Run Backend Employee Login Tests
-          command: |
-            cd BACKEND
-            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/employeeLogin.test.js'
+      
       - run:
           name: Run Backend Customer Login Tests
           command: |
