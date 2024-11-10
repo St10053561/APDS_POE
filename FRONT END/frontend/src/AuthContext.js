@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
 // Create a context for authentication
 export const AuthContext = createContext();
@@ -29,8 +29,11 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
+    // Memoize the value to prevent unnecessary re-renders
+    const value = useMemo(() => ({ auth, setAuth, login, logout }), [auth]);
+
     return (
-        <AuthContext.Provider value={{ auth, setAuth, login, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
