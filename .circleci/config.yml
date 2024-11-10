@@ -36,25 +36,23 @@ jobs:
           name: Run Backend Tests
           command: |
             cd BACKEND
-            ./node_modules/.bin/jest --config jest.backend.config.cjs
-      
+            NODE_OPTIONS="--experimental-vm-modules" ./node_modules/.bin/jest --config jest.backend.config.cjs
       - run:
           name: Run Backend Customer Login Tests
           command: |
             cd BACKEND
-            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/login.test.js'
+            NODE_OPTIONS="--experimental-vm-modules" ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/login.test.js'
       - run:
           name: Run Backend Customer Registration Tests
           command: |
             cd BACKEND
-            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/LoginReg.test.js'
+            NODE_OPTIONS="--experimental-vm-modules" ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/LoginReg.test.js'
       - run:
           name: Run Backend Customer Payments & transaction history Tests
           command: |
             cd BACKEND
-            ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/payment.test.js'
+            NODE_OPTIONS="--experimental-vm-modules" ./node_modules/.bin/jest --testPathPattern='BACKEND/tests/payment.test.js'
 
-            
   frontend-tests:
     docker:
       - image: circleci/node:latest
@@ -95,9 +93,9 @@ jobs:
     docker:
       - image: sonarsource/sonar-scanner-cli:latest
     environment:
-      SONAR_ORG: st10053561  # Organization key
-      SONAR_TOKEN: df586036a5ffa05d51604218a631ad6fc95bde7c  # Hardcoded token
-      SONAR_PROJECT_KEY: St10053561_APDS_POE  # Project key
+      SONAR_ORG: st10053561 # Organization key
+      SONAR_TOKEN: df586036a5ffa05d51604218a631ad6fc95bde7c # Hardcoded token
+      SONAR_PROJECT_KEY: St10053561_APDS_POE # Project key
     steps:
       - checkout
       - run:
