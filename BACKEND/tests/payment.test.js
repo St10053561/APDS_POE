@@ -39,7 +39,9 @@ afterAll(async () => {
 });
 
 describe('Payment Endpoint', () => {
-    jest.setTimeout(10000); // Increase the timeout to 10 seconds
+    beforeAll(() => {
+        jest.setTimeout(10000); // Increase the timeout to 10 seconds
+    });
 
     const generateToken = (username, accountNumber) => {
         try {
