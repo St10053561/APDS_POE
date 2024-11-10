@@ -2,12 +2,11 @@ import request from 'supertest';
 import express from 'express';
 import router from '../routes/payment.mjs';
 import performanceNow from 'performance-now';
-import { client, db } from '../db/conn.mjs'; // Import the MongoDB client and db
+import { client } from '../db/conn.mjs'; // Removed the unused import of 'db'
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
 dotenv.config(); // Load environment variables from .env file
-
 
 // Polyfill the performance API
 global.performance = {
@@ -115,6 +114,4 @@ describe('Payment Endpoint', () => {
         expect(response.status).toBe(200); // Expect a successful response
         expect(Array.isArray(response.body)).toBe(true); // Expect the response body to be an array
     });
-
-
 });
