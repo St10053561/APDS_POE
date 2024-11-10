@@ -51,8 +51,8 @@ describe('Registration Endpoint', () => {
   });
 
   it('should create a new user with valid input', async () => {
-    const username = `johndoe${Math.random().toString(36).substr(2, 9)}`;
-    const email = `vjannatha${Math.random().toString(36).substr(2, 9)}@gmail.com`;
+    const username = `johndoe${Math.random().toString(36).slice(2, 11)}`; 
+    const email = `vjannatha${Math.random().toString(36).slice(2, 11)}@gmail.com`; 
     const response = await request(app)
       .post('/register')
       .send({
