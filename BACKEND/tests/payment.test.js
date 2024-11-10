@@ -105,8 +105,6 @@ describe('Payment Endpoint', () => {
         expect(Array.isArray(response.body)).toBe(true); // Expect the response body to be an array
     });
 
-    
-
     // Test case for fetching transaction history
     it('should fetch transaction history', async () => {
         const token = generateToken('FlexVision', '789258146'); // Generate a token for authentication
