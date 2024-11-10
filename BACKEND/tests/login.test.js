@@ -3,6 +3,11 @@ import express from 'express';
 import router from '../routes/Login&Reg.mjs';
 import performanceNow from 'performance-now';
 import { client } from '../db/conn.mjs'; // Import the MongoDB client
+import dotenv from 'dotenv'; // Import dotenv
+
+
+// Load environment variables from .env file
+dotenv.config();
 
 // Polyfill the performance API
 global.performance = {
@@ -40,7 +45,7 @@ describe('Login Endpoint', () => {
       .post('/login')
       .send({
         usernameOrAccountNumber: '', // Invalid username or account number
-        password: '123' // Invalid password
+        password: process.env.TEST_PASSWORD2 // Invalid password
       });
 
     expect(response.status).toBe(400);

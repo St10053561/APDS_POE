@@ -12,12 +12,11 @@ const store = new ExpressBrute.MemoryStore(); // Don't use this in production
 const bruteforce = new ExpressBrute(store); // Global brute-force instance
 
 // Regex patterns
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Improved email regex
 const usernamePattern = /^\w{3,20}$/; // Use concise character class syntax
 const accountNumberPattern = /^\d{9,10}$/; // Updated to allow 9 or 10 digits
 const idNumberPattern = /^\d{13}$/; // Updated to allow exactly 13 digits
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Password pattern
-
 const secretKey = process.env.SECRET_KEY; // Read secret key from environment variable
 
 // Helper function to validate required fields

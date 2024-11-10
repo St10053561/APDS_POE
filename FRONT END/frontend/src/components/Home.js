@@ -56,7 +56,8 @@ const Home = () => {
     }
 
     const banks = ["ABSA", "NEDBANK", "FNB", "CAPITEC", "STANDARD BANK"];
-    const randomBank = banks[Math.floor(Math.random() * banks.length)];
+    const randomIndex = window.crypto.getRandomValues(new Uint32Array(1))[0] % banks.length;
+    const randomBank = banks[randomIndex];
 
     const maskAccountNumber = (accountNumber) => {
         return accountNumber.slice(0, -3).replace(/./g, 'x') + accountNumber.slice(-3);
@@ -82,16 +83,16 @@ const Home = () => {
                 </NavLink>
             </div>
             <div className="notifications">
-    <h2>Notifications</h2>
-    <p>Unread Notifications: {unreadCount}</p>
-    <div className="notifications-card">
-        <ul>
-            {notifications.map((notification) => (
-                <li key={notification._id}>{notification.message}</li>
-            ))}
-        </ul>
-    </div>
-</div>
+                <h2>Notifications</h2>
+                <p>Unread Notifications: {unreadCount}</p>
+                <div className="notifications-card">
+                    <ul>
+                        {notifications.map((notification) => (
+                            <li key={notification._id}>{notification.message}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 };

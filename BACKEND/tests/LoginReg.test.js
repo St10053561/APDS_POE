@@ -4,18 +4,17 @@ import router from '../routes/Login&Reg.mjs';
 import performanceNow from 'performance-now';
 import { client, db } from '../db/conn.mjs'; // Import the MongoDB client and db
 import dotenv from 'dotenv'; // Import dotenv
-
+import { randomBytes } from 'crypto'; // Import crypto
 
 // Load environment variables from .env file
 dotenv.config();
-
 
 // Polyfill the performance API
 global.performance = {
   now: performanceNow
 };
 
-//This is getting a express route
+// This is getting an express route
 const app = express();
 app.use(express.json());
 app.use('/', router);
@@ -57,8 +56,8 @@ describe('Registration Endpoint', () => {
   });
 
   it('should create a new user with valid input', async () => {
-    const username = `johndoe${Math.random().toString(36).slice(2, 11)}`;
-    const email = `vjannatha${Math.random().toString(36).slice(2, 11)}@gmail.com`;
+    const username = `johndoe${randomBytes(5).toString('hex')}`; // Use crypto for a more secure random username
+    const email = `vjannatha${randomBytes(5).toString('hex')}@gmail.com`; // Use crypto for a more secure random email
     const response = await request(app)
       .post('/register')
       .send({
