@@ -23,12 +23,11 @@ beforeAll((done) => {
 });
 
 afterAll(async () => {
-  if (client && client.topology && client.topology.isConnected()) {
+  if (client?.topology?.isConnected()) { // Using optional chaining
     await client.close();
   }
   server.close();
 });
-
 
 beforeAll(() => {
   jest.setTimeout(10000);
