@@ -57,7 +57,8 @@ app.use(helmet.hsts({
     includeSubDomains: true,
     preload: true
 }));
-//Implementing Content Security Policy
+
+// Implementing Content Security Policy
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
@@ -67,8 +68,8 @@ app.use(helmet.contentSecurityPolicy({
         connectSrc: ["'self'"],
         fontSrc: ["'self'", "https:"],
         objectSrc: ["'none'"],
-        frameSrc: ["'none'"],
-        upgradeInsecureRequests: [],
+        frameSrc: ["'self'"], // Allowing frames from the same origin
+        upgradeInsecureRequests: [], // Allow mixed content
     },
 }));
 
